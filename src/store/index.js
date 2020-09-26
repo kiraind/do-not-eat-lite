@@ -7,7 +7,7 @@ import {
 const defaultState = {
   hydrated: false,
 
-  onboarded: true,
+  onboarded: false,
 }
 
 function mainReducer(state = defaultState, action) {

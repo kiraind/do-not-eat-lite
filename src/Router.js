@@ -13,6 +13,9 @@ import {
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialIcons } from '@expo/vector-icons'
 
+import { accentColor } from './constants.js'
+import OnboardingScreen from './screens/OnboardingScreen.js'
+
 const Stack = createStackNavigator()
 const BottomTab = createBottomTabNavigator()
 
@@ -38,11 +41,11 @@ const WelcomeNavigator = () => (
     }}
   >
     <Stack.Screen
-      name="welcomeScreen"
+      name="onboardingScreen"
       options={{
-        headerTitle: "Первый экран"
+        headerShown: false,
       }}
-      component={PlaceholderScreen}
+      component={OnboardingScreen}
     />
     <Stack.Screen
       name="initialSettings"
@@ -50,7 +53,6 @@ const WelcomeNavigator = () => (
         headerTitle: "Второй экран"
       }}
       component={PlaceholderScreen}
-
     />
   </Stack.Navigator>
 )
@@ -66,7 +68,8 @@ const NormalNavigator = () => (
       },
       labelStyle: {
         marginTop: 4
-      }
+      },
+      activeTintColor: accentColor,
     }}
     initialRouteName="feed"
   >
