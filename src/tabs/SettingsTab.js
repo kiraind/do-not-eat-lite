@@ -15,14 +15,13 @@ const SettingsTab = () => (
     }}
   >
     <Stack.Screen
-      name="settings"
+      name='settings'
       options={{
-        headerTitle: "Настройки"
+        headerTitle: 'Настройки'
       }}
       component={Settings}
     />
   </Stack.Navigator>
-  
 )
 
 export default SettingsTab

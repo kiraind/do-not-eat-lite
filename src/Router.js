@@ -45,16 +45,16 @@ const WelcomeNavigator = () => (
     }}
   >
     <Stack.Screen
-      name="onboardingScreen"
+      name='onboardingScreen'
       options={{
-        headerShown: false,
+        headerShown: false
       }}
       component={OnboardingScreen}
     />
     <Stack.Screen
-      name="initialSettings"
+      name='initialSettings'
       options={{
-        headerTitle: "Настройки"
+        headerTitle: 'Настройки'
       }}
       component={Settings}
     />
@@ -65,7 +65,7 @@ const NormalNavigator = () => (
   <BottomTab.Navigator
     tabBarOptions={{
       safeAreaInsets: {
-        bottom: 6,
+        bottom: 6
       },
       tabStyle: {
         marginTop: 6
@@ -73,47 +73,47 @@ const NormalNavigator = () => (
       labelStyle: {
         marginTop: 4
       },
-      activeTintColor: accentColor,
+      activeTintColor: accentColor
     }}
-    initialRouteName="feed"
+    initialRouteName='feed'
   >
     <BottomTab.Screen
-      name="scanner"
+      name='scanner'
       options={{
-        title: "Сканер",
-        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name="crop-free" size={size} color={color} />
+        title: 'Сканер',
+        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='crop-free' size={size} color={color} />
       }}
       component={PlaceholderScreen}
     />
     <BottomTab.Screen
-      name="frigde"
+      name='frigde'
       options={{
-        title: "Моя еда",
-        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name="kitchen" size={size} color={color} />
+        title: 'Моя еда',
+        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='kitchen' size={size} color={color} />
       }}
       component={PlaceholderScreen}
     />
     <BottomTab.Screen
-      name="feed"
+      name='feed'
       options={{
-        title: "Профиль",
-        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name="person" size={size} color={color} />
+        title: 'Профиль',
+        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='person' size={size} color={color} />
       }}
       component={PlaceholderScreen}
     />
     <BottomTab.Screen
-      name="plate"
+      name='plate'
       options={{
-        title: "Тарелка",
-        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name="room-service" size={size} color={color} />
+        title: 'Тарелка',
+        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='room-service' size={size} color={color} />
       }}
       component={PlaceholderScreen}
     />
     <BottomTab.Screen
-      name="settings"
+      name='settings'
       options={{
-        title: "Настройки",
-        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name="menu" size={size} color={color} />
+        title: 'Настройки',
+        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='menu' size={size} color={color} />
       }}
       component={SettingsTab}
     />
@@ -127,12 +127,14 @@ const Router = ({
   // loading indicator
   if (loading) {
     return (
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <ActivityIndicator size="large" color="#dadada" />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <ActivityIndicator size='large' color='#dadada' />
       </View>
     )
   }
@@ -147,7 +149,7 @@ const Router = ({
 const mapStateToProps = state => ({
   loading: !state.hydrated,
 
-  onboarded: state.onboarded,
+  onboarded: state.onboarded
 })
 
 const mapDispatchToProps = null

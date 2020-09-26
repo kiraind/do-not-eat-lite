@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import {
   HYDRATE,
   COMPLETE_ONBOARDING,
-  SAVE_SETTINGS,
+  SAVE_SETTINGS
 } from './actions.js'
 
 const defaultState = {
@@ -13,28 +13,28 @@ const defaultState = {
   onboarded: false,
   name: '',
   targetCalories: 2200,
-  logLocation: true,
+  logLocation: true
 }
 
-function mainReducer(state = defaultState, action) {
+function mainReducer (state = defaultState, action) {
   const { type, payload } = action
 
-  if(type === HYDRATE) {
+  if (type === HYDRATE) {
     return {
       ...state,
       ...payload,
-      hydrated: true 
+      hydrated: true
     }
-  } else if(type === COMPLETE_ONBOARDING) {
+  } else if (type === COMPLETE_ONBOARDING) {
     return {
       ...state,
 
-      onboarded: true,
+      onboarded: true
     }
-  } else if(type === SAVE_SETTINGS) {
+  } else if (type === SAVE_SETTINGS) {
     return {
       ...state,
-      ...payload,
+      ...payload
     }
   } else {
     return state

@@ -6,12 +6,12 @@ import { Slider } from '@miblanchard/react-native-slider'
 
 import {
   secondaryTextColor,
-  accentColor,
+  accentColor
 } from '../constants.js'
 
 import {
   saveSettings,
-  completeOnboarding,
+  completeOnboarding
 } from '../store/actions.js'
 
 const Settings = ({
@@ -22,48 +22,50 @@ const Settings = ({
   currentLogLocation,
 
   saveSettings,
-  completeOnboarding,
+  completeOnboarding
 }) => {
-  const [ nameFocused, setNameFocused ] = useState(false)
-  const [ name, setName ] = useState(currentName)
+  const [nameFocused, setNameFocused] = useState(false)
+  const [name, setName] = useState(currentName)
 
-  const [ targetCalories, setTargetCalories ] = useState(currentTargetCalories)
+  const [targetCalories, setTargetCalories] = useState(currentTargetCalories)
 
-  const [ logLocation, setLogLocation ] = useState(currentLogLocation)
+  const [logLocation, setLogLocation] = useState(currentLogLocation)
 
   const onSaveSettings = async () => {
     await saveSettings({
       name,
       targetCalories,
-      logLocation,
+      logLocation
     })
 
-    if(route.name === 'initialSettings') {
+    if (route.name === 'initialSettings') {
       await completeOnboarding()
     }
   }
 
   return (
-    <View style={{
-      flex:1,
-      backgroundColor: 'white',
-      padding: 16
-    }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: 'white',
+        padding: 16
+      }}
+    >
       <Text style={style.label}>Ваше имя</Text>
       <TextInput
         style={{
           ...style.settingsInput,
-          
+
           borderColor: nameFocused ? '#42eb42' : '#f5f5f5',
-          backgroundColor: nameFocused ? 'white' : '#f5f5f5' ,
+          backgroundColor: nameFocused ? 'white' : '#f5f5f5'
         }}
         onFocus={() => setNameFocused(true)}
         onBlur={() => setNameFocused(false)}
-        
+
         value={name}
         onChangeText={setName}
 
-        placeholder={'Елизавета'}
+        placeholder='Елизавета'
       />
 
       <View style={style.spacer} />
@@ -71,7 +73,7 @@ const Settings = ({
       <Text style={style.label}>Цель (ккал/день)</Text>
       <Slider
         minimumTrackTintColor={accentColor}
-        maximumTrackTintColor={'#f5f5f5'}
+        maximumTrackTintColor='#f5f5f5'
         thumbTintColor={accentColor}
         thumbStyle={{
           elevation: 3
@@ -81,7 +83,7 @@ const Settings = ({
         maximumValue={3000}
         step={10}
         value={targetCalories}
-        
+
         onValueChange={cal => setTargetCalories(cal[0])}
 
         renderAboveThumbComponent={() => <Text style={style.sliderLabel}>{targetCalories}</Text>}
@@ -94,7 +96,7 @@ const Settings = ({
         <Switch
           trackColor={{
             false: '#f5f5f5',
-            true:  '#d4f3d4'
+            true: '#d4f3d4'
           }}
           thumbColor={accentColor}
           onValueChange={setLogLocation}
@@ -102,22 +104,23 @@ const Settings = ({
         />
       </View>
 
-      <View style={{
-        marginTop: 'auto'
-      }}>
+      <View
+        style={{
+          marginTop: 'auto'
+        }}
+      >
         <Button
-          title="Готово"
+          title='Готово'
           disabled={
             !name || (
               name === currentName &&
               targetCalories === currentTargetCalories &&
-              logLocation === currentLogLocation
-            )
+              logLocation === currentLogLocation)
           }
           color={accentColor}
           onPress={onSaveSettings}
         />
-      </View>      
+      </View>
     </View>
   )
 }
@@ -126,7 +129,7 @@ const style = {
   label: {
     fontSize: 14,
     color: secondaryTextColor,
-    marginBottom: 8,
+    marginBottom: 8
   },
   settingsInput: {
     height: 50,
@@ -140,7 +143,7 @@ const style = {
   },
   sliderLabel: {
     color: secondaryTextColor,
-    transform: [{ translate: [ -7, 55 ] }]
+    transform: [{ translate: [-7, 55] }]
   },
   switchBody: {
     marginTop: 10,
@@ -149,14 +152,14 @@ const style = {
   },
   switchLabel: {
     fontSize: 14,
-    color: secondaryTextColor,
+    color: secondaryTextColor
   }
 }
 
 const mapStateToProps = state => ({
-  currentName:           state.name,
+  currentName: state.name,
   currentTargetCalories: state.targetCalories,
-  currentLogLocation:    state.logLocation,
+  currentLogLocation: state.logLocation
 })
 
 const mapDispatchToProps = dispatch =>

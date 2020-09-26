@@ -8,7 +8,7 @@ import { hydrate } from './src/store/actions.js'
 
 export default () => {
   useEffect(() => {
-    async function hydrateStore() {
+    async function hydrateStore () {
       store.dispatch(
         await hydrate()
       )

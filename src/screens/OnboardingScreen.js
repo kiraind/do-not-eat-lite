@@ -26,9 +26,9 @@ const Page3 = () => (
 )
 
 const OnboardingScreen = ({ navigation }) => {
-  const pages = [ Page1, Page2, Page3 ]
+  const pages = [Page1, Page2, Page3]
 
-  const [ currentPage, setCurrentPage ] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0)
 
   const PageComponent = pages[currentPage]
 
@@ -37,43 +37,49 @@ const OnboardingScreen = ({ navigation }) => {
   const nextPage = () => setCurrentPage(currentPage + 1)
 
   return (
-    <View style={{
-      flex:1,
-      backgroundColor: 'white',
-      justifyContent: 'flex-end'
-    }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: 'white',
+        justifyContent: 'flex-end'
+      }}
+    >
       <View style={style.body}>
         <PageComponent />
       </View>
-      
+
       <View style={style.pagination}>
         <TouchableWithoutFeedback
           onPress={currentPage === 0 ? goToSettings : prevPage}
         >
-          <View 
+          <View
             style={style.paginationButton}
           >
             <Text
               style={style.paginationTextLeft}
-            >{currentPage === 0 ? 'Пропустить' : 'Назад'}</Text>
+            >
+              {currentPage === 0 ? 'Пропустить' : 'Назад'}
+            </Text>
           </View>
         </TouchableWithoutFeedback>
-        
-        <PaginationDot 
-          activeDotColor={accentColor} 
-          curPage={currentPage} 
+
+        <PaginationDot
+          activeDotColor={accentColor}
+          curPage={currentPage}
           maxPage={pages.length}
         />
 
         <TouchableWithoutFeedback
-          onPress={currentPage === pages.length-1 ? goToSettings : nextPage}  
+          onPress={currentPage === pages.length - 1 ? goToSettings : nextPage}
         >
           <View
             style={style.paginationButton}
           >
             <Text
               style={style.paginationTextRight}
-            >Далее</Text>
+            >
+              Далее
+            </Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -86,27 +92,27 @@ const style = {
     marginTop: StatusBar.currentHeight,
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   pagination: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     marginTop: 14,
-    marginBottom: 16,
+    marginBottom: 16
   },
   paginationButton: {
-    width: '33%',
+    width: '33%'
   },
   paginationTextLeft: {
     fontSize: 14,
-    color: secondaryTextColor,
+    color: secondaryTextColor
   },
   paginationTextRight: {
     fontSize: 14,
     textAlign: 'right',
-    color: accentColor,
-  },
+    color: accentColor
+  }
 }
 
 export default OnboardingScreen
