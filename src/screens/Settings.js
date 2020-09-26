@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { Text, View, TextInput, Switch, Button } from 'react-native'
 import { Slider } from '@miblanchard/react-native-slider'
 
@@ -7,13 +9,39 @@ import {
   accentColor,
 } from '../constants.js'
 
-const Settings = ({ route }) => {
+import {
+  saveSettings,
+  completeOnboarding,
+} from '../store/actions.js'
+
+const Settings = ({
+  route,
+
+  currentName,
+  currentTargetCalories,
+  currentLogLocation,
+
+  saveSettings,
+  completeOnboarding,
+}) => {
   const [ nameFocused, setNameFocused ] = useState(false)
-  const [ name, setName ] = useState('')
+  const [ name, setName ] = useState(currentName)
 
-  const [ calories, setCalories ] = useState(2200)
+  const [ targetCalories, setTargetCalories ] = useState(currentTargetCalories)
 
-  const [ logLocation, setLogLocation ] = useState(true)
+  const [ logLocation, setLogLocation ] = useState(currentLogLocation)
+
+  const onSaveSettings = async () => {
+    await saveSettings({
+      name,
+      targetCalories,
+      logLocation,
+    })
+
+    if(route.name === 'initialSettings') {
+      await completeOnboarding()
+    }
+  }
 
   return (
     <View style={{
@@ -52,11 +80,11 @@ const Settings = ({ route }) => {
         minimumValue={1000}
         maximumValue={3000}
         step={10}
-        value={calories}
+        value={targetCalories}
         
-        onValueChange={cal => setCalories(cal[0])}
+        onValueChange={cal => setTargetCalories(cal[0])}
 
-        renderAboveThumbComponent={() => <Text style={style.sliderLabel}>{calories}</Text>}
+        renderAboveThumbComponent={() => <Text style={style.sliderLabel}>{targetCalories}</Text>}
       />
 
       <View style={style.spacer} />
@@ -79,9 +107,15 @@ const Settings = ({ route }) => {
       }}>
         <Button
           title="Готово"
-          disabled={!name}
+          disabled={
+            !name || (
+              name === currentName &&
+              targetCalories === currentTargetCalories &&
+              logLocation === currentLogLocation
+            )
+          }
           color={accentColor}
-          onPress={() => console.log('click')}
+          onPress={onSaveSettings}
         />
       </View>      
     </View>
@@ -119,4 +153,13 @@ const style = {
   }
 }
 
-export default Settings
+const mapStateToProps = state => ({
+  currentName:           state.name,
+  currentTargetCalories: state.targetCalories,
+  currentLogLocation:    state.logLocation,
+})
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ saveSettings, completeOnboarding }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

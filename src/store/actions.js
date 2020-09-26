@@ -2,24 +2,71 @@ import { AsyncStorage } from 'react-native'
 
 export const HYDRATE             = 0
 export const COMPLETE_ONBOARDING = 1
+export const SAVE_SETTINGS       = 2
 
-export async function completeOnboarding() {
-  await AsyncStorage.setItem('onboard', 'true')
+export function completeOnboarding() {
+  return async dispatch => {
+    await AsyncStorage.setItem(
+      'onboarded',
+      JSON.stringify(true)
+    )
 
-  return { type: COMPLETE_ONBOARDING }
+    dispatch({ type: COMPLETE_ONBOARDING })
+  }
 }
 
 export async function hydrate() {
   const [
-    onboard,
+    onboarded,
+    name,
+    targetCalories,
+    logLocation,
   ] = (await AsyncStorage.multiGet([
-    'onboard',
-  ])).map(pair => pair[1])
+    'onboarded',
+    'name',
+    'targetCalories',
+    'logLocation',
+  ])).map(pair => pair[1] && JSON.parse(pair[1]))
+
+  const payload = {}
+
+  if(onboarded !== null) {
+    payload.onboarded = onboarded
+  }
+  if(name !== null) {
+    payload.name = name
+  }
+  if(targetCalories !== null) {
+    payload.targetCalories = targetCalories
+  }
+  if(logLocation !== null) {
+    payload.logLocation = logLocation
+  }
 
   return {
     type: HYDRATE,
-    payload: {
-      onboard: !!onboard
-    }
+    payload,
+  }
+}
+
+export function saveSettings(settings) {
+  return async dispatch => {
+    await AsyncStorage.setItem(
+      'name', 
+      JSON.stringify(settings.name) 
+    )
+    await AsyncStorage.setItem(
+      'targetCalories', 
+      JSON.stringify(settings.targetCalories) 
+    )
+    await AsyncStorage.setItem(
+      'logLocation', 
+      JSON.stringify(settings.logLocation) 
+    )
+
+    dispatch({
+      type: SAVE_SETTINGS,
+      payload: settings
+    })
   }
 }
