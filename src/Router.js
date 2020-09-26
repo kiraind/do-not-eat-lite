@@ -15,6 +15,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 import { accentColor } from './constants.js'
 import OnboardingScreen from './screens/OnboardingScreen.js'
+import Settings from './screens/Settings.js'
 
 const Stack = createStackNavigator()
 const BottomTab = createBottomTabNavigator()
@@ -50,9 +51,9 @@ const WelcomeNavigator = () => (
     <Stack.Screen
       name="initialSettings"
       options={{
-        headerTitle: "Второй экран"
+        headerTitle: "Настройки"
       }}
-      component={PlaceholderScreen}
+      component={Settings}
     />
   </Stack.Navigator>
 )
@@ -111,7 +112,7 @@ const NormalNavigator = () => (
         title: "Настройки",
         tabBarIcon: ({ focused, color, size }) => <MaterialIcons name="menu" size={size} color={color} />
       }}
-      component={PlaceholderScreen}
+      component={Settings}
     />
   </BottomTab.Navigator>
 )
