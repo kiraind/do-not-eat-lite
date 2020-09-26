@@ -14,8 +14,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialIcons } from '@expo/vector-icons'
 
 import { accentColor } from './constants.js'
+
 import OnboardingScreen from './screens/OnboardingScreen.js'
 import Settings from './screens/Settings.js'
+
+import SettingsTab from './tabs/SettingsTab.js'
 
 const Stack = createStackNavigator()
 const BottomTab = createBottomTabNavigator()
@@ -112,7 +115,7 @@ const NormalNavigator = () => (
         title: "Настройки",
         tabBarIcon: ({ focused, color, size }) => <MaterialIcons name="menu" size={size} color={color} />
       }}
-      component={Settings}
+      component={SettingsTab}
     />
   </BottomTab.Navigator>
 )
