@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
+import { defaultTargetCalories } from '../constants.js'
+
 import {
   HYDRATE,
   COMPLETE_ONBOARDING,
@@ -12,7 +14,7 @@ const defaultState = {
 
   onboarded: false,
   name: '',
-  targetCalories: 2200,
+  targetCalories: defaultTargetCalories,
   logLocation: true
 }
 

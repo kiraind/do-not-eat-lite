@@ -8,7 +8,10 @@ import {
   secondaryTextColor,
   accentColor,
   backgroundColor,
-  backgroundDepthColor
+  backgroundDepthColor,
+
+  targetCaloriesMax,
+  targetCaloriesMin
 } from '../constants.js'
 import mixColors from '../utils/mixColors.js'
 
@@ -82,8 +85,8 @@ const Settings = ({
           elevation: 3
         }}
 
-        minimumValue={1000}
-        maximumValue={3000}
+        minimumValue={targetCaloriesMin}
+        maximumValue={targetCaloriesMax}
         step={10}
         value={targetCalories}
 
