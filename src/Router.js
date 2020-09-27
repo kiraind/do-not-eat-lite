@@ -134,7 +134,7 @@ const Router = ({
           alignItems: 'center'
         }}
       >
-        <ActivityIndicator size='large' color='#dadada' />
+        <ActivityIndicator size='large' color={accentColor} />
       </View>
     )
   }

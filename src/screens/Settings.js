@@ -6,8 +6,11 @@ import { Slider } from '@miblanchard/react-native-slider'
 
 import {
   secondaryTextColor,
-  accentColor
+  accentColor,
+  backgroundColor,
+  backgroundDepthColor
 } from '../constants.js'
+import mixColors from '../utils/mixColors.js'
 
 import {
   saveSettings,
@@ -56,8 +59,8 @@ const Settings = ({
         style={{
           ...style.settingsInput,
 
-          borderColor: nameFocused ? '#42eb42' : '#f5f5f5',
-          backgroundColor: nameFocused ? 'white' : '#f5f5f5'
+          borderColor: nameFocused ? accentColor : backgroundDepthColor,
+          backgroundColor: nameFocused ? backgroundColor : backgroundDepthColor
         }}
         onFocus={() => setNameFocused(true)}
         onBlur={() => setNameFocused(false)}
@@ -73,7 +76,7 @@ const Settings = ({
       <Text style={style.label}>Цель (ккал/день)</Text>
       <Slider
         minimumTrackTintColor={accentColor}
-        maximumTrackTintColor='#f5f5f5'
+        maximumTrackTintColor={backgroundDepthColor}
         thumbTintColor={accentColor}
         thumbStyle={{
           elevation: 3
@@ -95,8 +98,8 @@ const Settings = ({
         <Text style={style.switchLabel}>Сохранять местоположение</Text>
         <Switch
           trackColor={{
-            false: '#f5f5f5',
-            true: '#d4f3d4'
+            false: backgroundDepthColor,
+            true: mixColors(accentColor, backgroundDepthColor)
           }}
           thumbColor={accentColor}
           onValueChange={setLogLocation}
