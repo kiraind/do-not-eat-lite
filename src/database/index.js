@@ -5,7 +5,7 @@ import Connection from './Connection.js'
 export const connection = new Connection('do-not-eat-lite.db')
 
 export async function init () {
-  // Table of eatings
+  // 1 Table of eatings
   await connection.execute(sql`
     CREATE TABLE IF NOT EXISTS Eatings (
       id        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -13,10 +13,10 @@ export async function init () {
       latitude  REAL,
       longitude REAL,
       label     INTEGER NOT NULL
-    )
+    );
   `)
 
-  // Table of of known meals
+  // 2 Table of of known meals
   await connection.execute(sql`
     CREATE TABLE IF NOT EXISTS Meals (
       id               INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,11 +30,11 @@ export async function init () {
       fatsPct          REAL NOT NULL,
       carbohydratesPct REAL NOT NULL,
 
-      leftAmount       REAL
-    )
+      leftAmount       REAL NOT NULL DEFAULT 0
+    );
   `)
 
-  // n-n relation Eatings-Meals
+  // 3 n-n relation Eatings-Meals
   await connection.execute(sql`
     CREATE TABLE IF NOT EXISTS EatingIncludesMeal (
       eatingId INTEGER NOT NULL,
@@ -43,10 +43,10 @@ export async function init () {
 
       FOREIGN KEY(eatingId) REFERENCES Eatings(id),
       FOREIGN KEY(mealId) REFERENCES Meals(id)
-    )
+    );
   `)
 
-  // Table of known products
+  // 4 Table of known products
   await connection.execute(sql`
     CREATE TABLE IF NOT EXISTS Products (
       id               INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,39 +61,75 @@ export async function init () {
       fatsPct          REAL NOT NULL,
       carbohydratesPct REAL NOT NULL,
 
-      leftAmount       REAL DEFAULT 0,
-    )
+      leftAmount       REAL NOT NULL DEFAULT 0
+    );
   `)
 
-  // n-n relation Meals-Products
+  // 5 n-n relation Meals-Products
   await connection.execute(sql`
     CREATE TABLE IF NOT EXISTS MealIncludesProduct (
       mealId     INTEGER NOT NULL,
       productId  INTEGER NOT NULL,
-      amount     REAL NOT NULL,
+      part       REAL NOT NULL,
 
       FOREIGN KEY(mealId) REFERENCES Meals(id),
       FOREIGN KEY(productId) REFERENCES Products(id)
-    )
+    );
   `)
 
-  // Relation of meal being in frigde
+  // Trigger for creating meals from raw products
   await connection.execute(sql`
-    CREATE TABLE IF NOT EXISTS MealInFridge (
-      mealId     INTEGER NOT NULL,
-      amount     REAL NOT NULL,
+    CREATE TRIGGER auto_meal AFTER INSERT 
+    ON Products
+    BEGIN
+      INSERT INTO Meals (
+        title,
 
-      FOREIGN KEY(mealId) REFERENCES Meals(id)
-    )
+        cookingMethod,
+        measureUnit,
+
+        specificEnergy,
+        proteinsPct,
+        fatsPct,
+        carbohydratesPct
+      )
+      VALUES (
+        new.title,
+
+        0, -- RAW
+        new.measureUnit,
+
+        new.specificEnergy,
+        new.proteinsPct,
+        new.fatsPct,
+        new.carbohydratesPct
+      );
+
+      INSERT INTO MealIncludesProduct (
+        mealId,
+        productId,
+        part
+      )
+      VALUES (
+        last_insert_rowid(),
+        new.id,
+        1
+      );
+    END;
   `)
 
-  // Relation of product being in frigde
+  // Trigger for updating amount of raw-product-meals
   await connection.execute(sql`
-    CREATE TABLE IF NOT EXISTS MealIncludesProduct (
-      productId  INTEGER NOT NULL,
-      amount     REAL NOT NULL,
-
-      FOREIGN KEY(productId) REFERENCES Products(id)
-    )
+    CREATE TRIGGER auto_meal_sync AFTER UPDATE 
+    ON Meals
+    BEGIN
+      UPDATE Products
+      SET
+        leftAmount = new.leftAmount
+      WHERE
+        Products.id = (
+          SELECT productId FROM MealIncludesProduct WHERE mealId = new.id AND part = 1
+        );
+    END;
   `)
 }

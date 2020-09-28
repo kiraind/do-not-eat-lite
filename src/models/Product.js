@@ -101,7 +101,7 @@ export default class Product {
   }
 }
 
-export class PresentProduct extends Product {
+export class IngredientProduct extends Product {
   constructor (
     id,
 
@@ -117,7 +117,7 @@ export class PresentProduct extends Product {
 
     leftAmount,
 
-    percentage
+    part
   ) {
     super(
       id,
@@ -135,6 +135,6 @@ export class PresentProduct extends Product {
       leftAmount
     )
 
-    this.percentage = percentage
+    this.part = part
   }
 }
