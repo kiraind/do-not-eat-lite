@@ -1,61 +1,51 @@
+import React from 'react'
+import { Dimensions, Text, View } from 'react-native'
+
+import { secondaryTextColor } from '../constants.js'
+
+// todo draw code using https://lindell.me/JsBarcode/
 const BarcodeDisplay = ({
-  cameraWidth,
-  barcode,
-  halted = false
+  barcode
 }) => {
-  const color = !halted ? 'rgba(255, 255, 255, 0.5)' : 'black'
-  const bodyHeight = halted ? 0.6 * cameraWidth : cameraWidth
+  const bodyHeight = Dimensions.get('window').width
 
   return (
     <View
       style={{
-        height: bodyHeight + Constants.statusBarHeight,
-        width: cameraWidth,
-        backgroundColor: halted ? '#f0f0f0' : undefined
+        height: 0.5 * bodyHeight,
+        width: bodyHeight,
+
+        alignItems: 'center',
+        justifyContent: 'center'
       }}
     >
       <View
         style={{
-          height: Constants.statusBarHeight,
-          backgroundColor: 'rgba(255, 255, 255, 0.5)'
-        }}
-      />
+          height: 0.4 * bodyHeight,
+          width: 0.65 * bodyHeight,
 
-      <View
-        style={{
-          height: bodyHeight,
-          width: cameraWidth,
+          borderColor: secondaryTextColor,
+          borderWidth: 2,
+          borderRadius: 5,
 
-          alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'flex-end',
+          alignItems: 'center'
         }}
       >
-        <View
-          style={{
-            height: 0.4 * cameraWidth,
-            width: 0.65 * cameraWidth,
-
-            borderColor: color,
-            borderWidth: 2,
-            borderRadius: 5,
-
-            justifyContent: 'flex-end',
-            alignItems: 'center'
-          }}
-        >
-          {barcode && (
-            <Text
-              style={{
-                color: color,
-                fontSize: 18,
-                fontWeight: 'bold',
-                marginBottom: 10
-              }}
-            >{barcode}
-            </Text>
-          )}
-        </View>
+        {barcode && (
+          <Text
+            style={{
+              color: secondaryTextColor,
+              fontSize: 18,
+              fontWeight: 'bold',
+              marginBottom: 10
+            }}
+          >{barcode}
+          </Text>
+        )}
       </View>
     </View>
   )
 }
+
+export default BarcodeDisplay

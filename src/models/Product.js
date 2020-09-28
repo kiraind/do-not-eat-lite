@@ -1,3 +1,6 @@
+import sql from 'sql-template-strings'
+import { connection as db } from '../database/index.js'
+
 export default class Product {
   constructor (
     id,
@@ -27,6 +30,18 @@ export default class Product {
     this.carbohydratesPct = carbohydratesPct
 
     this.leftAmount = leftAmount
+  }
+
+  static async getByBarcode (barcode) {
+    const res = await db.execute(sql`SELECT * FROM Products WHERE barcode = ${barcode}`)
+
+    console.log(res)
+
+    if (res.rows.length === 0) {
+      return null
+    } else {
+      return new Product(...res.rows[0])
+    }
   }
 }
 

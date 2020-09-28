@@ -6,6 +6,7 @@ import {
 
 import PlaceholderScreen from '../screens/PlaceholderScreen.js'
 import ScannerScreen from '../screens/ScannerScreen.js'
+import ScanResultScreen from '../screens/ScanResultScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -25,6 +26,11 @@ const SearchTab = () => (
     <Stack.Screen
       name='scannedResult'
       options={({ route }) => ({ title: route.params.barcode })}
+      component={ScanResultScreen}
+    />
+    <Stack.Screen
+      name='addNewProduct'
+      options={{ title: 'Добавить продукт' }}
       component={PlaceholderScreen}
     />
   </Stack.Navigator>
