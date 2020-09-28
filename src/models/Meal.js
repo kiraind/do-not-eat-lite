@@ -4,7 +4,6 @@ export default class Meal {
 
     title,
     cookingMethod,
-    batchAmount,
     measureUnit,
 
     specificEnergy,
@@ -16,7 +15,6 @@ export default class Meal {
 
     this.title = title
     this.cookingMethod = cookingMethod
-    this.batchAmount = batchAmount
     this.measureUnit = measureUnit
 
     this.specificEnergy = specificEnergy
@@ -34,7 +32,6 @@ export class PresentMeal extends Meal {
 
     title,
     cookingMethod,
-    batchAmount,
     measureUnit,
 
     specificEnergy,
@@ -49,7 +46,6 @@ export class PresentMeal extends Meal {
 
       title,
       cookingMethod,
-      batchAmount,
       measureUnit,
 
       specificEnergy,

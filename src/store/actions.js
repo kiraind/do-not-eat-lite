@@ -1,5 +1,7 @@
 import { AsyncStorage } from 'react-native'
 
+import { init as initDatabase } from '../database/index.js'
+
 export const HYDRATE = 0
 export const COMPLETE_ONBOARDING = 1
 export const SAVE_SETTINGS = 2
@@ -11,11 +13,16 @@ export function completeOnboarding () {
       JSON.stringify(true)
     )
 
+    await initDatabase()
+
     dispatch({ type: COMPLETE_ONBOARDING })
   }
 }
 
 export async function hydrate () {
+  // for debugging
+  // await AsyncStorage.clear()
+
   const [
     onboarded,
     name,

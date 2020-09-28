@@ -4,6 +4,7 @@ export default class Product {
 
     title,
     barcode,
+    batchAmount,
     measureUnit,
 
     specificEnergy,
@@ -15,6 +16,7 @@ export default class Product {
 
     this.title = title
     this.barcode = barcode
+    this.batchAmount = batchAmount
     this.measureUnit = measureUnit
 
     this.specificEnergy = specificEnergy
@@ -30,6 +32,7 @@ export class PresentProduct extends Product {
 
     title,
     barcode,
+    batchAmount,
     measureUnit,
 
     specificEnergy,
@@ -37,13 +40,14 @@ export class PresentProduct extends Product {
     fatsPct,
     carbohydratesPct,
 
-    amount
+    percentage
   ) {
     super(
       id,
 
       title,
       barcode,
+      batchAmount,
       measureUnit,
 
       specificEnergy,
@@ -52,6 +56,6 @@ export class PresentProduct extends Product {
       carbohydratesPct
     )
 
-    this.amount = amount
+    this.percentage = percentage
   }
 }
