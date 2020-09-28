@@ -9,7 +9,9 @@ export default class Meal {
     specificEnergy,
     proteinsPct,
     fatsPct,
-    carbohydratesPct
+    carbohydratesPct,
+
+    leftAmount
   ) {
     this.id = id
 
@@ -22,38 +24,8 @@ export default class Meal {
     this.fatsPct = fatsPct
     this.carbohydratesPct = carbohydratesPct
 
+    this.leftAmount = leftAmount
+
     this._products = null
-  }
-}
-
-export class PresentMeal extends Meal {
-  constructor (
-    id,
-
-    title,
-    cookingMethod,
-    measureUnit,
-
-    specificEnergy,
-    proteinsPct,
-    fatsPct,
-    carbohydratesPct,
-
-    amount
-  ) {
-    super(
-      id,
-
-      title,
-      cookingMethod,
-      measureUnit,
-
-      specificEnergy,
-      proteinsPct,
-      fatsPct,
-      carbohydratesPct
-    )
-
-    this.amount = amount
   }
 }

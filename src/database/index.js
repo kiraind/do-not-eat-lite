@@ -28,7 +28,9 @@ export async function init () {
       specificEnergy   REAL NOT NULL,
       proteinsPct      REAL NOT NULL,
       fatsPct          REAL NOT NULL,
-      carbohydratesPct REAL NOT NULL
+      carbohydratesPct REAL NOT NULL,
+
+      leftAmount       REAL
     )
   `)
 
@@ -57,7 +59,9 @@ export async function init () {
       specificEnergy   REAL NOT NULL,
       proteinsPct      REAL NOT NULL,
       fatsPct          REAL NOT NULL,
-      carbohydratesPct REAL NOT NULL
+      carbohydratesPct REAL NOT NULL,
+
+      leftAmount       REAL,
     )
   `)
 

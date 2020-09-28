@@ -10,7 +10,9 @@ export default class Product {
     specificEnergy,
     proteinsPct,
     fatsPct,
-    carbohydratesPct
+    carbohydratesPct,
+
+    leftAmount
   ) {
     this.id = id
 
@@ -23,6 +25,8 @@ export default class Product {
     this.proteinsPct = proteinsPct
     this.fatsPct = fatsPct
     this.carbohydratesPct = carbohydratesPct
+
+    this.leftAmount = leftAmount
   }
 }
 
@@ -40,6 +44,8 @@ export class PresentProduct extends Product {
     fatsPct,
     carbohydratesPct,
 
+    leftAmount,
+
     percentage
   ) {
     super(
@@ -53,7 +59,9 @@ export class PresentProduct extends Product {
       specificEnergy,
       proteinsPct,
       fatsPct,
-      carbohydratesPct
+      carbohydratesPct,
+
+      leftAmount
     )
 
     this.percentage = percentage
