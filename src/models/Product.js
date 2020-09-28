@@ -35,13 +35,69 @@ export default class Product {
   static async getByBarcode (barcode) {
     const res = await db.execute(sql`SELECT * FROM Products WHERE barcode = ${barcode}`)
 
-    console.log(res)
-
     if (res.rows.length === 0) {
       return null
     } else {
-      return new Product(...res.rows[0])
+      return new Product(
+        res.rows[0].id,
+        res.rows[0].title,
+        res.rows[0].barcode,
+        res.rows[0].batchAmount,
+        res.rows[0].measureUnit,
+        res.rows[0].proteinsPct,
+        res.rows[0].specificEnergy,
+        res.rows[0].fatsPct,
+        res.rows[0].carbohydratesPct,
+        res.rows[0].leftAmount ?? null
+      )
     }
+  }
+
+  static async registerNew (
+    title,
+    barcode,
+    batchAmount,
+    measureUnit,
+    specificEnergy,
+    proteinsPct,
+    fatsPct,
+    carbohydratesPct
+  ) {
+    const res = await db.execute(sql`
+      INSERT INTO Products (
+        title,
+        barcode,
+        batchAmount,
+        measureUnit,
+        specificEnergy,
+        proteinsPct,
+        fatsPct,
+        carbohydratesPct
+      )
+      VALUES (
+        ${title},
+        ${barcode},
+        ${batchAmount},
+        ${measureUnit},
+        ${specificEnergy},
+        ${proteinsPct},
+        ${fatsPct},
+        ${carbohydratesPct}
+      )
+    `)
+
+    return new Product(
+      res.insertId,
+      title,
+      barcode,
+      batchAmount,
+      measureUnit,
+      specificEnergy,
+      proteinsPct,
+      fatsPct,
+      carbohydratesPct,
+      0
+    )
   }
 }
 

@@ -61,7 +61,7 @@ export async function init () {
       fatsPct          REAL NOT NULL,
       carbohydratesPct REAL NOT NULL,
 
-      leftAmount       REAL,
+      leftAmount       REAL DEFAULT 0,
     )
   `)
 

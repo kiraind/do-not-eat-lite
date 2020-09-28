@@ -48,14 +48,16 @@ const ScanResultScreen = ({ route, navigation }) => {
               <Text
                 style={styles.notFoundText}
               >
-                Продукт не найден, хотите его добавить?
+                Неизвестный продукт, хотите его добавить?
               </Text>
             </View>
-            <Button
-              title='Добавить'
-              color={accentColor}
-              onPress={addNewProduct}
-            />
+            <View style={styles.notFoundAction}>
+              <Button
+                title='Добавить'
+                color={accentColor}
+                onPress={addNewProduct}
+              />
+            </View>
           </View>
         )
       )}
@@ -85,6 +87,9 @@ const styles = StyleSheet.create({
   notFoundText: {
     color: secondaryTextColor,
     marginLeft: 7
+  },
+  notFoundAction: {
+    alignSelf: 'stretch'
   }
 })
 

@@ -6,8 +6,9 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  Button
+  Button, ActivityIndicator
 } from 'react-native'
+import barcodeValid from 'barcode-validator'
 
 import ShortSelect from '../components/ShortSelect.js'
 
@@ -20,6 +21,7 @@ import {
 } from '../constants.js'
 
 import * as MeasureUnit from '../models/MeasureUnit.js'
+import Product from '../models/Product.js'
 
 const AddNewProduct = ({ navigation, route }) => {
   // data
@@ -44,8 +46,27 @@ const AddNewProduct = ({ navigation, route }) => {
   const [fatsPctFocused, setFatsPctFocused] = useState(false)
   const [carbohydratesPctFocused, setCarbohydratesPctFocused] = useState(false)
 
-  return (
+  // action
+  const [loading, setLoading] = useState(false)
 
+  const onAddProduct = async () => {
+    setLoading(true)
+
+    await Product.registerNew(
+      title,
+      barcode,
+      parseFloat(batchAmount),
+      measureUnit,
+      parseFloat(specificEnergy),
+      parseFloat(proteinsPct),
+      parseFloat(fatsPct),
+      parseFloat(carbohydratesPct)
+    )
+
+    setLoading(false)
+  }
+
+  return (
     <View style={styles.body}>
       <ScrollView>
         <Text style={styles.label}>Штрих-код</Text>
@@ -200,11 +221,23 @@ const AddNewProduct = ({ navigation, route }) => {
         </View>
 
       </ScrollView>
-      <Button
-        title='Готово'
-        disabled={false}
-        color={accentColor}
-      />
+      {loading ? <ActivityIndicator size='large' color={accentColor} /> : (
+        <Button
+          title='Продолжить'
+          disabled={
+            !barcodeValid(barcode) ||
+          title === '' ||
+          isNaN(parseFloat(batchAmount)) ||
+          isNaN(parseFloat(measureUnit)) ||
+          isNaN(parseFloat(specificEnergy)) ||
+          isNaN(parseFloat(proteinsPct)) ||
+          isNaN(parseFloat(fatsPct)) ||
+          isNaN(parseFloat(carbohydratesPct))
+          }
+          color={accentColor}
+          onPress={onAddProduct}
+        />
+      )}
     </View>
   )
 }
