@@ -1,7 +1,10 @@
 import sql from 'sql-template-strings'
 import { connection as db } from '../database/index.js'
+import toReadableNumber from '../utils/toReadableNumber.js'
+import Item from './Item.js'
+import { MeasureUnit1000String, MeasureUnitString } from './MeasureUnit.js'
 
-export default class Product {
+export default class Product extends Item {
   constructor (
     id,
 
@@ -17,6 +20,8 @@ export default class Product {
 
     leftAmount
   ) {
+    super()
+
     this.id = id
 
     this.title = title
@@ -30,6 +35,16 @@ export default class Product {
     this.carbohydratesPct = carbohydratesPct
 
     this.leftAmount = leftAmount
+  }
+
+  get readableBatchAmount () {
+    if (this.batchAmount > 1000) {
+      return toReadableNumber(this.batchAmount / 1000) + '\u00A0' + // nbsp
+        MeasureUnit1000String[this.measureUnit]
+    } else {
+      return toReadableNumber(this.batchAmount) + '\u00A0' + // nbsp
+      MeasureUnitString[this.measureUnit]
+    }
   }
 
   static async getByBarcode (barcode) {

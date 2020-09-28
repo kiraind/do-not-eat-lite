@@ -5,6 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { accentColor, backgroundColor, secondaryTextColor } from '../constants.js'
 
 import BarcodeDisplay from '../components/BarcodeDisplay.js'
+import ProductPage from '../components/ProductPage.js'
 
 import Product from '../models/Product.js'
 
@@ -36,7 +37,9 @@ const ScanResultScreen = ({ route, navigation }) => {
         </View>
       ) : (
         product ? (
-          <Text>Hello, {product.title}</Text>
+          <View style={styles.normalBody}>
+            <ProductPage product={product} />
+          </View>
         ) : (
           <View style={styles.notFoundBody}>
             <View style={styles.notFoundMessageBody}>
@@ -90,6 +93,10 @@ const styles = StyleSheet.create({
   },
   notFoundAction: {
     alignSelf: 'stretch'
+  },
+  normalBody: {
+    flex: 1,
+    padding: 16
   }
 })
 

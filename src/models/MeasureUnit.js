@@ -7,3 +7,8 @@ export const MeasureUnitString = [
   'г',
   'мл'
 ]
+export const MeasureUnit1000String = [
+  'тыс. шт.',
+  'кг',
+  'л'
+]

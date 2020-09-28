@@ -1,4 +1,6 @@
-export default class Meal {
+import Item from './Item'
+
+export default class Meal extends Item {
   constructor (
     id,
 
@@ -13,6 +15,8 @@ export default class Meal {
 
     leftAmount
   ) {
+    super()
+
     this.id = id
 
     this.title = title
