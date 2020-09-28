@@ -11,4 +11,12 @@ export default class Item {
       MeasureUnitString[this.measureUnit]
     }
   }
+
+  get measureUnitString () {
+    return MeasureUnitString[this.measureUnit]
+  }
+
+  toCalories (amount) {
+    return this.specificEnergy / 100 * amount
+  }
 }

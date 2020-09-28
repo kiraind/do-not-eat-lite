@@ -6,8 +6,10 @@ import { accentColor, backgroundColor, secondaryTextColor } from '../constants.j
 
 import BarcodeDisplay from '../components/BarcodeDisplay.js'
 import ProductPage from '../components/ProductPage.js'
+import MealActions from '../components/MealActions.js'
 
 import Product from '../models/Product.js'
+import { ScrollView } from 'react-native-gesture-handler'
 
 const ScanResultScreen = ({ route, navigation }) => {
   const { barcode } = route.params
@@ -30,38 +32,54 @@ const ScanResultScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.body}>
-      <BarcodeDisplay barcode={barcode} />
       {loading ? (
-        <View style={styles.loadingBody}>
-          <ActivityIndicator size='large' color={accentColor} />
-        </View>
+        <>
+          <BarcodeDisplay barcode={barcode} />
+          <View style={styles.loadingBody}>
+            <ActivityIndicator size='large' color={accentColor} />
+          </View>
+        </>
       ) : (
         product ? (
-          <View style={styles.normalBody}>
-            <ProductPage product={product} />
-          </View>
+          <>
+            <ScrollView>
+              <BarcodeDisplay barcode={barcode} />
+              <View style={styles.normalBody}>
+                <ProductPage product={product} />
+              </View>
+            </ScrollView>
+            <MealActions
+              product={product}
+              onEat={() => console.log('eat')}
+              onThrow={() => console.log('throw')}
+              onAcquire={() => console.log('aquire')}
+            />
+          </>
         ) : (
-          <View style={styles.notFoundBody}>
-            <View style={styles.notFoundMessageBody}>
-              <MaterialIcons
-                name='error-outline'
-                size={24}
-                color={secondaryTextColor}
-              />
-              <Text
-                style={styles.notFoundText}
-              >
+          <>
+            <BarcodeDisplay barcode={barcode} />
+            <View style={styles.notFoundBody}>
+              <View style={styles.notFoundMessageBody}>
+                <MaterialIcons
+                  name='error-outline'
+                  size={24}
+                  color={secondaryTextColor}
+                />
+                <Text
+                  style={styles.notFoundText}
+                >
                 Неизвестный продукт, хотите его добавить?
-              </Text>
+                </Text>
+              </View>
+              <View style={styles.notFoundAction}>
+                <Button
+                  title='Добавить'
+                  color={accentColor}
+                  onPress={addNewProduct}
+                />
+              </View>
             </View>
-            <View style={styles.notFoundAction}>
-              <Button
-                title='Добавить'
-                color={accentColor}
-                onPress={addNewProduct}
-              />
-            </View>
-          </View>
+          </>
         )
       )}
     </View>
