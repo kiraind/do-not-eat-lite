@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Text, View, TextInput, Switch, Button } from 'react-native'
+import { Text, View, TextInput, Switch, Button, DevSettings, AsyncStorage } from 'react-native'
+import { deleteAsync, documentDirectory } from 'expo-file-system'
 import { Slider } from '@miblanchard/react-native-slider'
 
 import {
@@ -109,6 +110,26 @@ const Settings = ({
           value={logLocation}
         />
       </View>
+
+      {/* eslint-disable-next-line no-undef */}
+      {__DEV__ && (
+        <View style={style.switchBody}>
+          <Text style={style.switchLabel}>Очистить данные [debug]</Text>
+          <Switch
+            trackColor={{
+              false: backgroundDepthColor,
+              true: mixColors(accentColor, backgroundDepthColor)
+            }}
+            thumbColor={accentColor}
+            onValueChange={async () => {
+              AsyncStorage.clear()
+              await deleteAsync(documentDirectory + '/SQLite/do-not-eat-lite.db')
+              DevSettings.reload()
+            }}
+            value={false}
+          />
+        </View>
+      )}
 
       <View
         style={{
