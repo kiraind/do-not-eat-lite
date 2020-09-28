@@ -59,8 +59,8 @@ export default class Product extends Item {
         res.rows[0].barcode,
         res.rows[0].batchAmount,
         res.rows[0].measureUnit,
-        res.rows[0].proteinsPct,
         res.rows[0].specificEnergy,
+        res.rows[0].proteinsPct,
         res.rows[0].fatsPct,
         res.rows[0].carbohydratesPct,
         res.rows[0].leftAmount ?? null

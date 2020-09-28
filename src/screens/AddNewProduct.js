@@ -64,6 +64,10 @@ const AddNewProduct = ({ navigation, route }) => {
     )
 
     setLoading(false)
+    navigation.pop()
+    navigation.replace('scannedResult', {
+      barcode
+    })
   }
 
   return (
@@ -226,13 +230,13 @@ const AddNewProduct = ({ navigation, route }) => {
           title='Продолжить'
           disabled={
             !barcodeValid(barcode) ||
-          title === '' ||
-          isNaN(parseFloat(batchAmount)) ||
-          isNaN(parseFloat(measureUnit)) ||
-          isNaN(parseFloat(specificEnergy)) ||
-          isNaN(parseFloat(proteinsPct)) ||
-          isNaN(parseFloat(fatsPct)) ||
-          isNaN(parseFloat(carbohydratesPct))
+            title === '' ||
+            isNaN(parseFloat(batchAmount)) ||
+            isNaN(parseFloat(measureUnit)) ||
+            isNaN(parseFloat(specificEnergy)) ||
+            isNaN(parseFloat(proteinsPct)) ||
+            isNaN(parseFloat(fatsPct)) ||
+            isNaN(parseFloat(carbohydratesPct))
           }
           color={accentColor}
           onPress={onAddProduct}
