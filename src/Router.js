@@ -2,64 +2,22 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
   ActivityIndicator,
-  Text,
   View
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import {
-  createStackNavigator,
-  CardStyleInterpolators
-} from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialIcons } from '@expo/vector-icons'
 
 import { accentColor } from './constants.js'
 
-import OnboardingScreen from './screens/OnboardingScreen.js'
-import Settings from './screens/Settings.js'
-
+import SearchTab from './tabs/SearchTab.js'
+import FridgeTab from './tabs/FridgeTab.js'
+import FeedTab from './tabs/FeedTab.js'
+import PlateTab from './tabs/PlateTab.js'
 import SettingsTab from './tabs/SettingsTab.js'
+import WelcomeNavigator from './tabs/WelcomeNavigator.js'
 
-const Stack = createStackNavigator()
 const BottomTab = createBottomTabNavigator()
-
-const PlaceholderScreen = ({ route }) => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      <Text>PlaceholderScreen</Text>
-      <Text>{route.name}</Text>
-    </View>
-  )
-}
-
-const WelcomeNavigator = () => (
-  <Stack.Navigator
-    screenOptions={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}
-  >
-    <Stack.Screen
-      name='onboardingScreen'
-      options={{
-        headerShown: false
-      }}
-      component={OnboardingScreen}
-    />
-    <Stack.Screen
-      name='initialSettings'
-      options={{
-        headerTitle: 'Настройки'
-      }}
-      component={Settings}
-    />
-  </Stack.Navigator>
-)
 
 const NormalNavigator = () => (
   <BottomTab.Navigator
@@ -83,7 +41,7 @@ const NormalNavigator = () => (
         title: 'Сканер',
         tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='crop-free' size={size} color={color} />
       }}
-      component={PlaceholderScreen}
+      component={SearchTab}
     />
     <BottomTab.Screen
       name='frigde'
@@ -91,7 +49,7 @@ const NormalNavigator = () => (
         title: 'Моя еда',
         tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='kitchen' size={size} color={color} />
       }}
-      component={PlaceholderScreen}
+      component={FridgeTab}
     />
     <BottomTab.Screen
       name='feed'
@@ -99,7 +57,7 @@ const NormalNavigator = () => (
         title: 'Профиль',
         tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='person' size={size} color={color} />
       }}
-      component={PlaceholderScreen}
+      component={FeedTab}
     />
     <BottomTab.Screen
       name='plate'
@@ -107,7 +65,7 @@ const NormalNavigator = () => (
         title: 'Тарелка',
         tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='room-service' size={size} color={color} />
       }}
-      component={PlaceholderScreen}
+      component={PlateTab}
     />
     <BottomTab.Screen
       name='settings'
