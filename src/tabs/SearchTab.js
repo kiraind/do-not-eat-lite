@@ -7,6 +7,7 @@ import {
 import PlaceholderScreen from '../screens/PlaceholderScreen.js'
 import ScannerScreen from '../screens/ScannerScreen.js'
 import ScanResultScreen from '../screens/ScanResultScreen.js'
+import AddNewProduct from '../screens/AddNewProduct.js'
 
 const Stack = createStackNavigator()
 
@@ -31,7 +32,7 @@ const SearchTab = () => (
     <Stack.Screen
       name='addNewProduct'
       options={{ title: 'Добавить продукт' }}
-      component={PlaceholderScreen}
+      component={AddNewProduct}
     />
   </Stack.Navigator>
 )
