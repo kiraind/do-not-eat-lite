@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Dimensions, Text, View } from 'react-native'
 
@@ -13,12 +13,32 @@ const ScannerScreen = ({ navigation, route }) => {
     })
   }
 
+  const [scannerActive, setScannerActive] = useState(true)
+
+  useEffect(() => {
+    const blurCleanup = navigation.addListener(
+      'blur',
+      () => setScannerActive(false)
+    )
+
+    const focusCleanup = navigation.addListener(
+      'focus',
+      () => setScannerActive(true)
+    )
+
+    // cleanup
+    return () => {
+      blurCleanup()
+      focusCleanup()
+    }
+  }, [])
+
   return (
     <View style={styles.container}>
       <StatusBar style='auto' />
 
       <BarCodeScanner
-        onScanned={onScan}
+        onScanned={scannerActive ? onScan : undefined}
       />
 
       <View

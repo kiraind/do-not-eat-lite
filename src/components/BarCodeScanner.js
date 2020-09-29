@@ -51,7 +51,13 @@ const MyBarCodeScanner = ({
   }
 
   const onBarCodeScanned = ({ type, data }) => {
-    onScanned && onScanned(data)
+    // dirty fix because of some bug
+    if (
+      type === BarCodeScanner.Constants.BarCodeType.ean13 ||
+      type === BarCodeScanner.Constants.BarCodeType.ean8
+    ) {
+      onScanned && onScanned(data)
+    }
   }
 
   return (
