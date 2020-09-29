@@ -12,6 +12,16 @@ export default class Item {
     }
   }
 
+  get readableAmount () {
+    if (this.amount > 1000) {
+      return toReadableNumber(this.amount / 1000) + '\u00A0' + // nbsp
+        MeasureUnit1000String[this.measureUnit]
+    } else {
+      return toReadableNumber(this.amount) + '\u00A0' + // nbsp
+      MeasureUnitString[this.measureUnit]
+    }
+  }
+
   get measureUnitString () {
     return MeasureUnitString[this.measureUnit]
   }

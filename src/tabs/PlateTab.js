@@ -4,7 +4,7 @@ import {
   CardStyleInterpolators
 } from '@react-navigation/stack'
 
-import PlaceholderScreen from '../screens/PlaceholderScreen.js'
+import PlateScreen from '../screens/PlateScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -19,7 +19,7 @@ const PlateTab = () => (
       options={{
         title: 'Тарелка'
       }}
-      component={PlaceholderScreen}
+      component={PlateScreen}
     />
   </Stack.Navigator>
 )
