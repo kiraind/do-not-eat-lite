@@ -49,7 +49,7 @@ const ScanResultScreen = ({ route, navigation }) => {
               </View>
             </ScrollView>
             <MealActions
-              product={product}
+              item={product}
               onEat={() => console.log('eat')}
               onThrow={() => console.log('throw')}
               onAcquire={() => console.log('aquire')}

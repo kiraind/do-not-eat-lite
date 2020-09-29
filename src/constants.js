@@ -3,6 +3,7 @@ export const primaryTextColor = '#000000'
 export const secondaryTextColor = '#aaaaaa'
 export const backgroundColor = '#ffffff'
 export const backgroundDepthColor = '#f5f5f5'
+export const iconColor = '#808080'
 export const errorColor = '#eb4242'
 
 export const defaultTargetCalories = 2200

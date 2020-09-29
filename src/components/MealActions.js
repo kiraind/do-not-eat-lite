@@ -12,7 +12,8 @@ import {
   backgroundColor,
   backgroundDepthColor,
   primaryTextColor,
-  secondaryTextColor
+  secondaryTextColor,
+  iconColor
 } from '../constants'
 import toReadableNumber from '../utils/toReadableNumber'
 
@@ -57,12 +58,16 @@ const MealActions = ({
       <View style={styles.main}>
         <TouchableOpacity onPress={() => toggleAction(THROW)}>
           <View style={styles.item}>
-            <MaterialIcons name='delete-sweep' size={24} color={action === THROW ? accentColor : secondaryTextColor} />
+            <MaterialIcons
+              name='delete-sweep'
+              size={24}
+              color={action === THROW ? accentColor : iconColor}
+            />
             <Text
               style={{
                 ...styles.iconLabel,
 
-                color: action === THROW ? accentColor : secondaryTextColor
+                color: action === THROW ? accentColor : iconColor
               }}
             >
               Выбросить
@@ -71,12 +76,16 @@ const MealActions = ({
         </TouchableOpacity>
         <TouchableOpacity onPress={() => toggleAction(ACQUIRE)}>
           <View style={styles.item}>
-            <MaterialIcons name='add' size={24} color={action === ACQUIRE ? accentColor : secondaryTextColor} />
+            <MaterialIcons
+              name='add'
+              size={24}
+              color={action === ACQUIRE ? accentColor : iconColor}
+            />
             <Text
               style={{
                 ...styles.iconLabel,
 
-                color: action === ACQUIRE ? accentColor : secondaryTextColor
+                color: action === ACQUIRE ? accentColor : iconColor
               }}
             >
               Приобрести
@@ -85,12 +94,16 @@ const MealActions = ({
         </TouchableOpacity>
         <TouchableOpacity onPress={() => toggleAction(EAT)}>
           <View style={styles.item}>
-            <MaterialIcons name='local-dining' size={24} color={action === EAT ? accentColor : secondaryTextColor} />
+            <MaterialIcons
+              name='local-dining'
+              size={24}
+              color={action === EAT ? accentColor : iconColor}
+            />
             <Text
               style={{
                 ...styles.iconLabel,
 
-                color: action === EAT ? accentColor : secondaryTextColor
+                color: action === EAT ? accentColor : iconColor
               }}
             >
               Съесть

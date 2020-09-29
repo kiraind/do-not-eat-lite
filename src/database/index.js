@@ -89,6 +89,7 @@ export async function init () {
 
         cookingMethod,
         measureUnit,
+        density,
 
         specificEnergy,
         proteinsPct,
@@ -100,6 +101,7 @@ export async function init () {
 
         0, -- RAW
         new.measureUnit,
+        new.density,
 
         new.specificEnergy,
         new.proteinsPct,

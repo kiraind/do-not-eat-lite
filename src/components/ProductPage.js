@@ -5,6 +5,7 @@ import {
   StyleSheet
 } from 'react-native'
 import { secondaryTextColor } from '../constants.js'
+import * as MeasureUnit from '../models/MeasureUnit.js'
 
 const ProductPage = ({ product }) => {
   return (
@@ -13,6 +14,11 @@ const ProductPage = ({ product }) => {
 
       <Text style={styles.info}>Штрихкод: {product.barcode}</Text>
       <Text style={styles.info}>У вас есть: {product.readableLeftAmount}</Text>
+      {product.measureUnit !== MeasureUnit.GRAMS && (
+        product.measureUnit === MeasureUnit.PIECES
+          ? <Text style={styles.info}>Масса одной штуки: {product.density} г</Text>
+          : <Text style={styles.info}>Плотность: {product.density} г/{product.measureUnitString}</Text>
+      )}
 
       <Text style={styles.label}>Пищевая ценность на 100 г:</Text>
       <Text style={styles.info}>К: {product.specificEnergy} ккал</Text>

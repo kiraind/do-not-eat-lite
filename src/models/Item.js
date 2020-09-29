@@ -17,6 +17,6 @@ export default class Item {
   }
 
   toCalories (amount) {
-    return this.specificEnergy / 100 * amount
+    return this.specificEnergy / 100 * amount * this.density
   }
 }

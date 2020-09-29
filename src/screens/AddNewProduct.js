@@ -32,6 +32,7 @@ const AddNewProduct = ({ navigation, route }) => {
 
   const [batchAmount, setBatchAmount] = useState('')
   const [measureUnit, setMeasureUnit] = useState(MeasureUnit.GRAMS)
+  const [density, setDensity] = useState('')
   const [specificEnergy, setSpecificEnergy] = useState('')
   const [proteinsPct, setProteinsPct] = useState('')
   const [fatsPct, setFatsPct] = useState('')
@@ -41,6 +42,7 @@ const AddNewProduct = ({ navigation, route }) => {
   const [barcodeFocused, setBarcodeFocused] = useState(false)
   const [titleFocused, setTitleFocused] = useState(false)
   const [batchAmountFocused, setBatchAmountFocused] = useState(false)
+  const [densityFocused, setDensityFocused] = useState('')
   const [specificEnergyFocused, setSpecificEnergyFocused] = useState(false)
   const [proteinsPctFocused, setProteinsPctFocused] = useState(false)
   const [fatsPctFocused, setFatsPctFocused] = useState(false)
@@ -58,7 +60,7 @@ const AddNewProduct = ({ navigation, route }) => {
       barcode,
       parseFloat(batchAmount),
       measureUnit,
-      1,
+      measureUnit === MeasureUnit.GRAMS ? 1 : parseFloat(density),
 
       parseFloat(specificEnergy),
       parseFloat(proteinsPct),
@@ -124,6 +126,33 @@ const AddNewProduct = ({ navigation, route }) => {
           onSelect={setMeasureUnit}
         />
         <View style={styles.spacer} />
+
+        {measureUnit !== MeasureUnit.GRAMS && (
+          <>
+            <Text style={styles.label}>
+              {measureUnit === MeasureUnit.PIECES
+                ? 'Масса одной штуки (г)'
+                : `Плотность (г/${MeasureUnit.MeasureUnitString[measureUnit]})`}
+            </Text>
+            <TextInput
+              keyboardType='number-pad'
+              style={{
+                ...styles.textInput,
+
+                borderColor: densityFocused ? accentColor : backgroundDepthColor,
+                backgroundColor: densityFocused ? backgroundColor : backgroundDepthColor
+              }}
+              onFocus={() => setDensityFocused(true)}
+              onBlur={() => setDensityFocused(false)}
+
+              value={density}
+              onChangeText={setDensity}
+
+              placeholder='100'
+            />
+            <View style={styles.spacer} />
+          </>
+        )}
 
         <Text style={styles.label}>Объем упаковки ({MeasureUnit.MeasureUnitString[measureUnit]})</Text>
         <TextInput
@@ -239,7 +268,8 @@ const AddNewProduct = ({ navigation, route }) => {
             isNaN(parseFloat(specificEnergy)) ||
             isNaN(parseFloat(proteinsPct)) ||
             isNaN(parseFloat(fatsPct)) ||
-            isNaN(parseFloat(carbohydratesPct))
+            isNaN(parseFloat(carbohydratesPct)) ||
+            (measureUnit !== MeasureUnit.GRAMS && isNaN(parseFloat(density)))
           }
           color={accentColor}
           onPress={onAddProduct}
