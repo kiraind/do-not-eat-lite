@@ -4,24 +4,28 @@ import {
   CardStyleInterpolators
 } from '@react-navigation/stack'
 
+import TabNavigationContext from './TabNavigationContext.js'
+
 import Settings from '../screens/Settings.js'
 
 const Stack = createStackNavigator()
 
-const SettingsTab = () => (
-  <Stack.Navigator
-    screenOptions={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}
-  >
-    <Stack.Screen
-      name='settings'
-      options={{
-        headerTitle: 'Настройки'
+const SettingsTab = ({ navigation }) => (
+  <TabNavigationContext.Provider value={navigation}>
+    <Stack.Navigator
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
       }}
-      component={Settings}
-    />
-  </Stack.Navigator>
+    >
+      <Stack.Screen
+        name='settings'
+        options={{
+          headerTitle: 'Настройки'
+        }}
+        component={Settings}
+      />
+    </Stack.Navigator>
+  </TabNavigationContext.Provider>
 )
 
 export default SettingsTab
