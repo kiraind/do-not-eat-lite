@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
+import { MaterialIcons } from '@expo/vector-icons'
 
 import { eatPlate } from '../store/actions.js'
 
@@ -25,6 +26,19 @@ const PlateScreen = ({ plate, eatPlate }) => {
   const tabNavigation = useContext(TabNavigationContext)
 
   const [loading, setLoading] = useState(false)
+
+  if (plate.length === 0) {
+    return (
+      <View style={styles.emptyBody}>
+        <MaterialIcons
+          name='error-outline'
+          size={24}
+          color={secondaryTextColor}
+        />
+        <Text style={styles.emptyText}>В тарелке пусто</Text>
+      </View>
+    )
+  }
 
   const totalCalories = plate.reduce(
     (sum, item) => sum + item.toCalories(item.amount),
@@ -113,6 +127,17 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginLeft: 10
+  },
+  emptyBody: {
+    flex: 1,
+    backgroundColor,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  emptyText: {
+    color: secondaryTextColor,
+    marginLeft: 7
   }
 })
 
