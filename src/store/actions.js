@@ -1,10 +1,16 @@
 import { AsyncStorage } from 'react-native'
 
 import { init as initDatabase } from '../database/index.js'
+import Meal, { MealItem } from '../models/Meal.js'
+import Product, { ProductItem } from '../models/Product.js'
 
 export const HYDRATE = 0
 export const COMPLETE_ONBOARDING = 1
 export const SAVE_SETTINGS = 2
+export const REGISTER_PRODUCT = 3
+export const ENPLATE_MEAL = 4
+export const ACQUIRE_MEAL = 5
+export const THROW_MEAL = 6
 
 export function completeOnboarding () {
   return async dispatch => {
@@ -20,9 +26,6 @@ export function completeOnboarding () {
 }
 
 export async function hydrate () {
-  // for debugging
-  // await AsyncStorage.clear()
-
   const [
     onboarded,
     name,
@@ -75,5 +78,19 @@ export function saveSettings (settings) {
       type: SAVE_SETTINGS,
       payload: settings
     })
+  }
+}
+
+export function enplateMeal (item, amount) {
+  if (item instanceof Meal) {
+    return {
+      type: ENPLATE_MEAL,
+      payload: new MealItem(item, amount)
+    }
+  } else if (item instanceof Product) {
+    return {
+      type: ENPLATE_MEAL,
+      payload: new ProductItem(item, amount)
+    }
   }
 }

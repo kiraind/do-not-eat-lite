@@ -27,7 +27,7 @@ const ActionString = [
 ]
 
 const MealActions = ({
-  product,
+  item,
 
   onEat,
   onThrow,
@@ -69,7 +69,7 @@ const MealActions = ({
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => toggleAction(ADD)}>
+        <TouchableOpacity onPress={() => toggleAction(ACQUIRE)}>
           <View style={styles.item}>
             <MaterialIcons name='add' size={24} color={action === ACQUIRE ? accentColor : secondaryTextColor} />
             <Text
@@ -105,7 +105,7 @@ const MealActions = ({
               ...styles.shadowTextInput,
               backgroundColor: amountFocused ? backgroundColor : backgroundDepthColor
             }}
-            value={amount ? amount + ` ${product.measureUnitString} = ${toReadableNumber(product.toCalories(parsedAmount))} ккал` : ''}
+            value={amount ? amount + ` ${item.measureUnitString} = ${toReadableNumber(item.toCalories(parsedAmount))} ккал` : ''}
           />
           <TextInput
             autoFocus
@@ -120,7 +120,7 @@ const MealActions = ({
             value={amount}
             onChangeText={setAmount}
 
-            placeholder={'100 ' + product.measureUnitString}
+            placeholder={'100 ' + item.measureUnitString}
             keyboardType='number-pad'
           />
           <Button

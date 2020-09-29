@@ -24,6 +24,7 @@ export async function init () {
       title            TEXT NOT NULL,
       cookingMethod    INTEGER NOT NULL,
       measureUnit      INTEGER NOT NULL,
+      density          REAL NOT NULL,
 
       specificEnergy   REAL NOT NULL,
       proteinsPct      REAL NOT NULL,
@@ -55,6 +56,7 @@ export async function init () {
       barcode          TEXT,
       batchAmount      REAL,
       measureUnit      INTEGER NOT NULL,
+      density          REAL NOT NULL,
 
       specificEnergy   REAL NOT NULL,
       proteinsPct      REAL NOT NULL,

@@ -7,6 +7,7 @@ export default class Meal extends Item {
     title,
     cookingMethod,
     measureUnit,
+    density,
 
     specificEnergy,
     proteinsPct,
@@ -22,6 +23,7 @@ export default class Meal extends Item {
     this.title = title
     this.cookingMethod = cookingMethod
     this.measureUnit = measureUnit
+    this.density = density
 
     this.specificEnergy = specificEnergy
     this.proteinsPct = proteinsPct
@@ -31,5 +33,27 @@ export default class Meal extends Item {
     this.leftAmount = leftAmount
 
     this._products = null
+  }
+}
+
+export class MealItem extends Meal {
+  constructor (meal, amount) {
+    super(
+      meal.id,
+
+      meal.title,
+      meal.cookingMethod,
+      meal.measureUnit,
+      meal.density,
+
+      meal.specificEnergy,
+      meal.proteinsPct,
+      meal.fatsPct,
+      meal.carbohydratesPct,
+
+      meal.leftAmount
+    )
+
+    this.amount = amount
   }
 }

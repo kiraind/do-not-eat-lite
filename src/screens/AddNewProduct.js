@@ -54,9 +54,12 @@ const AddNewProduct = ({ navigation, route }) => {
 
     await Product.registerNew(
       title,
+
       barcode,
       parseFloat(batchAmount),
       measureUnit,
+      1,
+
       parseFloat(specificEnergy),
       parseFloat(proteinsPct),
       parseFloat(fatsPct),

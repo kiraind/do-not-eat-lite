@@ -6,7 +6,8 @@ import { defaultTargetCalories } from '../constants.js'
 import {
   HYDRATE,
   COMPLETE_ONBOARDING,
-  SAVE_SETTINGS
+  SAVE_SETTINGS,
+  ENPLATE_MEAL
 } from './actions.js'
 
 const defaultState = {
@@ -15,7 +16,9 @@ const defaultState = {
   onboarded: false,
   name: '',
   targetCalories: defaultTargetCalories,
-  logLocation: true
+  logLocation: true,
+
+  plate: []
 }
 
 function mainReducer (state = defaultState, action) {
@@ -37,6 +40,11 @@ function mainReducer (state = defaultState, action) {
     return {
       ...state,
       ...payload
+    }
+  } else if (type === ENPLATE_MEAL) {
+    return {
+      ...state,
+      plate: [...state.plate, payload]
     }
   } else {
     return state

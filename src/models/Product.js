@@ -12,6 +12,7 @@ export default class Product extends Item {
     barcode,
     batchAmount,
     measureUnit,
+    density,
 
     specificEnergy,
     proteinsPct,
@@ -28,6 +29,7 @@ export default class Product extends Item {
     this.barcode = barcode
     this.batchAmount = batchAmount
     this.measureUnit = measureUnit
+    this.density = density
 
     this.specificEnergy = specificEnergy
     this.proteinsPct = proteinsPct
@@ -55,14 +57,18 @@ export default class Product extends Item {
     } else {
       return new Product(
         res.rows[0].id,
+
         res.rows[0].title,
         res.rows[0].barcode,
         res.rows[0].batchAmount,
         res.rows[0].measureUnit,
+        res.rows[0].density,
+
         res.rows[0].specificEnergy,
         res.rows[0].proteinsPct,
         res.rows[0].fatsPct,
         res.rows[0].carbohydratesPct,
+
         res.rows[0].leftAmount ?? null
       )
     }
@@ -70,9 +76,12 @@ export default class Product extends Item {
 
   static async registerNew (
     title,
+
     barcode,
     batchAmount,
     measureUnit,
+    density,
+
     specificEnergy,
     proteinsPct,
     fatsPct,
@@ -84,6 +93,7 @@ export default class Product extends Item {
         barcode,
         batchAmount,
         measureUnit,
+        density,
         specificEnergy,
         proteinsPct,
         fatsPct,
@@ -94,6 +104,7 @@ export default class Product extends Item {
         ${barcode},
         ${batchAmount},
         ${measureUnit},
+        ${density},
         ${specificEnergy},
         ${proteinsPct},
         ${fatsPct},
@@ -107,6 +118,7 @@ export default class Product extends Item {
       barcode,
       batchAmount,
       measureUnit,
+      density,
       specificEnergy,
       proteinsPct,
       fatsPct,
@@ -118,38 +130,54 @@ export default class Product extends Item {
 
 export class IngredientProduct extends Product {
   constructor (
-    id,
-
-    title,
-    barcode,
-    batchAmount,
-    measureUnit,
-
-    specificEnergy,
-    proteinsPct,
-    fatsPct,
-    carbohydratesPct,
-
-    leftAmount,
+    product,
 
     part
   ) {
     super(
-      id,
+      product.id,
 
-      title,
-      barcode,
-      batchAmount,
-      measureUnit,
+      product.title,
+      product.barcode,
+      product.batchAmount,
+      product.measureUnit,
+      product.density,
 
-      specificEnergy,
-      proteinsPct,
-      fatsPct,
-      carbohydratesPct,
+      product.specificEnergy,
+      product.proteinsPct,
+      product.fatsPct,
+      product.carbohydratesPct,
 
-      leftAmount
+      product.leftAmount
     )
 
     this.part = part
+  }
+}
+
+export class ProductItem extends Product {
+  constructor (
+    product,
+
+    amount
+  ) {
+    super(
+      product.id,
+
+      product.title,
+      product.barcode,
+      product.batchAmount,
+      product.measureUnit,
+      product.density,
+
+      product.specificEnergy,
+      product.proteinsPct,
+      product.fatsPct,
+      product.carbohydratesPct,
+
+      product.leftAmount
+    )
+
+    this.amount = amount
   }
 }
