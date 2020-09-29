@@ -60,4 +60,6 @@ export class MealItem extends Meal {
   merge (other) {
     return new MealItem(this, this.amount + other.amount)
   }
+
+  // todo async pushToEating (eatingId)
 }

@@ -9,7 +9,8 @@ import {
   HYDRATE,
   COMPLETE_ONBOARDING,
   SAVE_SETTINGS,
-  ENPLATE_MEAL
+  ENPLATE_MEAL,
+  EAT_PLATE
 } from './actions.js'
 
 const defaultState = {
@@ -65,6 +66,11 @@ function mainReducer (state = defaultState, action) {
           ...state.plate.slice(duplicateId + 1)
         ]
       }
+    }
+  } else if (type === EAT_PLATE) {
+    return {
+      ...state,
+      plate: []
     }
   } else {
     return state

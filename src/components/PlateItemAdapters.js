@@ -43,7 +43,6 @@ export const ProductItemAdapter = ({ product }) => {
   const [titleWidthDelta, setTitleWidthDelta] = useState(105)
 
   const adjustTitleWidth = e => {
-    console.log(e.nativeEvent.layout.width)
     setTitleWidthDelta(e.nativeEvent.layout.width)
   }
 

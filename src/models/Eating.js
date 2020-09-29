@@ -1,3 +1,6 @@
+import sql from 'sql-template-strings'
+import { connection as db } from '../database/index.js'
+
 export default class Eating {
   constructor (
     id,
@@ -13,5 +16,35 @@ export default class Eating {
     this.label = label
 
     this._meals = null
+  }
+
+  static async registerNew (
+    date,
+    latitude,
+    longitude,
+    label
+  ) {
+    const res = await db.execute(sql`
+      INSERT INTO Eatings (
+        date,
+        latitude,
+        longitude,
+        label
+      )
+      VALUES (
+        ${date.toISOString()},
+        ${latitude},
+        ${longitude},
+        ${label}
+      )
+    `)
+
+    return new Eating(
+      res.insertId,
+      date,
+      latitude,
+      longitude,
+      label
+    )
   }
 }

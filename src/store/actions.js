@@ -1,6 +1,9 @@
 import { AsyncStorage } from 'react-native'
 
+import * as Location from 'expo-location'
+
 import { init as initDatabase } from '../database/index.js'
+import Eating from '../models/Eating.js'
 import Meal, { MealItem } from '../models/Meal.js'
 import Product, { ProductItem } from '../models/Product.js'
 
@@ -11,6 +14,7 @@ export const REGISTER_PRODUCT = 3
 export const ENPLATE_MEAL = 4
 export const ACQUIRE_MEAL = 5
 export const THROW_MEAL = 6
+export const EAT_PLATE = 7
 
 export function completeOnboarding () {
   return async dispatch => {
@@ -69,6 +73,14 @@ export function saveSettings (settings) {
       'targetCalories',
       JSON.stringify(settings.targetCalories)
     )
+
+    if (settings.logLocation) {
+      const { status } = await Location.requestPermissionsAsync()
+      if (status !== 'granted') {
+        settings.logLocation = false
+      }
+    }
+
     await AsyncStorage.setItem(
       'logLocation',
       JSON.stringify(settings.logLocation)
@@ -92,5 +104,34 @@ export function enplateMeal (item, amount) {
       type: ENPLATE_MEAL,
       payload: new ProductItem(item, amount)
     }
+  }
+}
+
+export function eatPlate () {
+  return async (dispatch, getState) => {
+    const { plate, logLocation } = getState()
+
+    let latitude = null
+    let longitude = null
+
+    if (logLocation) {
+      const { coords } = await Location.getCurrentPositionAsync()
+
+      latitude = coords.latitude
+      longitude = coords.longitude
+    }
+
+    const eating = await Eating.registerNew(
+      new Date(),
+      latitude,
+      longitude,
+      0
+    )
+
+    for (const item of plate) {
+      await item.pushToEating(eating.id)
+    }
+
+    dispatch({ type: EAT_PLATE })
   }
 }

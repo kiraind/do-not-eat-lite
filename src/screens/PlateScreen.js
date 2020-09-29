@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import {
   View,
   Text,
-  StyleSheet, Button
+  StyleSheet, Button, ActivityIndicator
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 
+import { eatPlate } from '../store/actions.js'
+
+import TabNavigationContext from '../tabs/TabNavigationContext.js'
 import {
   accentColor,
   backgroundColor,
@@ -18,7 +21,11 @@ import { ProductItem } from '../models/Product.js'
 
 import { ProductItemAdapter, MealItemAdapter } from '../components/PlateItemAdapters.js'
 
-const PlateScreen = ({ plate }) => {
+const PlateScreen = ({ plate, eatPlate }) => {
+  const tabNavigation = useContext(TabNavigationContext)
+
+  const [loading, setLoading] = useState(false)
+
   const totalCalories = plate.reduce(
     (sum, item) => sum + item.toCalories(item.amount),
     0
@@ -39,6 +46,15 @@ const PlateScreen = ({ plate }) => {
       )
   ))
 
+  const handleEat = async () => {
+    setLoading(true)
+
+    await eatPlate()
+
+    setLoading(false)
+    tabNavigation.navigate('feed')
+  }
+
   return (
     <View style={styles.root}>
       <ScrollView style={styles.body}>
@@ -52,12 +68,18 @@ const PlateScreen = ({ plate }) => {
           }&nbsp;ккал
           </Text>
         </Text>
-        <Button
-          title='Съесть'
-          color={accentColor}
-          disabled={totalCalories === 0}
-          onPress={() => console.log('съел')}
-        />
+
+        {loading && (
+          <ActivityIndicator color={accentColor} size={30} />
+        )}
+        <View style={styles.buttonContainer}>
+          <Button
+            title='Съесть'
+            color={accentColor}
+            disabled={loading || totalCalories === 0}
+            onPress={handleEat}
+          />
+        </View>
       </View>
     </View>
   )
@@ -83,10 +105,14 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   totalTextLabel: {
-    color: secondaryTextColor
+    color: secondaryTextColor,
+    marginRight: 'auto'
   },
   totalText: {
     color: primaryTextColor
+  },
+  buttonContainer: {
+    marginLeft: 10
   }
 })
 
@@ -94,4 +120,8 @@ const mapStateToProps = state => ({
   plate: state.plate
 })
 
-export default connect(mapStateToProps)(PlateScreen)
+const mapDispatchToProps = {
+  eatPlate
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlateScreen)

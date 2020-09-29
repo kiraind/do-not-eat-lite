@@ -184,4 +184,20 @@ export class ProductItem extends Product {
   merge (other) {
     return new ProductItem(this, this.amount + other.amount)
   }
+
+  async pushToEating (eatingId) {
+    await db.execute(sql`
+      INSERT INTO EatingIncludesMeal (
+        eatingId,
+        mealId,
+        amount
+      )
+      SELECT 
+        ${eatingId},
+        mealId,
+        ${this.amount}
+      FROM MealIncludesProduct
+      WHERE productId = ${this.id} AND part = 1;
+    `)
+  }
 }
