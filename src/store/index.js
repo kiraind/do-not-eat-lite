@@ -2,6 +2,8 @@ import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
 import { defaultTargetCalories } from '../constants.js'
+import { MealItem } from '../models/Meal.js'
+import { ProductItem } from '../models/Product.js'
 
 import {
   HYDRATE,
@@ -42,9 +44,27 @@ function mainReducer (state = defaultState, action) {
       ...payload
     }
   } else if (type === ENPLATE_MEAL) {
-    return {
-      ...state,
-      plate: [...state.plate, payload]
+    const duplicateId = state.plate.findIndex(
+      item => item.id === payload.id && (
+        (item instanceof MealItem && payload instanceof MealItem) ||
+        (item instanceof ProductItem && payload instanceof ProductItem)
+      )
+    )
+
+    if (duplicateId === -1) {
+      return {
+        ...state,
+        plate: [...state.plate, payload]
+      }
+    } else {
+      return {
+        ...state,
+        plate: [
+          ...state.plate.slice(0, duplicateId),
+          state.plate[duplicateId].merge(payload),
+          ...state.plate.slice(duplicateId + 1)
+        ]
+      }
     }
   } else {
     return state

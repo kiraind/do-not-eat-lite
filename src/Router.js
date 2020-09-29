@@ -10,6 +10,8 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 import { accentColor } from './constants.js'
 
+import PlateIconBadged from './components/PlateIconBadged.js'
+
 import SearchTab from './tabs/SearchTab.js'
 import FridgeTab from './tabs/FridgeTab.js'
 import FeedTab from './tabs/FeedTab.js'
@@ -63,7 +65,8 @@ const NormalNavigator = () => (
       name='plate'
       options={{
         title: 'Тарелка',
-        tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='room-service' size={size} color={color} />
+        tabBarIcon: PlateIconBadged
+        // tabBarIcon: ({ focused, color, size }) => <MaterialIcons name='room-service' size={size} color={color} />
       }}
       component={PlateTab}
     />

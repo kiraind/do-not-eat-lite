@@ -22,7 +22,7 @@ const THROW = 1
 const ACQUIRE = 2
 
 const ActionString = [
-  'Съесть',
+  'Наложить',
   'Выбросить',
   'Приобрести'
 ]
@@ -52,6 +52,14 @@ const MealActions = ({
   const [amount, setAmount] = useState('')
   const parsedAmount = parseFloat(amount.replace(',', '.'))
   const [amountFocused, setAmountFocused] = useState(false)
+
+  const handleSubmit = () => {
+    if (actionHandlers[action]) {
+      actionHandlers[action](parsedAmount)
+    }
+    setAmount('')
+    setAction(null)
+  }
 
   return (
     <KeyboardAvoidingView style={styles.body}>
@@ -106,7 +114,7 @@ const MealActions = ({
                 color: action === EAT ? accentColor : iconColor
               }}
             >
-              Съесть
+              Наложить
             </Text>
           </View>
         </TouchableOpacity>
@@ -140,7 +148,7 @@ const MealActions = ({
             title={ActionString[action]}
             disabled={isNaN(parsedAmount)}
             color={accentColor}
-            onPress={() => actionHandlers[action] && actionHandlers[action](parsedAmount)}
+            onPress={handleSubmit}
           />
         </View>
       )}

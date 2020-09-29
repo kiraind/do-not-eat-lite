@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Button, StyleSheet, Text, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
+import { connect } from 'react-redux'
+
+import { enplateMeal } from '../store/actions.js'
 
 import { accentColor, backgroundColor, secondaryTextColor } from '../constants.js'
 
@@ -11,7 +14,12 @@ import MealActions from '../components/MealActions.js'
 import Product from '../models/Product.js'
 import { ScrollView } from 'react-native-gesture-handler'
 
-const ScanResultScreen = ({ route, navigation }) => {
+const ScanResultScreen = ({
+  route,
+  navigation,
+
+  enplateMeal
+}) => {
   const { barcode } = route.params
 
   const [loading, setLoading] = useState(true)
@@ -50,7 +58,7 @@ const ScanResultScreen = ({ route, navigation }) => {
             </ScrollView>
             <MealActions
               item={product}
-              onEat={() => console.log('eat')}
+              onEat={amount => enplateMeal(product, amount)}
               onThrow={() => console.log('throw')}
               onAcquire={() => console.log('aquire')}
             />
@@ -118,4 +126,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ScanResultScreen
+const mapDispatchToProps = {
+  enplateMeal
+}
+
+export default connect(null, mapDispatchToProps)(ScanResultScreen)

@@ -180,4 +180,8 @@ export class ProductItem extends Product {
 
     this.amount = amount
   }
+
+  merge (other) {
+    return new ProductItem(this, this.amount + other.amount)
+  }
 }

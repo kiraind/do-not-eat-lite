@@ -56,4 +56,8 @@ export class MealItem extends Meal {
 
     this.amount = amount
   }
+
+  merge (other) {
+    return new MealItem(this, this.amount + other.amount)
+  }
 }

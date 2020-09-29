@@ -4,14 +4,20 @@ import {
   Text,
   StyleSheet
 } from 'react-native'
+import { connect } from 'react-redux'
+
 import { secondaryTextColor } from '../constants.js'
 import * as MeasureUnit from '../models/MeasureUnit.js'
+import { ProductItem } from '../models/Product.js'
 
-const ProductPage = ({ product }) => {
+const ProductPage = ({ product, plate }) => {
+  const inPlate = plate.find(item => (item instanceof ProductItem) && item.id === product.id)
+
   return (
     <View style={styles.body}>
       <Text style={styles.title}>{product.title} <Text style={styles.batchAmount}>{product.readableBatchAmount}</Text></Text>
 
+      {inPlate && (<Text style={styles.info}>В тарелке: {inPlate.amount} {product.measureUnitString}</Text>)}
       <Text style={styles.info}>Штрихкод: {product.barcode}</Text>
       <Text style={styles.info}>У вас есть: {product.readableLeftAmount}</Text>
       {product.measureUnit !== MeasureUnit.GRAMS && (
@@ -48,4 +54,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ProductPage
+const mapStateToProps = state => ({
+  plate: state.plate
+})
+
+export default connect(mapStateToProps)(ProductPage)
