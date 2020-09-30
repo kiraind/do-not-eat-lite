@@ -6,7 +6,7 @@ import {
 
 import TabNavigationContext from './TabNavigationContext.js'
 
-import Settings from '../screens/Settings.js'
+import SettingsScreen from '../screens/SettingsScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -22,7 +22,7 @@ const SettingsTab = ({ navigation }) => (
         options={{
           headerTitle: 'Настройки'
         }}
-        component={Settings}
+        component={SettingsScreen}
       />
     </Stack.Navigator>
   </TabNavigationContext.Provider>

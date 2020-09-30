@@ -21,7 +21,7 @@ import {
   completeOnboarding
 } from '../store/actions.js'
 
-const Settings = ({
+const SettingsScreen = ({
   route,
 
   currentName,
@@ -192,4 +192,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ saveSettings, completeOnboarding }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen)

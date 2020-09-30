@@ -27,7 +27,7 @@ const ActionString = [
   'Приобрести'
 ]
 
-const MealActions = ({
+const ProductActions = ({
   item,
 
   onEat,
@@ -204,4 +204,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default MealActions
+export default ProductActions

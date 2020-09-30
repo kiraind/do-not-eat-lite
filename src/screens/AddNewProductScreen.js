@@ -23,7 +23,7 @@ import {
 import * as MeasureUnit from '../models/MeasureUnit.js'
 import Product from '../models/Product.js'
 
-const AddNewProduct = ({ navigation, route }) => {
+const AddNewProductScreen = ({ navigation, route }) => {
   // data
   const barcodePreset = !!route.params?.barcode
   const [barcode, setBarcode] = useState(barcodePreset ? route.params.barcode : '')
@@ -318,4 +318,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default AddNewProduct
+export default AddNewProductScreen

@@ -9,7 +9,7 @@ import TabNavigationContext from './TabNavigationContext.js'
 import FeedScreen from '../screens/FeedScreen.js'
 import ScannerScreen from '../screens/ScannerScreen.js'
 import ScanResultScreen from '../screens/ScanResultScreen.js'
-import AddNewProduct from '../screens/AddNewProduct.js'
+import AddNewProductScreen from '../screens/AddNewProductScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -42,7 +42,7 @@ const FeedTab = ({ navigation }) => (
       <Stack.Screen
         name='addNewProduct'
         options={{ title: 'Добавить продукт' }}
-        component={AddNewProduct}
+        component={AddNewProductScreen}
       />
     </Stack.Navigator>
   </TabNavigationContext.Provider>

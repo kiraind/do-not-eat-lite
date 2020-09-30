@@ -9,7 +9,7 @@ import { accentColor, backgroundColor, secondaryTextColor } from '../constants.j
 
 import BarcodeDisplay from '../components/BarcodeDisplay.js'
 import ProductPage from '../components/ProductPage.js'
-import MealActions from '../components/MealActions.js'
+import ProductActions from '../components/ProductActions.js'
 
 import { ScrollView } from 'react-native-gesture-handler'
 
@@ -62,7 +62,7 @@ const ScanResultScreen = ({
                 <ProductPage product={product} />
               </View>
             </ScrollView>
-            <MealActions
+            <ProductActions
               item={product}
               onEat={amount => enplateMeal(product, amount)}
               onThrow={amount => acquireProduct(product, -amount)}
