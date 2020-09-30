@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import {
   View,
   Text,
-  StyleSheet, Dimensions, ActivityIndicator
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+  TouchableNativeFeedback
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
@@ -29,6 +32,8 @@ const GOOD = 1
 const BAD = 2
 
 const FeedScreen = ({
+  navigation,
+
   loadEatings,
 
   name,
@@ -139,38 +144,61 @@ const FeedScreen = ({
           )}
         </View>
         <View style={styles.ui}>
-          <View style={styles.uiButton}>
-            <MaterialIcons
-              name='local-mall'
-              size={24}
-              color={iconColor}
-            />
-            <Text style={styles.uiButtonText}>Добавить продукт</Text>
-          </View>
-          <View style={styles.uiButton}>
-            <MaterialCommunityIcons
-              name='microwave'
-              size={24}
-              color={iconColor}
-            />
-            <Text style={styles.uiButtonText}>Приготовить блюдо</Text>
-          </View>
-          <View style={styles.uiButton}>
-            <MaterialIcons
-              name='receipt'
-              size={24}
-              color={iconColor}
-            />
-            <Text style={styles.uiButtonText}>Добавить рецепт</Text>
-          </View>
-          <View style={styles.uiButton}>
-            <MaterialIcons
-              name='crop-free'
-              size={24}
-              color={iconColor}
-            />
-            <Text style={styles.uiButtonText}>Сканировать код</Text>
-          </View>
+          <TouchableNativeFeedback
+            onPress={() => navigation.navigate('addNewProduct')}
+            background={TouchableNativeFeedback.Ripple(backgroundColor)}
+          >
+            <View style={styles.uiButton}>
+              <MaterialIcons
+                name='local-mall'
+                size={24}
+                color={iconColor}
+              />
+              <Text style={styles.uiButtonText}>Пополнить продукт</Text>
+            </View>
+          </TouchableNativeFeedback>
+
+          <TouchableNativeFeedback
+            onPress={() => console.log('make meal')}
+            background={TouchableNativeFeedback.Ripple(backgroundColor)}
+          >
+            <View style={styles.uiButton}>
+              <MaterialCommunityIcons
+                name='microwave'
+                size={24}
+                color={iconColor}
+              />
+              <Text style={styles.uiButtonText}>Приготовить блюдо</Text>
+            </View>
+          </TouchableNativeFeedback>
+
+          <TouchableNativeFeedback
+            onPress={() => console.log('add recipe')}
+            background={TouchableNativeFeedback.Ripple(backgroundColor)}
+          >
+            <View style={styles.uiButton}>
+              <MaterialIcons
+                name='receipt'
+                size={24}
+                color={iconColor}
+              />
+              <Text style={styles.uiButtonText}>Добавить рецепт</Text>
+            </View>
+          </TouchableNativeFeedback>
+
+          <TouchableNativeFeedback
+            onPress={() => navigation.navigate('scanner')}
+            background={TouchableNativeFeedback.Ripple(backgroundColor)}
+          >
+            <View style={styles.uiButton}>
+              <MaterialIcons
+                name='crop-free'
+                size={24}
+                color={iconColor}
+              />
+              <Text style={styles.uiButtonText}>Сканировать код</Text>
+            </View>
+          </TouchableNativeFeedback>
         </View>
         {feedItems}
       </View>
@@ -250,7 +278,8 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    width: (Dimensions.get('window').width - 3 * 16) / 2
+    width: (Dimensions.get('window').width - 3 * 16) / 2,
+    overflow: 'hidden'
   },
   uiButtonText: {
     color: iconColor

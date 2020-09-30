@@ -6,7 +6,6 @@ import {
 
 import TabNavigationContext from './TabNavigationContext.js'
 
-import PlaceholderScreen from '../screens/PlaceholderScreen.js'
 import ScannerScreen from '../screens/ScannerScreen.js'
 import ScanResultScreen from '../screens/ScanResultScreen.js'
 import AddNewProduct from '../screens/AddNewProduct.js'

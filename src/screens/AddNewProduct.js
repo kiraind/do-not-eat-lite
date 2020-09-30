@@ -25,7 +25,7 @@ import Product from '../models/Product.js'
 
 const AddNewProduct = ({ navigation, route }) => {
   // data
-  const barcodePreset = !!route.params.barcode
+  const barcodePreset = !!route.params?.barcode
   const [barcode, setBarcode] = useState(barcodePreset ? route.params.barcode : '')
 
   const [title, setTitle] = useState('')
@@ -69,7 +69,9 @@ const AddNewProduct = ({ navigation, route }) => {
     )
 
     setLoading(false)
-    navigation.pop()
+    if (barcodePreset) {
+      navigation.pop()
+    }
     navigation.replace('scannedResult', {
       barcode
     })
@@ -80,6 +82,7 @@ const AddNewProduct = ({ navigation, route }) => {
       <ScrollView>
         <Text style={styles.label}>Штрих-код</Text>
         <TextInput
+          keyboardType='number-pad'
           style={{
             ...styles.textInput,
 
