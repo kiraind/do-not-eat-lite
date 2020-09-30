@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { accentColor, backgroundColor } from '../constants.js'
 import { loadFrigde } from '../store/actions.js'
 
-import MealItemAdapter from '../components/MealItemAdapter.js'
+import FrigdeItemAdapter from '../components/FrigdeItemAdapter.js'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const FrigdeScreen = ({
@@ -34,7 +34,7 @@ const FrigdeScreen = ({
         <ScrollView style={styles.body}>
 
           {fridge.map(
-            item => <MealItemAdapter key={item.id} meal={item} />
+            item => <FrigdeItemAdapter key={item.id} meal={item} />
           )}
         </ScrollView>
       )}

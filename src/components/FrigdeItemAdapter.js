@@ -1,28 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   View,
   Text,
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } from 'react-native'
 
 import {
   accentColor,
   backgroundDepthColor,
-  errorColor,
   primaryTextColor,
   secondaryTextColor
 } from '../constants.js'
-import toReadableNumber from '../utils/toReadableNumber.js'
+
 import LightButton from './LightButton.js'
 
-export const ProductItemAdapter = ({ product }) => {
-  const [titleWidthDelta, setTitleWidthDelta] = useState(105)
-
-  const adjustTitleWidth = e => {
-    setTitleWidthDelta(e.nativeEvent.layout.width)
-  }
-
+const FrigdeItemAdapter = ({ meal }) => {
   return (
     <View style={styles.body}>
       <View style={styles.leftSide}>
@@ -30,24 +22,20 @@ export const ProductItemAdapter = ({ product }) => {
           <Text
             numberOfLines={1}
             ellipsizeMode='tail'
-            style={{
-              ...styles.title,
-              maxWidth: Dimensions.get('window').width - 16 * 4 - 2 * 2 - 80 - titleWidthDelta
-            }}
+            style={styles.title}
           >
-            {product.title}
+            {meal.title}
           </Text>
-          <Text style={styles.amount} onLayout={adjustTitleWidth}> — {product.readableAmount}</Text>
         </View>
         <View style={styles.ui}>
           <LightButton
-            title='Доложить'
+            title='В тарелку'
             color={accentColor}
           />
-          <LightButton
-            title='Убрать'
+          {/* <LightButton
+            title='Выбросить'
             color={errorColor}
-          />
+          /> */}
           <LightButton
             title='Подробнее'
             color={secondaryTextColor}
@@ -55,16 +43,8 @@ export const ProductItemAdapter = ({ product }) => {
         </View>
       </View>
       <View style={styles.caloriesContainer}>
-        <Text style={styles.calories}>{toReadableNumber(product.toCalories(product.amount))} ккал</Text>
+        <Text style={styles.calories}>{meal.readableLeftAmount}</Text>
       </View>
-    </View>
-  )
-}
-
-export const MealItemAdapter = ({ meal, last }) => {
-  return (
-    <View style={styles.body}>
-      <Text>Todo</Text>
     </View>
   )
 }
@@ -104,3 +84,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   }
 })
+
+export default FrigdeItemAdapter

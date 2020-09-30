@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native'
 
 import {
@@ -12,10 +13,16 @@ import {
   primaryTextColor,
   secondaryTextColor
 } from '../constants.js'
-
+import toReadableNumber from '../utils/toReadableNumber.js'
 import LightButton from './LightButton.js'
 
-const MealItemAdapter = ({ meal }) => {
+const PlateItemAdapter = ({ item }) => {
+  const [titleWidthDelta, setTitleWidthDelta] = useState(105)
+
+  const adjustTitleWidth = e => {
+    setTitleWidthDelta(e.nativeEvent.layout.width)
+  }
+
   return (
     <View style={styles.body}>
       <View style={styles.leftSide}>
@@ -23,20 +30,24 @@ const MealItemAdapter = ({ meal }) => {
           <Text
             numberOfLines={1}
             ellipsizeMode='tail'
-            style={styles.title}
+            style={{
+              ...styles.title,
+              maxWidth: Dimensions.get('window').width - 16 * 4 - 2 * 2 - 80 - titleWidthDelta
+            }}
           >
-            {meal.title}
+            {item.title}
           </Text>
+          <Text style={styles.amount} onLayout={adjustTitleWidth}> — {item.readableAmount}</Text>
         </View>
         <View style={styles.ui}>
           <LightButton
-            title='В тарелку'
+            title='Доложить'
             color={accentColor}
           />
-          {/* <LightButton
-            title='Выбросить'
+          <LightButton
+            title='Убрать'
             color={errorColor}
-          /> */}
+          />
           <LightButton
             title='Подробнее'
             color={secondaryTextColor}
@@ -44,7 +55,7 @@ const MealItemAdapter = ({ meal }) => {
         </View>
       </View>
       <View style={styles.caloriesContainer}>
-        <Text style={styles.calories}>{meal.readableLeftAmount}</Text>
+        <Text style={styles.calories}>{toReadableNumber(item.toCalories(item.amount))} ккал</Text>
       </View>
     </View>
   )
@@ -86,4 +97,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default MealItemAdapter
+export default PlateItemAdapter

@@ -20,7 +20,7 @@ import {
 import toReadableNumber from '../utils/toReadableNumber.js'
 import { ProductItem } from '../models/Product.js'
 
-import { ProductItemAdapter, MealItemAdapter } from '../components/PlateItemAdapters.js'
+import PlateItemAdapter from '../components/PlateItemAdapter.js'
 
 const PlateScreen = ({ plate, eatPlate }) => {
   const tabNavigation = useContext(TabNavigationContext)
@@ -46,18 +46,10 @@ const PlateScreen = ({ plate, eatPlate }) => {
   )
 
   const items = plate.map((item, i) => (
-    item instanceof ProductItem
-      ? (
-        <ProductItemAdapter
-          key={item.id}
-          product={item}
-        />
-      ) : (
-        <MealItemAdapter
-          key={-item.id}
-          product={item}
-        />
-      )
+    <PlateItemAdapter
+      key={item instanceof ProductItem ? item.id : -item.id}
+      item={item}
+    />
   ))
 
   const handleEat = async () => {
