@@ -9,3 +9,4 @@ export const errorColor = '#eb4242'
 export const defaultTargetCalories = 2200
 export const targetCaloriesMax = 3000
 export const targetCaloriesMin = 1000
+export const snackTreshold = defaultTargetCalories / 10

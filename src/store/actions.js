@@ -6,6 +6,7 @@ import { init as initDatabase, connection as db } from '../database/index.js'
 import Eating from '../models/Eating.js'
 import Meal, { MealItem } from '../models/Meal.js'
 import Product, { ProductItem } from '../models/Product.js'
+import * as EatingLabel from '../models/EatingLabel.js'
 
 export const HYDRATE = 0
 export const COMPLETE_ONBOARDING = 1
@@ -128,7 +129,7 @@ export function eatPlate () {
         new Date(),
         latitude,
         longitude,
-        0
+        EatingLabel.getCurrent(plate)
       )
 
       for (const item of plate) {
