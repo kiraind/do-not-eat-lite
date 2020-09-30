@@ -14,9 +14,9 @@ export const SAVE_SETTINGS = 2
 export const REGISTER_PRODUCT = 3
 export const ENPLATE_MEAL = 4
 export const LOAD_PRODUCT = 5
-export const THROW_MEAL = 6
-export const EAT_PLATE = 7
-export const LOAD_EATINGS = 8
+export const EAT_PLATE = 6
+export const LOAD_EATINGS = 7
+export const LOAD_FRIDGE = 8
 
 export function completeOnboarding () {
   return async dispatch => {
@@ -177,5 +177,13 @@ export function loadProduct ({ barcode }) {
     }
 
     return product
+  }
+}
+
+export function loadFrigde () {
+  return async dispatch => {
+    const meals = await Meal.getFromFridge()
+
+    dispatch({ type: LOAD_FRIDGE, payload: meals })
   }
 }

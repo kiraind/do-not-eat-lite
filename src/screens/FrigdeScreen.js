@@ -1,24 +1,69 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator
 } from 'react-native'
-import { backgroundColor } from '../constants'
+import { connect } from 'react-redux'
 
-const FrigdeScreen = () => {
+import { accentColor, backgroundColor } from '../constants.js'
+import { loadFrigde } from '../store/actions.js'
+
+import MealItemAdapter from '../components/MealItemAdapter.js'
+import { ScrollView } from 'react-native-gesture-handler'
+
+const FrigdeScreen = ({
+  fridge,
+
+  loadFrigde
+}) => {
+  useEffect(() => {
+    (async () => {
+      await loadFrigde()
+    })()
+  }, [])
+
   return (
-    <View style={styles.body}>
-      <Text>Hello, World</Text>
+    <View style={styles.root}>
+      {fridge === null ? (
+        <View style={styles.loading}>
+          <ActivityIndicator size='large' color={accentColor} />
+        </View>
+      ) : (
+        <ScrollView style={styles.body}>
+
+          {fridge.map(
+            item => <MealItemAdapter key={item.id} meal={item} />
+          )}
+        </ScrollView>
+      )}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  body: {
+  root: {
     flex: 1,
     backgroundColor
+  },
+  body: {
+    flex: 1,
+    padding: 16
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
 
-export default FrigdeScreen
+const mapStateToProps = state => ({
+  fridge: state.fridge
+})
+
+const mapDispatchToProps = {
+  loadFrigde
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FrigdeScreen)

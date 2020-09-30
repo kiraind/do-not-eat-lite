@@ -48,7 +48,7 @@ export default class Meal extends Item {
   }
 
   async loadProducts () {
-    const res = db.execute(sql`
+    const res = await db.execute(sql`
       SELECT
         id,
 
@@ -95,7 +95,7 @@ export default class Meal extends Item {
   }
 
   static async getFromFridge () {
-    const res = db.execute(sql`
+    const res = await db.execute(sql`
       SELECT *
       FROM Meals
       WHERE leftAmount > 0;

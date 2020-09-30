@@ -71,7 +71,6 @@ export const MealItemAdapter = ({ meal, last }) => {
 
 const styles = StyleSheet.create({
   body: {
-    flex: 1,
     borderColor: backgroundDepthColor,
     flexDirection: 'row',
     borderWidth: 2,

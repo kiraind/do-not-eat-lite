@@ -8,16 +8,14 @@ import {
 import {
   accentColor,
   backgroundDepthColor,
+  errorColor,
   primaryTextColor,
   secondaryTextColor
 } from '../constants.js'
-import toReadableNumber from '../utils/toReadableNumber.js'
-import * as EatingLabel from '../models/EatingLabel.js'
 
 import LightButton from './LightButton.js'
-import toReadableTime from '../utils/toReadableTime.js'
 
-const FeedItemAdapter = ({ eating }) => {
+const MealItemAdapter = ({ meal }) => {
   return (
     <View style={styles.body}>
       <View style={styles.leftSide}>
@@ -27,19 +25,26 @@ const FeedItemAdapter = ({ eating }) => {
             ellipsizeMode='tail'
             style={styles.title}
           >
-            {EatingLabel.String[eating.label]}
+            {meal.title}
           </Text>
-          <Text style={styles.date}> в {toReadableTime(eating.date)}</Text>
         </View>
         <View style={styles.ui}>
           <LightButton
-            title='Подробнее'
+            title='В тарелку'
             color={accentColor}
+          />
+          {/* <LightButton
+            title='Выбросить'
+            color={errorColor}
+          /> */}
+          <LightButton
+            title='Подробнее'
+            color={secondaryTextColor}
           />
         </View>
       </View>
       <View style={styles.caloriesContainer}>
-        <Text style={styles.calories}>{toReadableNumber(eating.kcal)} ккал</Text>
+        <Text style={styles.calories}>{meal.readableLeftAmount}</Text>
       </View>
     </View>
   )
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16
   },
-  date: {
+  amount: {
     fontSize: 16,
     color: secondaryTextColor
   },
@@ -81,4 +86,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default FeedItemAdapter
+export default MealItemAdapter

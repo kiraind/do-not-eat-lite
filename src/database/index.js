@@ -136,4 +136,19 @@ export async function init () {
         );
     END;
   `)
+
+  // Trigger for updating amount of raw-product-meals
+  await connection.execute(sql`
+    CREATE TRIGGER auto_product_sync AFTER UPDATE 
+    ON Products
+    BEGIN
+      UPDATE Meals
+      SET
+        leftAmount = new.leftAmount
+      WHERE
+        Meals.id = (
+          SELECT mealId FROM MealIncludesProduct WHERE productId = new.id AND part = 1
+        );
+    END;
+  `)
 }
