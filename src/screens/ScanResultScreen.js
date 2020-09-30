@@ -3,7 +3,7 @@ import { ActivityIndicator, Button, StyleSheet, Text, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { connect } from 'react-redux'
 
-import { enplateMeal } from '../store/actions.js'
+import { enplateMeal, acquireProduct, loadProduct } from '../store/actions.js'
 
 import { accentColor, backgroundColor, secondaryTextColor } from '../constants.js'
 
@@ -11,23 +11,29 @@ import BarcodeDisplay from '../components/BarcodeDisplay.js'
 import ProductPage from '../components/ProductPage.js'
 import MealActions from '../components/MealActions.js'
 
-import Product from '../models/Product.js'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const ScanResultScreen = ({
   route,
   navigation,
 
-  enplateMeal
+  enplateMeal,
+  acquireProduct,
+  loadProduct,
+
+  products
 }) => {
   const { barcode } = route.params
 
   const [loading, setLoading] = useState(true)
-  const [product, setProduct] = useState(null)
+  const [productId, setProductId] = useState(null)
+  const product = products[productId]
 
   useEffect(() => {
     (async () => {
-      setProduct(await Product.getByBarcode(barcode))
+      const product = await loadProduct({ barcode })
+
+      setProductId(product !== null ? product.id : -1)
       setLoading(false)
     })()
   }, [])
@@ -59,8 +65,8 @@ const ScanResultScreen = ({
             <MealActions
               item={product}
               onEat={amount => enplateMeal(product, amount)}
-              onThrow={() => console.log('throw')}
-              onAcquire={() => console.log('aquire')}
+              onThrow={amount => acquireProduct(product, -amount)}
+              onAcquire={amount => acquireProduct(product, amount)}
             />
           </>
         ) : (
@@ -126,8 +132,14 @@ const styles = StyleSheet.create({
   }
 })
 
+const mapStateToProps = state => ({
+  products: state.products
+})
+
 const mapDispatchToProps = {
-  enplateMeal
+  enplateMeal,
+  acquireProduct,
+  loadProduct
 }
 
-export default connect(null, mapDispatchToProps)(ScanResultScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(ScanResultScreen)

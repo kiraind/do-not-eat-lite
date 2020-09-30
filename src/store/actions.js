@@ -13,7 +13,7 @@ export const COMPLETE_ONBOARDING = 1
 export const SAVE_SETTINGS = 2
 export const REGISTER_PRODUCT = 3
 export const ENPLATE_MEAL = 4
-export const ACQUIRE_MEAL = 5
+export const LOAD_PRODUCT = 5
 export const THROW_MEAL = 6
 export const EAT_PLATE = 7
 export const LOAD_EATINGS = 8
@@ -155,5 +155,27 @@ export function loadEatings (count, offset = 0) {
     const eatings = await Eating.getRecent(count, offset)
 
     dispatch({ type: LOAD_EATINGS, payload: eatings })
+  }
+}
+
+export function acquireProduct (product, amount) {
+  return async dispatch => {
+    const updated = await product.acquire(amount)
+
+    dispatch({ type: LOAD_PRODUCT, payload: updated })
+
+    return updated
+  }
+}
+
+export function loadProduct ({ barcode }) {
+  return async dispatch => {
+    const product = await Product.getByBarcode(barcode)
+
+    if (product !== null) {
+      dispatch({ type: LOAD_PRODUCT, payload: product })
+    }
+
+    return product
   }
 }

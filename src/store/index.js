@@ -11,7 +11,8 @@ import {
   SAVE_SETTINGS,
   ENPLATE_MEAL,
   EAT_PLATE,
-  LOAD_EATINGS
+  LOAD_EATINGS,
+  LOAD_PRODUCT
 } from './actions.js'
 
 const defaultState = {
@@ -23,7 +24,8 @@ const defaultState = {
   logLocation: true,
 
   plate: [],
-  eatings: null
+  eatings: null,
+  products: {} // cache
 }
 
 function mainReducer (state = defaultState, action) {
@@ -88,6 +90,14 @@ function mainReducer (state = defaultState, action) {
             ...state.eatings,
             ...payload
           ]
+    }
+  } else if (type === LOAD_PRODUCT) {
+    return {
+      ...state,
+      products: {
+        ...state.products,
+        [payload.id]: payload
+      }
     }
   } else {
     return state

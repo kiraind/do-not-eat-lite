@@ -39,6 +39,25 @@ export default class Product extends Item {
     this.leftAmount = leftAmount
   }
 
+  copy () {
+    return new Product(
+      this.id,
+
+      this.title,
+      this.barcode,
+      this.batchAmount,
+      this.measureUnit,
+      this.density,
+
+      this.specificEnergy,
+      this.proteinsPct,
+      this.fatsPct,
+      this.carbohydratesPct,
+
+      this.leftAmount
+    )
+  }
+
   get readableBatchAmount () {
     if (this.batchAmount > 1000) {
       return toReadableNumber(this.batchAmount / 1000) + '\u00A0' + // nbsp
@@ -47,6 +66,21 @@ export default class Product extends Item {
       return toReadableNumber(this.batchAmount) + '\u00A0' + // nbsp
       MeasureUnitString[this.measureUnit]
     }
+  }
+
+  async acquire (amount) {
+    const finalAmount = Math.max(this.leftAmount + amount, 0)
+
+    await db.execute(sql`
+      UPDATE Products
+      SET leftAmount = ${finalAmount}
+      WHERE id = ${this.id}
+    `)
+
+    const updated = this.copy()
+    updated.leftAmount = finalAmount
+
+    return updated
   }
 
   static async getByBarcode (barcode) {
