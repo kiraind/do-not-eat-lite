@@ -13,7 +13,7 @@ import ProductActions from '../components/ProductActions.js'
 
 import { ScrollView } from 'react-native-gesture-handler'
 
-const ScanResultScreen = ({
+const ProductViewScreen = ({
   route,
   navigation,
 
@@ -142,4 +142,4 @@ const mapDispatchToProps = {
   loadProduct
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ScanResultScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(ProductViewScreen)

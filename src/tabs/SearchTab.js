@@ -7,7 +7,7 @@ import {
 import TabNavigationContext from './TabNavigationContext.js'
 
 import ScannerScreen from '../screens/ScannerScreen.js'
-import ScanResultScreen from '../screens/ScanResultScreen.js'
+import ProductViewScreen from '../screens/ProductViewScreen.js'
 import AddNewProductScreen from '../screens/AddNewProductScreen.js'
 
 const Stack = createStackNavigator()
@@ -29,7 +29,7 @@ const SearchTab = ({ navigation }) => (
       <Stack.Screen
         name='scannedResult'
         options={({ route }) => ({ title: route.params.barcode })}
-        component={ScanResultScreen}
+        component={ProductViewScreen}
       />
       <Stack.Screen
         name='addNewProduct'

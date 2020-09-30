@@ -3,17 +3,21 @@ import {
   View,
   Text,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableNativeFeedback, Dimensions
 } from 'react-native'
 import { connect } from 'react-redux'
+import { ScrollView } from 'react-native-gesture-handler'
+import { MaterialIcons } from '@expo/vector-icons'
 
-import { accentColor, backgroundColor } from '../constants.js'
+import { accentColor, backgroundColor, backgroundDepthColor, iconColor, secondaryTextColor } from '../constants.js'
 import { loadFrigde } from '../store/actions.js'
 
 import FrigdeItemAdapter from '../components/FrigdeItemAdapter.js'
-import { ScrollView } from 'react-native-gesture-handler'
 
 const FrigdeScreen = ({
+  navigation,
+
   fridge,
 
   loadFrigde
@@ -32,6 +36,48 @@ const FrigdeScreen = ({
         </View>
       ) : (
         <ScrollView style={styles.body}>
+          <View style={styles.ui}>
+            <TouchableNativeFeedback
+              onPress={() => navigation.navigate('addNewProduct')}
+              background={TouchableNativeFeedback.Ripple(backgroundColor)}
+            >
+              <View style={styles.uiButton}>
+                <MaterialIcons
+                  name='add'
+                  size={24}
+                  color={iconColor}
+                />
+                <Text style={styles.uiButtonText}>Добавить продукт</Text>
+              </View>
+            </TouchableNativeFeedback>
+
+            <TouchableNativeFeedback
+              onPress={() => console.log('add recipe')}
+              background={TouchableNativeFeedback.Ripple(backgroundColor)}
+            >
+              <View style={styles.uiButton}>
+                <MaterialIcons
+                  name='receipt'
+                  size={24}
+                  color={iconColor}
+                />
+                <Text style={styles.uiButtonText}>Добавить рецепт</Text>
+              </View>
+            </TouchableNativeFeedback>
+          </View>
+
+          <View
+            style={{
+              marginBottom: 5
+            }}
+          >
+            <Text
+              style={{
+                color: secondaryTextColor
+              }}
+            >В наличии:
+            </Text>
+          </View>
 
           {fridge.map(
             item => <FrigdeItemAdapter key={item.id} meal={item} />
@@ -55,6 +101,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  ui: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap'
+  },
+  uiButton: {
+    marginBottom: 16,
+    backgroundColor: backgroundDepthColor,
+    borderRadius: 8,
+    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: (Dimensions.get('window').width - 3 * 16) / 2,
+    overflow: 'hidden'
+  },
+  uiButtonText: {
+    color: iconColor
   }
 })
 

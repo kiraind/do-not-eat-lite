@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/stack'
 
 import OnboardingScreen from '../screens/OnboardingScreen.js'
-import Settings from '../screens/Settings.js'
+import SettingsScreen from '../screens/SettingsScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -27,7 +27,7 @@ const WelcomeNavigator = () => (
       options={{
         headerTitle: 'Настройки'
       }}
-      component={Settings}
+      component={SettingsScreen}
     />
   </Stack.Navigator>
 )

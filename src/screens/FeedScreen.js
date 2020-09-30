@@ -145,20 +145,6 @@ const FeedScreen = ({
         </View>
         <View style={styles.ui}>
           <TouchableNativeFeedback
-            onPress={() => navigation.navigate('addNewProduct')}
-            background={TouchableNativeFeedback.Ripple(backgroundColor)}
-          >
-            <View style={styles.uiButton}>
-              <MaterialIcons
-                name='local-mall'
-                size={24}
-                color={iconColor}
-              />
-              <Text style={styles.uiButtonText}>Купить продукт</Text>
-            </View>
-          </TouchableNativeFeedback>
-
-          <TouchableNativeFeedback
             onPress={() => console.log('make meal')}
             background={TouchableNativeFeedback.Ripple(backgroundColor)}
           >
@@ -169,20 +155,6 @@ const FeedScreen = ({
                 color={iconColor}
               />
               <Text style={styles.uiButtonText}>Приготовить блюдо</Text>
-            </View>
-          </TouchableNativeFeedback>
-
-          <TouchableNativeFeedback
-            onPress={() => console.log('add recipe')}
-            background={TouchableNativeFeedback.Ripple(backgroundColor)}
-          >
-            <View style={styles.uiButton}>
-              <MaterialIcons
-                name='receipt'
-                size={24}
-                color={iconColor}
-              />
-              <Text style={styles.uiButtonText}>Добавить рецепт</Text>
             </View>
           </TouchableNativeFeedback>
 
