@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native'
 
 import * as Location from 'expo-location'
 
-import { init as initDatabase } from '../database/index.js'
+import { init as initDatabase, connection as db } from '../database/index.js'
 import Eating from '../models/Eating.js'
 import Meal, { MealItem } from '../models/Meal.js'
 import Product, { ProductItem } from '../models/Product.js'
@@ -121,17 +121,26 @@ export function eatPlate () {
       longitude = coords.longitude
     }
 
-    const eating = await Eating.registerNew(
-      new Date(),
-      latitude,
-      longitude,
-      0
-    )
+    try {
+      await db.beginTransaction()
 
-    for (const item of plate) {
-      await item.pushToEating(eating.id)
+      const eating = await Eating.registerNew(
+        new Date(),
+        latitude,
+        longitude,
+        0
+      )
+
+      for (const item of plate) {
+        await item.pushToEating(eating.id)
+      }
+
+      dispatch({ type: EAT_PLATE })
+    } catch (e) {
+      await db.rollbackTransaction()
+      throw e
+    } finally {
+      await db.commitTransaction()
     }
-
-    dispatch({ type: EAT_PLATE })
   }
 }
