@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {
   View,
   Text,
-  StyleSheet, Dimensions
+  StyleSheet, Dimensions, ActivityIndicator
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
@@ -14,6 +14,7 @@ import {
   backgroundDepthColor,
   daysInMs,
   iconColor,
+  monthGenitive,
   primaryTextColor,
   secondaryTextColor
 } from '../constants.js'
@@ -21,6 +22,7 @@ import {
 import { loadEatings } from '../store/actions.js'
 import toReadableNumber from '../utils/toReadableNumber.js'
 import * as EatingLabel from '../models/EatingLabel.js'
+import FeedItemAdapter from '../components/FeedItemAdapter.js'
 
 const NONE = 0
 const GOOD = 1
@@ -67,6 +69,35 @@ const FeedScreen = ({
         : eatenToday > target
           ? BAD
           : GOOD
+
+  // render
+  const feedItems = []
+
+  if (loading) {
+    feedItems.push(
+      <View key='loading' style={styles.loadingContainer}>
+        <ActivityIndicator color={accentColor} size='large' />
+      </View>
+    )
+  } else {
+    let currDay
+
+    for (const eating of eatings) {
+      const day = eating.date.toISOString().split('T')[0]
+
+      if (day !== currDay) {
+        currDay = day
+
+        feedItems.push(
+          <DayLabel key={day} date={day} />
+        )
+      }
+
+      feedItems.push(
+        <FeedItemAdapter key={eating.id} eating={eating} />
+      )
+    }
+  }
 
   return (
     <ScrollView style={styles.root}>
@@ -141,6 +172,7 @@ const FeedScreen = ({
             <Text style={styles.uiButtonText}>Сканировать код</Text>
           </View>
         </View>
+        {feedItems}
       </View>
     </ScrollView>
   )
@@ -208,7 +240,8 @@ const styles = StyleSheet.create({
   ui: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginBottom: 16
   },
   uiButton: {
     marginTop: 16,
@@ -221,6 +254,10 @@ const styles = StyleSheet.create({
   },
   uiButtonText: {
     color: iconColor
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center'
   }
 })
 
@@ -235,3 +272,37 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedScreen)
+
+const DayLabel = ({ date }) => {
+  let displayDay
+
+  const dt = new Date()
+  const today = dt.toISOString().split('T')[0]
+  const yesterday = new Date(dt.valueOf() - 1 - daysInMs).toISOString().split('T')[0]
+
+  if (date === today) {
+    displayDay = 'Сегодня'
+  } else if (date === yesterday) {
+    displayDay = 'Вчера'
+  } else {
+    const [year, month, day] = date.split('-')
+    const [currentYear] = today.split('-')
+
+    displayDay = `${day} ${monthGenitive[+month - 1]}${year !== currentYear ? ` ${year}` : ''}`
+  }
+
+  return (
+    <View
+      style={{
+        marginBottom: 4
+      }}
+    >
+      <Text
+        style={{
+          color: secondaryTextColor
+        }}
+      >{displayDay}
+      </Text>
+    </View>
+  )
+}

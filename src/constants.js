@@ -12,3 +12,18 @@ export const targetCaloriesMin = 1000
 export const snackTreshold = defaultTargetCalories / 10
 
 export const daysInMs = 24 * 60 * 60 * 1000
+
+export const monthGenitive = [
+  'января',
+  'февраля',
+  'марта',
+  'апреля',
+  'мая',
+  'июня',
+  'июля',
+  'августа',
+  'сентября',
+  'октября',
+  'ноября',
+  'декабря'
+]

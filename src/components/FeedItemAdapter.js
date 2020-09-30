@@ -1,28 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   View,
   Text,
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } from 'react-native'
 
 import {
   accentColor,
   backgroundDepthColor,
-  errorColor,
   primaryTextColor,
   secondaryTextColor
 } from '../constants.js'
 import toReadableNumber from '../utils/toReadableNumber.js'
+import * as EatingLabel from '../models/EatingLabel.js'
+
 import LightButton from './LightButton.js'
+import toReadableTime from '../utils/toReadableTime.js'
 
-export const ProductItemAdapter = ({ product }) => {
-  const [titleWidthDelta, setTitleWidthDelta] = useState(105)
-
-  const adjustTitleWidth = e => {
-    setTitleWidthDelta(e.nativeEvent.layout.width)
-  }
-
+const FeedItemAdapter = ({ eating }) => {
   return (
     <View style={styles.body}>
       <View style={styles.leftSide}>
@@ -30,41 +25,22 @@ export const ProductItemAdapter = ({ product }) => {
           <Text
             numberOfLines={1}
             ellipsizeMode='tail'
-            style={{
-              ...styles.title,
-              maxWidth: Dimensions.get('window').width - 16 * 4 - 2 * 2 - 80 - titleWidthDelta
-            }}
+            style={styles.title}
           >
-            {product.title}
+            {EatingLabel.String[eating.label]}
           </Text>
-          <Text style={styles.amount} onLayout={adjustTitleWidth}> — {product.readableAmount}</Text>
+          <Text style={styles.date}> в {toReadableTime(eating.date)}</Text>
         </View>
         <View style={styles.ui}>
           <LightButton
-            title='Доложить'
-            color={accentColor}
-          />
-          <LightButton
-            title='Убрать'
-            color={errorColor}
-          />
-          <LightButton
             title='Подробнее'
-            color={secondaryTextColor}
+            color={accentColor}
           />
         </View>
       </View>
       <View style={styles.caloriesContainer}>
-        <Text style={styles.calories}>{toReadableNumber(product.toCalories(product.amount))} ккал</Text>
+        <Text style={styles.calories}>{toReadableNumber(eating.kcal)} ккал</Text>
       </View>
-    </View>
-  )
-}
-
-export const MealItemAdapter = ({ meal, last }) => {
-  return (
-    <View style={styles.body}>
-      <Text>Todo</Text>
     </View>
   )
 }
@@ -89,7 +65,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16
   },
-  amount: {
+  date: {
     fontSize: 16,
     color: secondaryTextColor
   },
@@ -105,3 +81,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   }
 })
+
+export default FeedItemAdapter
