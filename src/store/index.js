@@ -10,7 +10,8 @@ import {
   COMPLETE_ONBOARDING,
   SAVE_SETTINGS,
   ENPLATE_MEAL,
-  EAT_PLATE
+  EAT_PLATE,
+  LOAD_EATINGS
 } from './actions.js'
 
 const defaultState = {
@@ -21,7 +22,8 @@ const defaultState = {
   targetCalories: defaultTargetCalories,
   logLocation: true,
 
-  plate: []
+  plate: [],
+  eatings: []
 }
 
 function mainReducer (state = defaultState, action) {
@@ -71,6 +73,14 @@ function mainReducer (state = defaultState, action) {
     return {
       ...state,
       plate: []
+    }
+  } else if (type === LOAD_EATINGS) {
+    return {
+      ...state,
+      eatings: [
+        ...state.eatings,
+        ...payload
+      ]
     }
   } else {
     return state

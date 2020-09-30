@@ -16,6 +16,7 @@ export const ENPLATE_MEAL = 4
 export const ACQUIRE_MEAL = 5
 export const THROW_MEAL = 6
 export const EAT_PLATE = 7
+export const LOAD_EATINGS = 8
 
 export function completeOnboarding () {
   return async dispatch => {
@@ -143,5 +144,13 @@ export function eatPlate () {
     } finally {
       await db.commitTransaction()
     }
+  }
+}
+
+export function loadEatings (count, offset = 0) {
+  return async dispatch => {
+    const eatings = await Eating.getRecent(count, offset)
+
+    dispatch({ type: LOAD_EATINGS, payload: eatings })
   }
 }

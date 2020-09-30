@@ -7,6 +7,7 @@ import {
 import TabNavigationContext from './TabNavigationContext.js'
 
 import PlaceholderScreen from '../screens/PlaceholderScreen.js'
+import FeedScreen from '../screens/FeedScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -22,7 +23,7 @@ const FeedTab = ({ navigation }) => (
         options={{
           headerShown: false
         }}
-        component={PlaceholderScreen}
+        component={FeedScreen}
       />
     </Stack.Navigator>
   </TabNavigationContext.Provider>
