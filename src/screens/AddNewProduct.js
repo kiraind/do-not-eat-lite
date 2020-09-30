@@ -57,7 +57,7 @@ const AddNewProduct = ({ navigation, route }) => {
     await Product.registerNew(
       title,
 
-      barcode,
+      barcode || null,
       parseFloat(batchAmount),
       measureUnit,
       measureUnit === MeasureUnit.GRAMS ? 1 : parseFloat(density),
@@ -80,7 +80,7 @@ const AddNewProduct = ({ navigation, route }) => {
   return (
     <View style={styles.body}>
       <ScrollView>
-        <Text style={styles.label}>Штрих-код</Text>
+        <Text style={styles.label}>Штрих-код{barcodePreset ? '' : ' (необязательно)'}</Text>
         <TextInput
           keyboardType='number-pad'
           style={{
@@ -264,7 +264,7 @@ const AddNewProduct = ({ navigation, route }) => {
         <Button
           title='Продолжить'
           disabled={
-            !barcodeValid(barcode) ||
+            (barcode !== '' && !barcodeValid(barcode)) ||
             title === '' ||
             isNaN(parseFloat(batchAmount)) ||
             isNaN(parseFloat(measureUnit)) ||
