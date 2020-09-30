@@ -28,6 +28,17 @@ const FrigdeScreen = ({
     })()
   }, [])
 
+  const viewItem = item => {
+    if (item.isProduct) {
+      navigation.navigate('viewProduct', {
+        id: item.products[0].id,
+        title: item.title
+      })
+    } else {
+      console.log(item)
+    }
+  }
+
   return (
     <View style={styles.root}>
       {fridge === null ? (
@@ -71,7 +82,13 @@ const FrigdeScreen = ({
           </View>
 
           {fridge.filter(item => item.leftAmount > 0).map(
-            item => <FrigdeItemAdapter key={item.id} meal={item} />
+            item => (
+              <FrigdeItemAdapter
+                key={item.id}
+                meal={item}
+                onView={() => viewItem(item)}
+              />
+            )
           )}
 
           <View style={styles.separator}>
@@ -79,7 +96,13 @@ const FrigdeScreen = ({
           </View>
 
           {fridge.filter(item => item.leftAmount === 0).map(
-            item => <FrigdeItemAdapter key={item.id} meal={item} />
+            item => (
+              <FrigdeItemAdapter
+                key={item.id}
+                meal={item}
+                onView={() => viewItem(item)}
+              />
+            )
           )}
         </ScrollView>
       )}
