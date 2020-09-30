@@ -19,6 +19,17 @@ export default class Eating {
     this.meals = null
   }
 
+  get kcal () {
+    if (this.meals === null) {
+      return NaN
+    }
+
+    return this.meals.reduce(
+      (sum, meal) => sum + meal.toCalories(meal.amount),
+      0
+    )
+  }
+
   static async registerNew (
     date,
     latitude,

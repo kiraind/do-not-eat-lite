@@ -23,7 +23,7 @@ const defaultState = {
   logLocation: true,
 
   plate: [],
-  eatings: []
+  eatings: null
 }
 
 function mainReducer (state = defaultState, action) {
@@ -77,10 +77,13 @@ function mainReducer (state = defaultState, action) {
   } else if (type === LOAD_EATINGS) {
     return {
       ...state,
-      eatings: [
-        ...state.eatings,
-        ...payload
-      ]
+      eatings:
+        state.eatings === null
+          ? payload
+          : [
+            ...state.eatings,
+            ...payload
+          ]
     }
   } else {
     return state

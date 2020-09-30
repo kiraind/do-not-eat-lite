@@ -10,7 +10,7 @@ export const DINNER = 5
 export const AN_SNACK = 6
 export const SUPPER = 7
 
-export const EatingLabelString = [
+export const String = [
   'Перекус',
   'Питье',
   'Полуночный жор',
@@ -19,6 +19,17 @@ export const EatingLabelString = [
   'Обед',
   'Полдник',
   'Ужин'
+]
+
+export const StringGenitive = [
+  'перекуса',
+  'питья',
+  'полуночного жора',
+  'завтрака',
+  'ланча',
+  'обеда',
+  'полдника',
+  'ужина'
 ]
 
 function makeTime (hours = 0, munites = 0, seconds = 0) {
@@ -37,17 +48,19 @@ export const EatingPeriods = [
 ]
 
 export function getCurrent (items) {
-  if (items.every(item => item.measureUnit === MILLILITERS)) {
-    return DRINKING
-  }
+  if (items) {
+    if (items.every(item => item.measureUnit === MILLILITERS)) {
+      return DRINKING
+    }
 
-  const totalKcal = items.reduce(
-    (sum, item) => sum + item.toCalories(item.amount),
-    0
-  )
+    const totalKcal = items.reduce(
+      (sum, item) => sum + item.toCalories(item.amount),
+      0
+    )
 
-  if (totalKcal < snackTreshold) {
-    return SNACK
+    if (totalKcal < snackTreshold) {
+      return SNACK
+    }
   }
 
   const dt = new Date()

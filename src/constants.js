@@ -10,3 +10,5 @@ export const defaultTargetCalories = 2200
 export const targetCaloriesMax = 3000
 export const targetCaloriesMin = 1000
 export const snackTreshold = defaultTargetCalories / 10
+
+export const daysInMs = 24 * 60 * 60 * 1000
