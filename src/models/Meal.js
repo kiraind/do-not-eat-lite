@@ -1,4 +1,8 @@
+import sql from 'sql-template-strings'
+import { connection as db } from '../database/index.js'
+
 import Item from './Item'
+import Product, { IngredientProduct } from './Product.js'
 
 export default class Meal extends Item {
   constructor (
@@ -32,7 +36,92 @@ export default class Meal extends Item {
 
     this.leftAmount = leftAmount
 
-    this._products = null
+    this.products = null
+  }
+
+  get isProduct () {
+    if (this.products === null) {
+      throw new Error('products are not fetched')
+    }
+
+    return this.products.length === 1 && this.products[0].part === 1
+  }
+
+  async loadProducts () {
+    const res = db.execute(sql`
+      SELECT
+        id,
+
+        title,
+        barcode,
+        batchAmount,
+        measureUnit,
+        density,
+
+        specificEnergy,
+        proteinsPct,
+        fatsPct,
+        carbohydratesPct,
+
+        leftAmount,
+
+        part
+      FROM
+        Products INNER JOIN MealIncludesProduct
+          ON Products.id = MealIncludesProduct.productId
+      WHERE mealId = ${this.id};
+    `)
+
+    this.products = res.rows.map(row => new IngredientProduct(
+      new Product(
+        row.id,
+
+        row.title,
+        row.barcode,
+        row.batchAmount,
+        row.measureUnit,
+        row.density,
+
+        row.specificEnergy,
+        row.proteinsPct,
+        row.fatsPct,
+        row.carbohydratesPct,
+
+        row.leftAmount
+      ),
+
+      row.part
+    ))
+  }
+
+  static async getFromFridge () {
+    const res = db.execute(sql`
+      SELECT *
+      FROM Meals
+      WHERE leftAmount > 0;
+    `)
+
+    const meals = res.rows.map(row => new Meal(
+      row.id,
+
+      row.title,
+      row.cookingMethod,
+      row.measureUnit,
+      row.density,
+
+      row.specificEnergy,
+      row.proteinsPct,
+      row.fatsPct,
+      row.carbohydratesPct,
+
+      row.leftAmount
+    ))
+
+    for (const meal of meals) {
+      await meal.loadProducts()
+    }
+
+    return meals
   }
 }
 

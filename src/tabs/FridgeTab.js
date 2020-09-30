@@ -6,7 +6,7 @@ import {
 
 import TabNavigationContext from './TabNavigationContext.js'
 
-import PlaceholderScreen from '../screens/PlaceholderScreen.js'
+import FrigdeScreen from '../screens/FrigdeScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -22,7 +22,7 @@ const FridgeTab = ({ navigation }) => (
         options={{
           title: 'Моя еда'
         }}
-        component={PlaceholderScreen}
+        component={FrigdeScreen}
       />
     </Stack.Navigator>
   </TabNavigationContext.Provider>

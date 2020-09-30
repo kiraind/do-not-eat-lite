@@ -154,7 +154,7 @@ const FeedScreen = ({
                 size={24}
                 color={iconColor}
               />
-              <Text style={styles.uiButtonText}>Пополнить продукт</Text>
+              <Text style={styles.uiButtonText}>Купить продукт</Text>
             </View>
           </TouchableNativeFeedback>
 
