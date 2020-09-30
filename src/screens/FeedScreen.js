@@ -26,6 +26,7 @@ import { loadEatings } from '../store/actions.js'
 import toReadableNumber from '../utils/toReadableNumber.js'
 import * as EatingLabel from '../models/EatingLabel.js'
 import FeedItemAdapter from '../components/FeedItemAdapter.js'
+import toDateObj from '../utils/toDateObj.js'
 
 const NONE = 0
 const GOOD = 1
@@ -88,13 +89,13 @@ const FeedScreen = ({
     let currDay
 
     for (const eating of eatings) {
-      const day = eating.date.toISOString().split('T')[0]
+      const day = toDateObj(eating.date)
 
-      if (day !== currDay) {
+      if (!day.equals(currDay)) {
         currDay = day
 
         feedItems.push(
-          <DayLabel key={day} date={day} />
+          <DayLabel key={day.toString()} date={day} />
         )
       }
 
@@ -278,16 +279,16 @@ const DayLabel = ({ date }) => {
   let displayDay
 
   const dt = new Date()
-  const today = dt.toISOString().split('T')[0]
-  const yesterday = new Date(dt.valueOf() - 1 - daysInMs).toISOString().split('T')[0]
+  const today = toDateObj(dt)
+  const yesterday = toDateObj(new Date(dt.valueOf() - 1 - daysInMs))
 
-  if (date === today) {
+  if (date.equals(today)) {
     displayDay = 'Сегодня'
-  } else if (date === yesterday) {
+  } else if (date.equals(yesterday)) {
     displayDay = 'Вчера'
   } else {
-    const [year, month, day] = date.split('-')
-    const [currentYear] = today.split('-')
+    const { year, month, day } = date
+    const { year: currentYear } = today
 
     displayDay = `${day} ${monthGenitive[+month - 1]}${year !== currentYear ? ` ${year}` : ''}`
   }

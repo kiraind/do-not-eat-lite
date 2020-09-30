@@ -23,9 +23,16 @@ const FrigdeScreen = ({
   loadFrigde
 }) => {
   useEffect(() => {
-    (async () => {
-      await loadFrigde()
-    })()
+    loadFrigde()
+  }, [])
+
+  useEffect(() => {
+    const focusCleanup = navigation.addListener(
+      'focus',
+      () => loadFrigde()
+    )
+
+    return focusCleanup
   }, [])
 
   const viewItem = item => {
@@ -46,64 +53,66 @@ const FrigdeScreen = ({
           <ActivityIndicator size='large' color={accentColor} />
         </View>
       ) : (
-        <ScrollView style={styles.body}>
-          <View style={styles.ui}>
-            <TouchableNativeFeedback
-              onPress={() => navigation.navigate('addNewProduct')}
-              background={TouchableNativeFeedback.Ripple(backgroundColor)}
-            >
-              <View style={styles.uiButton}>
-                <MaterialIcons
-                  name='add'
-                  size={24}
-                  color={iconColor}
+        <ScrollView>
+          <View style={styles.body}>
+            <View style={styles.ui}>
+              <TouchableNativeFeedback
+                onPress={() => navigation.navigate('addNewProduct')}
+                background={TouchableNativeFeedback.Ripple(backgroundColor)}
+              >
+                <View style={styles.uiButton}>
+                  <MaterialIcons
+                    name='add'
+                    size={24}
+                    color={iconColor}
+                  />
+                  <Text style={styles.uiButtonText}>Добавить продукт</Text>
+                </View>
+              </TouchableNativeFeedback>
+
+              <TouchableNativeFeedback
+                onPress={() => console.log('add recipe')}
+                background={TouchableNativeFeedback.Ripple(backgroundColor)}
+              >
+                <View style={styles.uiButton}>
+                  <MaterialIcons
+                    name='receipt'
+                    size={24}
+                    color={iconColor}
+                  />
+                  <Text style={styles.uiButtonText}>Добавить рецепт</Text>
+                </View>
+              </TouchableNativeFeedback>
+            </View>
+
+            <View style={styles.separator}>
+              <Text style={styles.separatorText}>В наличии</Text>
+            </View>
+
+            {fridge.filter(item => item.leftAmount > 0).map(
+              item => (
+                <FrigdeItemAdapter
+                  key={item.id}
+                  meal={item}
+                  onView={() => viewItem(item)}
                 />
-                <Text style={styles.uiButtonText}>Добавить продукт</Text>
-              </View>
-            </TouchableNativeFeedback>
+              )
+            )}
 
-            <TouchableNativeFeedback
-              onPress={() => console.log('add recipe')}
-              background={TouchableNativeFeedback.Ripple(backgroundColor)}
-            >
-              <View style={styles.uiButton}>
-                <MaterialIcons
-                  name='receipt'
-                  size={24}
-                  color={iconColor}
+            <View style={styles.separator}>
+              <Text style={styles.separatorText}>Остальное</Text>
+            </View>
+
+            {fridge.filter(item => item.leftAmount === 0).map(
+              item => (
+                <FrigdeItemAdapter
+                  key={item.id}
+                  meal={item}
+                  onView={() => viewItem(item)}
                 />
-                <Text style={styles.uiButtonText}>Добавить рецепт</Text>
-              </View>
-            </TouchableNativeFeedback>
+              )
+            )}
           </View>
-
-          <View style={styles.separator}>
-            <Text style={styles.separatorText}>В наличии</Text>
-          </View>
-
-          {fridge.filter(item => item.leftAmount > 0).map(
-            item => (
-              <FrigdeItemAdapter
-                key={item.id}
-                meal={item}
-                onView={() => viewItem(item)}
-              />
-            )
-          )}
-
-          <View style={styles.separator}>
-            <Text style={styles.separatorText}>Остальное</Text>
-          </View>
-
-          {fridge.filter(item => item.leftAmount === 0).map(
-            item => (
-              <FrigdeItemAdapter
-                key={item.id}
-                meal={item}
-                onView={() => viewItem(item)}
-              />
-            )
-          )}
         </ScrollView>
       )}
     </View>
@@ -117,7 +126,8 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    padding: 16
+    padding: 16,
+    paddingBottom: 0
   },
   loading: {
     flex: 1,
