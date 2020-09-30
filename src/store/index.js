@@ -72,7 +72,11 @@ function mainReducer (state = defaultState, action) {
   } else if (type === EAT_PLATE) {
     return {
       ...state,
-      plate: []
+      plate: [],
+      eatings:
+        state.eatings === null
+          ? null
+          : [payload, ...state.eatings]
     }
   } else if (type === LOAD_EATINGS) {
     return {

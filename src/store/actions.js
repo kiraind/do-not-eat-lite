@@ -133,17 +133,20 @@ export function eatPlate () {
         EatingLabel.getCurrent(plate)
       )
 
+      eating.meals = []
+
       for (const item of plate) {
         await item.pushToEating(eating.id)
+        eating.meals.push(item)
       }
 
-      dispatch({ type: EAT_PLATE })
+      dispatch({ type: EAT_PLATE, payload: eating })
     } catch (e) {
       await db.rollbackTransaction()
       throw e
-    } finally {
-      await db.commitTransaction()
     }
+
+    await db.commitTransaction()
   }
 }
 
