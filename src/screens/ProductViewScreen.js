@@ -23,7 +23,10 @@ const ProductViewScreen = ({
 
   products
 }) => {
-  const { barcode } = route.params
+  const {
+    barcode,
+    id
+  } = route.params
 
   const [loading, setLoading] = useState(true)
   const [productId, setProductId] = useState(null)
@@ -31,7 +34,7 @@ const ProductViewScreen = ({
 
   useEffect(() => {
     (async () => {
-      const product = await loadProduct({ barcode })
+      const product = await loadProduct({ barcode, id })
 
       setProductId(product !== null ? product.id : -1)
       setLoading(false)
@@ -48,7 +51,7 @@ const ProductViewScreen = ({
     <View style={styles.body}>
       {loading ? (
         <>
-          <BarcodeDisplay barcode={barcode} />
+          {barcode && <BarcodeDisplay barcode={barcode} />}
           <View style={styles.loadingBody}>
             <ActivityIndicator size='large' color={accentColor} />
           </View>
@@ -57,7 +60,7 @@ const ProductViewScreen = ({
         product ? (
           <>
             <ScrollView>
-              <BarcodeDisplay barcode={barcode} />
+              {product.barcode && <BarcodeDisplay barcode={product.barcode} />}
               <View style={styles.normalBody}>
                 <ProductPage product={product} />
               </View>

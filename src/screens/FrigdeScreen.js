@@ -66,20 +66,19 @@ const FrigdeScreen = ({
             </TouchableNativeFeedback>
           </View>
 
-          <View
-            style={{
-              marginBottom: 5
-            }}
-          >
-            <Text
-              style={{
-                color: secondaryTextColor
-              }}
-            >В наличии:
-            </Text>
+          <View style={styles.separator}>
+            <Text style={styles.separatorText}>В наличии</Text>
           </View>
 
-          {fridge.map(
+          {fridge.filter(item => item.leftAmount > 0).map(
+            item => <FrigdeItemAdapter key={item.id} meal={item} />
+          )}
+
+          <View style={styles.separator}>
+            <Text style={styles.separatorText}>Остальное</Text>
+          </View>
+
+          {fridge.filter(item => item.leftAmount === 0).map(
             item => <FrigdeItemAdapter key={item.id} meal={item} />
           )}
         </ScrollView>
@@ -119,6 +118,12 @@ const styles = StyleSheet.create({
   },
   uiButtonText: {
     color: iconColor
+  },
+  separator: {
+    marginBottom: 5
+  },
+  separatorText: {
+    color: secondaryTextColor
   }
 })
 

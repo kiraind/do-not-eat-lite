@@ -97,8 +97,7 @@ export default class Meal extends Item {
   static async getFromFridge () {
     const res = await db.execute(sql`
       SELECT *
-      FROM Meals
-      WHERE leftAmount > 0;
+      FROM Meals;
     `)
 
     const meals = res.rows.map(row => new Meal(

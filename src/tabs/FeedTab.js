@@ -35,7 +35,7 @@ const FeedTab = ({ navigation }) => (
         component={ScannerScreen}
       />
       <Stack.Screen
-        name='scannedResult'
+        name='viewProduct'
         options={({ route }) => ({ title: route.params.barcode })}
         component={ProductViewScreen}
       />

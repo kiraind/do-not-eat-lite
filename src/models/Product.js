@@ -83,6 +83,31 @@ export default class Product extends Item {
     return updated
   }
 
+  static async getById (id) {
+    const res = await db.execute(sql`SELECT * FROM Products WHERE id = ${id}`)
+
+    if (res.rows.length === 0) {
+      return null
+    } else {
+      return new Product(
+        res.rows[0].id,
+
+        res.rows[0].title,
+        res.rows[0].barcode,
+        res.rows[0].batchAmount,
+        res.rows[0].measureUnit,
+        res.rows[0].density,
+
+        res.rows[0].specificEnergy,
+        res.rows[0].proteinsPct,
+        res.rows[0].fatsPct,
+        res.rows[0].carbohydratesPct,
+
+        res.rows[0].leftAmount ?? null
+      )
+    }
+  }
+
   static async getByBarcode (barcode) {
     const res = await db.execute(sql`SELECT * FROM Products WHERE barcode = ${barcode}`)
 

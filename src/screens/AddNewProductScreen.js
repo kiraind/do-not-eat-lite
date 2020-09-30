@@ -54,7 +54,7 @@ const AddNewProductScreen = ({ navigation, route }) => {
   const onAddProduct = async () => {
     setLoading(true)
 
-    await Product.registerNew(
+    const product = await Product.registerNew(
       title,
 
       barcode || null,
@@ -72,9 +72,11 @@ const AddNewProductScreen = ({ navigation, route }) => {
     if (barcodePreset) {
       navigation.pop()
     }
-    navigation.replace('scannedResult', {
+    navigation.replace(
+      'viewProduct',
       barcode
-    })
+        ? { barcode }
+        : { id: product.id, title: product.title })
   }
 
   return (

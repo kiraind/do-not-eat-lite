@@ -8,7 +8,7 @@ import BarCodeScanner from '../components/BarCodeScanner.js'
 
 const ScannerScreen = ({ navigation, route }) => {
   const onScan = barcode => {
-    navigation.navigate('scannedResult', {
+    navigation.navigate('viewProduct', {
       barcode
     })
   }

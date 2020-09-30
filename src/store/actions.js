@@ -168,9 +168,11 @@ export function acquireProduct (product, amount) {
   }
 }
 
-export function loadProduct ({ barcode }) {
+export function loadProduct ({ barcode, id }) {
   return async dispatch => {
-    const product = await Product.getByBarcode(barcode)
+    const product = barcode
+      ? await Product.getByBarcode(barcode)
+      : await Product.getById(id)
 
     if (product !== null) {
       dispatch({ type: LOAD_PRODUCT, payload: product })
