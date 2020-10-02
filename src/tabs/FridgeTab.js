@@ -9,6 +9,7 @@ import TabNavigationContext from './TabNavigationContext.js'
 import FrigdeScreen from '../screens/FrigdeScreen.js'
 import AddNewProductScreen from '../screens/AddNewProductScreen.js'
 import ProductViewScreen from '../screens/ProductViewScreen.js'
+import AddNewRecipeScreen from '../screens/AddNewRecipeScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -35,6 +36,11 @@ const FridgeTab = ({ navigation }) => (
         name='viewProduct'
         options={({ route }) => ({ title: route.params.barcode || route.params.title })}
         component={ProductViewScreen}
+      />
+      <Stack.Screen
+        name='addNewRecipe'
+        options={{ title: 'Добавить рецепт' }}
+        component={AddNewRecipeScreen}
       />
     </Stack.Navigator>
   </TabNavigationContext.Provider>

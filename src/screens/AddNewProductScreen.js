@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  Button, ActivityIndicator
+  Button,
+  ActivityIndicator
 } from 'react-native'
 import barcodeValid from 'barcode-validator'
 

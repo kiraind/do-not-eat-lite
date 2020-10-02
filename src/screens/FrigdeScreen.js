@@ -71,7 +71,7 @@ const FrigdeScreen = ({
               </TouchableNativeFeedback>
 
               <TouchableNativeFeedback
-                onPress={() => console.log('add recipe')}
+                onPress={() => navigation.navigate('addNewRecipe')}
                 background={TouchableNativeFeedback.Ripple(backgroundColor)}
               >
                 <View style={styles.uiButton}>
