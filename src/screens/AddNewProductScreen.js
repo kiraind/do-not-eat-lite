@@ -81,193 +81,195 @@ const AddNewProductScreen = ({ navigation, route }) => {
   }
 
   return (
-    <View style={styles.body}>
+    <View style={styles.root}>
       <ScrollView>
-        <Text style={styles.label}>Штрих-код{barcodePreset ? '' : ' (необязательно)'}</Text>
-        <TextInput
-          keyboardType='number-pad'
-          style={{
-            ...styles.textInput,
+        <View style={styles.body}>
+          <Text style={styles.label}>Штрих-код{barcodePreset ? '' : ' (необязательно)'}</Text>
+          <TextInput
+            keyboardType='number-pad'
+            style={{
+              ...styles.textInput,
 
-            borderColor: barcodeFocused ? accentColor : backgroundDepthColor,
-            backgroundColor: barcodeFocused ? backgroundColor : backgroundDepthColor,
+              borderColor: barcodeFocused ? accentColor : backgroundDepthColor,
+              backgroundColor: barcodeFocused ? backgroundColor : backgroundDepthColor,
 
-            color: barcodePreset ? primaryTextColor : undefined
-          }}
-          onFocus={() => setBarcodeFocused(true)}
-          onBlur={() => setBarcodeFocused(false)}
-          editable={!barcodePreset}
+              color: barcodePreset ? primaryTextColor : undefined
+            }}
+            onFocus={() => setBarcodeFocused(true)}
+            onBlur={() => setBarcodeFocused(false)}
+            editable={!barcodePreset}
 
-          value={barcode}
-          onChangeText={setBarcode}
+            value={barcode}
+            onChangeText={setBarcode}
 
-          placeholder='0123456789012'
-          autoFocus={!barcodePreset}
-        />
-        <View style={styles.spacer} />
+            placeholder='0123456789012'
+            autoFocus={!barcodePreset}
+          />
+          <View style={styles.spacer} />
 
-        <Text style={styles.label}>Название</Text>
-        <TextInput
-          style={{
-            ...styles.textInput,
+          <Text style={styles.label}>Название</Text>
+          <TextInput
+            style={{
+              ...styles.textInput,
 
-            borderColor: titleFocused ? accentColor : backgroundDepthColor,
-            backgroundColor: titleFocused ? backgroundColor : backgroundDepthColor
-          }}
-          onFocus={() => setTitleFocused(true)}
-          onBlur={() => setTitleFocused(false)}
+              borderColor: titleFocused ? accentColor : backgroundDepthColor,
+              backgroundColor: titleFocused ? backgroundColor : backgroundDepthColor
+            }}
+            onFocus={() => setTitleFocused(true)}
+            onBlur={() => setTitleFocused(false)}
 
-          value={title}
-          onChangeText={setTitle}
+            value={title}
+            onChangeText={setTitle}
 
-          placeholder='Сок «Злой» Ежевичный'
-          autoFocus={barcodePreset}
-        />
-        <View style={styles.spacer} />
+            placeholder='Сок «Злой» Ежевичный'
+            autoFocus={barcodePreset}
+          />
+          <View style={styles.spacer} />
 
-        <Text style={styles.label}>Измеряется в</Text>
-        <ShortSelect
-          selected={measureUnit}
-          options={MeasureUnit.MeasureUnitString}
-          onSelect={setMeasureUnit}
-        />
-        <View style={styles.spacer} />
+          <Text style={styles.label}>Измеряется в</Text>
+          <ShortSelect
+            selected={measureUnit}
+            options={MeasureUnit.MeasureUnitString}
+            onSelect={setMeasureUnit}
+          />
+          <View style={styles.spacer} />
 
-        {measureUnit !== MeasureUnit.GRAMS && (
-          <>
-            <Text style={styles.label}>
-              {measureUnit === MeasureUnit.PIECES
-                ? 'Масса одной штуки (г)'
-                : `Плотность (г/${MeasureUnit.MeasureUnitString[measureUnit]})`}
-            </Text>
-            <TextInput
-              keyboardType='number-pad'
-              style={{
-                ...styles.textInput,
+          {measureUnit !== MeasureUnit.GRAMS && (
+            <>
+              <Text style={styles.label}>
+                {measureUnit === MeasureUnit.PIECES
+                  ? 'Масса одной штуки (г)'
+                  : `Плотность (г/${MeasureUnit.MeasureUnitString[measureUnit]})`}
+              </Text>
+              <TextInput
+                keyboardType='number-pad'
+                style={{
+                  ...styles.textInput,
 
-                borderColor: densityFocused ? accentColor : backgroundDepthColor,
-                backgroundColor: densityFocused ? backgroundColor : backgroundDepthColor
-              }}
-              onFocus={() => setDensityFocused(true)}
-              onBlur={() => setDensityFocused(false)}
+                  borderColor: densityFocused ? accentColor : backgroundDepthColor,
+                  backgroundColor: densityFocused ? backgroundColor : backgroundDepthColor
+                }}
+                onFocus={() => setDensityFocused(true)}
+                onBlur={() => setDensityFocused(false)}
 
-              value={density}
-              onChangeText={setDensity}
+                value={density}
+                onChangeText={setDensity}
 
-              placeholder='100'
-            />
-            <View style={styles.spacer} />
-          </>
-        )}
+                placeholder='100'
+              />
+              <View style={styles.spacer} />
+            </>
+          )}
 
-        <Text style={styles.label}>Объем упаковки ({MeasureUnit.MeasureUnitString[measureUnit]})</Text>
-        <TextInput
-          keyboardType='number-pad'
-          style={{
-            ...styles.textInput,
+          <Text style={styles.label}>Объем упаковки ({MeasureUnit.MeasureUnitString[measureUnit]})</Text>
+          <TextInput
+            keyboardType='number-pad'
+            style={{
+              ...styles.textInput,
 
-            borderColor: batchAmountFocused ? accentColor : backgroundDepthColor,
-            backgroundColor: batchAmountFocused ? backgroundColor : backgroundDepthColor
-          }}
-          onFocus={() => setBatchAmountFocused(true)}
-          onBlur={() => setBatchAmountFocused(false)}
+              borderColor: batchAmountFocused ? accentColor : backgroundDepthColor,
+              backgroundColor: batchAmountFocused ? backgroundColor : backgroundDepthColor
+            }}
+            onFocus={() => setBatchAmountFocused(true)}
+            onBlur={() => setBatchAmountFocused(false)}
 
-          value={batchAmount}
-          onChangeText={setBatchAmount}
+            value={batchAmount}
+            onChangeText={setBatchAmount}
 
-          placeholder='100'
-        />
-        <View style={styles.spacer} />
+            placeholder='100'
+          />
+          <View style={styles.spacer} />
 
-        <Text style={styles.label}>Пищевая ценность на 100 г</Text>
-        <View style={styles.parallelInputs}>
-          <View style={styles.parallelInputContainer}>
-            <TextInput
-              keyboardType='number-pad'
-              style={{
-                ...styles.textInput,
+          <Text style={styles.label}>Пищевая ценность на 100 г</Text>
+          <View style={styles.parallelInputs}>
+            <View style={styles.parallelInputContainer}>
+              <TextInput
+                keyboardType='number-pad'
+                style={{
+                  ...styles.textInput,
 
-                borderColor: specificEnergyFocused ? accentColor : backgroundDepthColor,
-                backgroundColor: specificEnergyFocused ? backgroundColor : backgroundDepthColor
-              }}
-              onFocus={() => setSpecificEnergyFocused(true)}
-              onBlur={() => setSpecificEnergyFocused(false)}
+                  borderColor: specificEnergyFocused ? accentColor : backgroundDepthColor,
+                  backgroundColor: specificEnergyFocused ? backgroundColor : backgroundDepthColor
+                }}
+                onFocus={() => setSpecificEnergyFocused(true)}
+                onBlur={() => setSpecificEnergyFocused(false)}
 
-              value={specificEnergy}
-              onChangeText={setSpecificEnergy}
+                value={specificEnergy}
+                onChangeText={setSpecificEnergy}
 
-              placeholder='100'
-            />
-            <Text style={styles.centerLabel}>ккал.</Text>
-          </View>
+                placeholder='100'
+              />
+              <Text style={styles.centerLabel}>ккал.</Text>
+            </View>
 
-          <View style={styles.parallelInputContainer}>
-            <TextInput
-              keyboardType='number-pad'
-              style={{
-                ...styles.textInput,
+            <View style={styles.parallelInputContainer}>
+              <TextInput
+                keyboardType='number-pad'
+                style={{
+                  ...styles.textInput,
 
-                borderColor: proteinsPctFocused ? accentColor : backgroundDepthColor,
-                backgroundColor: proteinsPctFocused ? backgroundColor : backgroundDepthColor
-              }}
-              onFocus={() => setProteinsPctFocused(true)}
-              onBlur={() => setProteinsPctFocused(false)}
+                  borderColor: proteinsPctFocused ? accentColor : backgroundDepthColor,
+                  backgroundColor: proteinsPctFocused ? backgroundColor : backgroundDepthColor
+                }}
+                onFocus={() => setProteinsPctFocused(true)}
+                onBlur={() => setProteinsPctFocused(false)}
 
-              value={proteinsPct}
-              onChangeText={setProteinsPct}
+                value={proteinsPct}
+                onChangeText={setProteinsPct}
 
-              placeholder='20'
-            />
-            <Text style={styles.centerLabel}>белки</Text>
-          </View>
+                placeholder='20'
+              />
+              <Text style={styles.centerLabel}>белки</Text>
+            </View>
 
-          <View style={styles.parallelInputContainer}>
-            <TextInput
-              keyboardType='number-pad'
-              style={{
-                ...styles.textInput,
+            <View style={styles.parallelInputContainer}>
+              <TextInput
+                keyboardType='number-pad'
+                style={{
+                  ...styles.textInput,
 
-                borderColor: fatsPctFocused ? accentColor : backgroundDepthColor,
-                backgroundColor: fatsPctFocused ? backgroundColor : backgroundDepthColor
-              }}
-              onFocus={() => setFatsPctFocused(true)}
-              onBlur={() => setFatsPctFocused(false)}
+                  borderColor: fatsPctFocused ? accentColor : backgroundDepthColor,
+                  backgroundColor: fatsPctFocused ? backgroundColor : backgroundDepthColor
+                }}
+                onFocus={() => setFatsPctFocused(true)}
+                onBlur={() => setFatsPctFocused(false)}
 
-              value={fatsPct}
-              onChangeText={setFatsPct}
+                value={fatsPct}
+                onChangeText={setFatsPct}
 
-              placeholder='20'
-            />
-            <Text style={styles.centerLabel}>жиры</Text>
-          </View>
+                placeholder='20'
+              />
+              <Text style={styles.centerLabel}>жиры</Text>
+            </View>
 
-          <View style={styles.parallelInputContainer}>
-            <TextInput
-              keyboardType='number-pad'
-              style={{
-                ...styles.textInput,
+            <View style={styles.parallelInputContainer}>
+              <TextInput
+                keyboardType='number-pad'
+                style={{
+                  ...styles.textInput,
 
-                borderColor: carbohydratesPctFocused ? accentColor : backgroundDepthColor,
-                backgroundColor: carbohydratesPctFocused ? backgroundColor : backgroundDepthColor
-              }}
-              onFocus={() => setCarbohydratesPctFocused(true)}
-              onBlur={() => setCarbohydratesPctFocused(false)}
+                  borderColor: carbohydratesPctFocused ? accentColor : backgroundDepthColor,
+                  backgroundColor: carbohydratesPctFocused ? backgroundColor : backgroundDepthColor
+                }}
+                onFocus={() => setCarbohydratesPctFocused(true)}
+                onBlur={() => setCarbohydratesPctFocused(false)}
 
-              value={carbohydratesPct}
-              onChangeText={setCarbohydratesPct}
+                value={carbohydratesPct}
+                onChangeText={setCarbohydratesPct}
 
-              placeholder='20'
-            />
-            <Text style={styles.centerLabel}>углеводы</Text>
+                placeholder='20'
+              />
+              <Text style={styles.centerLabel}>углеводы</Text>
+            </View>
           </View>
         </View>
-
       </ScrollView>
-      {loading ? <ActivityIndicator size='large' color={accentColor} /> : (
-        <Button
-          title='Продолжить'
-          disabled={
-            (barcode !== '' && !barcodeValid(barcode)) ||
+      <View style={styles.actionDrawer}>
+        {loading ? <ActivityIndicator size='large' color={accentColor} /> : (
+          <Button
+            title='Продолжить'
+            disabled={
+              (barcode !== '' && !barcodeValid(barcode)) ||
             title === '' ||
             isNaN(parseFloat(batchAmount)) ||
             isNaN(parseFloat(measureUnit)) ||
@@ -276,18 +278,22 @@ const AddNewProductScreen = ({ navigation, route }) => {
             isNaN(parseFloat(fatsPct)) ||
             isNaN(parseFloat(carbohydratesPct)) ||
             (measureUnit !== MeasureUnit.GRAMS && isNaN(parseFloat(density)))
-          }
-          color={accentColor}
-          onPress={onAddProduct}
-        />
-      )}
+            }
+            color={accentColor}
+            onPress={onAddProduct}
+          />
+        )}
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  body: {
+  root: {
     backgroundColor,
+    flex: 1
+  },
+  body: {
     padding: 16,
     flex: 1
   },
@@ -318,6 +324,11 @@ const styles = StyleSheet.create({
     color: secondaryTextColor,
     marginBottom: 8,
     alignSelf: 'center'
+  },
+  actionDrawer: {
+    backgroundColor,
+    padding: 16,
+    elevation: 10
   }
 })
 
