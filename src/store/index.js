@@ -13,7 +13,8 @@ import {
   EAT_PLATE,
   LOAD_EATINGS,
   LOAD_PRODUCT,
-  LOAD_FRIDGE
+  LOAD_FRIDGE,
+  REGISTER_MEAL
 } from './actions.js'
 
 const defaultState = {
@@ -106,6 +107,14 @@ function mainReducer (state = defaultState, action) {
     return {
       ...state,
       fridge: payload
+    }
+  } else if (type === REGISTER_MEAL) {
+    return {
+      ...state,
+      fridge: [
+        ...state.fridge,
+        payload
+      ]
     }
   } else {
     return state

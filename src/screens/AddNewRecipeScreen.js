@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import {
   View,
   Text,
@@ -19,24 +20,17 @@ import {
   secondaryTextColor
 } from '../constants.js'
 import * as CookingMethod from '../models/CookingMethod.js'
-import toReadableNumber from '../utils/toReadableNumber'
+import toReadableNumber from '../utils/toReadableNumber.js'
 import Product, { IngredientProduct } from '../models/Product.js'
 import * as MeasureUnit from '../models/MeasureUnit.js'
 import Meal from '../models/Meal.js'
+import { registerMeal } from '../store/actions.js'
 
-const AddNewRecipeScreen = ({ navigation }) => {
-  // id -
-  // title
-  // - cookingMethod
-  // measureUnit g
-  // - density 1
-  // - specificEnergy ()
-  // - proteinsPct ()
-  // - fatsPct ()
-  // - carbohydratesPct ()
-  // - leftAmount
-  // - products
+const AddNewRecipeScreen = ({
+  navigation,
 
+  registerMeal
+}) => {
   // data
 
   const [title, setTitle] = useState('')
@@ -126,17 +120,17 @@ const AddNewRecipeScreen = ({ navigation }) => {
     )
 
     const proteinsPct = products.reduce(
-      (sum, curr) => sum + curr.amount * curr.density * curr.proteinsPct,
+      (sum, curr, i) => sum + (productsAmountsParsed[i] * curr.density) * curr.proteinsPct,
       0
     ) / totalMass
 
     const fatsPct = products.reduce(
-      (sum, curr) => sum + curr.amount * curr.density * curr.fatsPct,
+      (sum, curr, i) => sum + (productsAmountsParsed[i] * curr.density) * curr.fatsPct,
       0
     ) / totalMass
 
     const carbohydratesPct = products.reduce(
-      (sum, curr) => sum + curr.amount * curr.density * curr.carbohydratesPct,
+      (sum, curr, i) => sum + (productsAmountsParsed[i] * curr.density) * curr.carbohydratesPct,
       0
     ) / totalMass
 
@@ -155,7 +149,10 @@ const AddNewRecipeScreen = ({ navigation }) => {
 
     newRecipe.products = ingredientProducts
 
-    await newRecipe.register()
+    await registerMeal(newRecipe)
+
+    setLoading(false)
+    navigation.popToTop()
   }
 
   return (
@@ -284,4 +281,12 @@ const styles = StyleSheet.create({
   }
 })
 
-export default AddNewRecipeScreen
+const mapStateToProps = state => ({
+
+})
+
+const mapDispatchToProps = {
+  registerMeal
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddNewRecipeScreen)

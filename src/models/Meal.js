@@ -48,7 +48,48 @@ export default class Meal extends Item {
   }
 
   async register () {
-    // todo
+    try {
+      await db.beginTransaction()
+
+      const res = await db.execute(sql`
+        INSERT INTO Meals (
+          title,
+          cookingMethod,
+          measureUnit,
+          density,
+          specificEnergy,
+          proteinsPct,
+          fatsPct,
+          carbohydratesPct,
+          leftAmount
+        )
+        VALUES (
+          ${this.title},
+          ${this.cookingMethod},
+          ${this.measureUnit},
+          ${this.density},
+          ${this.specificEnergy},
+          ${this.proteinsPct},
+          ${this.fatsPct},
+          ${this.carbohydratesPct},
+          0
+        );
+      `)
+
+      this.id = res.insertId
+
+      // push ingredients
+      for (const product of this.products) {
+        await product.pushToMeal(this.id)
+      }
+
+      await db.commitTransaction()
+    } catch (e) {
+      console.log('catched')
+      console.log(e)
+      await db.rollbackTransaction()
+      throw e
+    }
   }
 
   async loadProducts () {

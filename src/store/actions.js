@@ -17,6 +17,7 @@ export const LOAD_PRODUCT = 5
 export const EAT_PLATE = 6
 export const LOAD_EATINGS = 7
 export const LOAD_FRIDGE = 8
+export const REGISTER_MEAL = 9
 
 export function completeOnboarding () {
   return async dispatch => {
@@ -187,5 +188,13 @@ export function loadFrigde () {
     const meals = await Meal.getFromFridge()
 
     dispatch({ type: LOAD_FRIDGE, payload: meals })
+  }
+}
+
+export function registerMeal (meal) {
+  return async dispatch => {
+    await meal.register()
+
+    dispatch({ type: REGISTER_MEAL, payload: meal })
   }
 }

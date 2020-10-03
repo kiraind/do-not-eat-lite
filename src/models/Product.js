@@ -212,6 +212,21 @@ export class IngredientProduct extends Product {
 
     this.part = part
   }
+
+  async pushToMeal (mealId) {
+    await db.execute(sql`
+      INSERT INTO MealIncludesProduct (
+        mealId,
+        productId,
+        part
+      )
+      VALUES ( 
+        ${mealId},
+        ${this.id},
+        ${this.part}
+      );
+    `)
+  }
 }
 
 export class ProductItem extends Product {
