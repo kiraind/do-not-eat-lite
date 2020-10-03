@@ -8,28 +8,31 @@ import {
 
 import {
   accentColor,
+  backgroundColor,
   backgroundDepthColor,
   errorColor,
   primaryTextColor,
   secondaryTextColor
 } from '../constants.js'
-import toReadableNumber from '../utils/toReadableNumber.js'
 
 import { ProductItem } from '../models/Product.js'
 import LightButton from './LightButton.js'
+import { TextInput } from 'react-native-gesture-handler'
 
 const RecipeItemAdapter = ({
   product,
   amount,
 
-  onAdd,
-  onRemove
+  onRemove,
+  onSetAmount
 }) => {
   const [titleWidthDelta, setTitleWidthDelta] = useState(105)
 
   const adjustTitleWidth = e => {
     setTitleWidthDelta(e.nativeEvent.layout.width)
   }
+
+  const [inputFocused, setInputFocused] = useState(false)
 
   const productItem = new ProductItem(product, amount)
 
@@ -51,19 +54,32 @@ const RecipeItemAdapter = ({
         </View>
         <View style={styles.ui}>
           <LightButton
-            title='Добавить'
-            color={accentColor}
-            onPress={onAdd}
-          />
-          <LightButton
             title='Убрать'
             color={errorColor}
             onPress={onRemove}
           />
         </View>
       </View>
-      <View style={styles.caloriesContainer}>
-        <Text style={styles.calories}>{toReadableNumber(productItem.toCalories(productItem.amount))} ккал</Text>
+      <View style={styles.amountContainer}>
+        <TextInput
+          keyboardType='number-pad'
+          style={{
+            ...styles.amountInput,
+            ...(inputFocused ? {
+              backgroundColor,
+              borderColor: accentColor
+            } : {
+              backgroundColor: backgroundDepthColor,
+              borderColor: backgroundDepthColor
+            })
+          }}
+
+          onFocus={() => setInputFocused(true)}
+          onBlur={() => setInputFocused(false)}
+
+          value={amount}
+          onChangeText={onSetAmount}
+        />
       </View>
     </View>
   )
@@ -92,16 +108,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: secondaryTextColor
   },
-  caloriesContainer: {
-    marginLeft: 'auto'
-  },
-  calories: {
-    fontSize: 14,
-    paddingTop: 2,
-    color: primaryTextColor
+  amountContainer: {
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   ui: {
     flexDirection: 'row'
+  },
+  amountInput: {
+    fontSize: 16,
+    color: primaryTextColor,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+    borderRadius: 6,
+    borderWidth: 2,
+    width: 60,
+    textAlign: 'right'
   }
 })
 

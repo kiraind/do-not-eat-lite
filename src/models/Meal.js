@@ -47,6 +47,10 @@ export default class Meal extends Item {
     return this.products.length === 1 && this.products[0].part === 1
   }
 
+  async register () {
+    // todo
+  }
+
   async loadProducts () {
     const res = await db.execute(sql`
       SELECT

@@ -22,19 +22,20 @@ import * as CookingMethod from '../models/CookingMethod.js'
 import toReadableNumber from '../utils/toReadableNumber'
 import Product, { IngredientProduct } from '../models/Product.js'
 import * as MeasureUnit from '../models/MeasureUnit.js'
+import Meal from '../models/Meal.js'
 
 const AddNewRecipeScreen = ({ navigation }) => {
   // id -
   // title
-  // cookingMethod
+  // - cookingMethod
   // measureUnit g
-  // density ()
-  // specificEnergy ()
-  // proteinsPct ()
-  // fatsPct ()
-  // carbohydratesPct ()
-  // leftAmount
-  // products
+  // - density 1
+  // - specificEnergy ()
+  // - proteinsPct ()
+  // - fatsPct ()
+  // - carbohydratesPct ()
+  // - leftAmount
+  // - products
 
   // data
 
@@ -69,19 +70,26 @@ const AddNewRecipeScreen = ({ navigation }) => {
     )
   ])
   const [productsAmounts, setProductsAmounts] = useState([
-    500,
-    3
+    '500',
+    '3'
   ])
+
+  const productsAmountsParsed = productsAmounts.map(
+    amount => parseFloat(amount.replace(',', '.'))
+  ).map(
+    amount => isFinite(amount) ? amount : 0
+  )
 
   // calculated
   const totalKcal = products.reduce(
-    (sum, product, i) => sum + product.toCalories(productsAmounts[i]),
+    (sum, product, i) => sum + product.toCalories(productsAmountsParsed[i]),
     0
   )
-  const totalMass = productsAmounts.reduce(
+  const totalMass = productsAmountsParsed.reduce(
     (sum, amount, i) => sum + amount * products[i].density,
     0
   )
+  const specificEnergy = totalKcal / totalMass * 100
 
   // ui
   const [loading, setLoading] = useState(false)
@@ -99,11 +107,55 @@ const AddNewRecipeScreen = ({ navigation }) => {
     ])
   }
 
+  const handleSetAmount = (i, amount) => {
+    setProductsAmounts([
+      ...productsAmounts.slice(0, i),
+      amount,
+      ...productsAmounts.slice(i + 1)
+    ])
+  }
+
   const handleAdd = async () => {
     setLoading(true)
 
-    // todo
-    const n = new IngredientProduct()
+    const ingredientProducts = products.map(
+      (product, i) => new IngredientProduct(
+        product,
+        productsAmountsParsed[i] * product.density / totalMass
+      )
+    )
+
+    const proteinsPct = products.reduce(
+      (sum, curr) => sum + curr.amount * curr.density * curr.proteinsPct,
+      0
+    ) / totalMass
+
+    const fatsPct = products.reduce(
+      (sum, curr) => sum + curr.amount * curr.density * curr.fatsPct,
+      0
+    ) / totalMass
+
+    const carbohydratesPct = products.reduce(
+      (sum, curr) => sum + curr.amount * curr.density * curr.carbohydratesPct,
+      0
+    ) / totalMass
+
+    const newRecipe = new Meal(
+      null,
+      title,
+      cookingMethod,
+      MeasureUnit.GRAMS,
+      1, // g/g
+      specificEnergy,
+      proteinsPct,
+      fatsPct,
+      carbohydratesPct,
+      0
+    )
+
+    newRecipe.products = ingredientProducts
+
+    await newRecipe.register()
   }
 
   return (
@@ -143,6 +195,7 @@ const AddNewRecipeScreen = ({ navigation }) => {
             key={product.id}
             product={product}
             amount={productsAmounts[i]}
+            onSetAmount={amount => handleSetAmount(i, amount)}
             onRemove={() => handleRemove(i)}
           />
         ))}
@@ -155,7 +208,7 @@ const AddNewRecipeScreen = ({ navigation }) => {
       <View style={styles.bottomDrawer}>
         <Text style={styles.totalTextLabel}>
           <Text style={styles.totalText}>{
-            toReadableNumber(totalKcal / totalMass * 100)
+            toReadableNumber(specificEnergy)
           }&nbsp;ккал
           </Text>
           &nbsp;/&nbsp;100&nbsp;г
