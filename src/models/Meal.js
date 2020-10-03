@@ -3,6 +3,7 @@ import { connection as db } from '../database/index.js'
 
 import Item from './Item'
 import Product, { IngredientProduct } from './Product.js'
+import * as CookingMethod from './CookingMethod.js'
 
 export default class Meal extends Item {
   constructor (
@@ -44,7 +45,9 @@ export default class Meal extends Item {
       throw new Error('products are not fetched')
     }
 
-    return this.products.length === 1 && this.products[0].part === 1
+    return this.products.length === 1 &&
+      this.products[0].part === 1 &&
+      this.cookingMethod === CookingMethod.RAW
   }
 
   async register () {

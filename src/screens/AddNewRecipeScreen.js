@@ -3,9 +3,13 @@ import { connect } from 'react-redux'
 import {
   View,
   Text,
-  StyleSheet, ActivityIndicator, Button
+  StyleSheet,
+  ActivityIndicator,
+  Button,
+
+  YellowBox
 } from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import { ScrollView, TextInput, TouchableNativeFeedback } from 'react-native-gesture-handler'
 import { MaterialIcons } from '@expo/vector-icons'
 
 import ShortSelect from '../components/ShortSelect.js'
@@ -21,10 +25,14 @@ import {
 } from '../constants.js'
 import * as CookingMethod from '../models/CookingMethod.js'
 import toReadableNumber from '../utils/toReadableNumber.js'
-import Product, { IngredientProduct } from '../models/Product.js'
+import { IngredientProduct } from '../models/Product.js'
 import * as MeasureUnit from '../models/MeasureUnit.js'
 import Meal from '../models/Meal.js'
 import { registerMeal } from '../store/actions.js'
+
+YellowBox.ignoreWarnings([
+  'Non-serializable values were found in the navigation state'
+])
 
 const AddNewRecipeScreen = ({
   navigation,
@@ -35,38 +43,8 @@ const AddNewRecipeScreen = ({
 
   const [title, setTitle] = useState('')
   const [cookingMethod, setCookingMethod] = useState(CookingMethod.RAW)
-  const [products, setProducts] = useState([
-    new Product(
-      1,
-      'Картофель',
-      null,
-      200,
-      MeasureUnit.GRAMS,
-      1,
-      77,
-      3,
-      2,
-      30,
-      200
-    ),
-    new Product(
-      2,
-      'Сладкие апельсины',
-      null,
-      1,
-      MeasureUnit.PIECES,
-      150,
-      36,
-      3,
-      6,
-      30,
-      40
-    )
-  ])
-  const [productsAmounts, setProductsAmounts] = useState([
-    '500',
-    '3'
-  ])
+  const [products, setProducts] = useState([])
+  const [productsAmounts, setProductsAmounts] = useState([])
 
   const productsAmountsParsed = productsAmounts.map(
     amount => parseFloat(amount.replace(',', '.'))
@@ -90,7 +68,24 @@ const AddNewRecipeScreen = ({
   const [titleFocused, setTitleFocused] = useState(false)
 
   // methods
-  const handleRemove = i => {
+  const handleAddIngredient = () => {
+    const handleProductSelected = product => {
+      setProducts([
+        ...products,
+        product
+      ])
+      setProductsAmounts([
+        ...productsAmounts,
+        product.batchAmount.toString()
+      ])
+    }
+
+    navigation.navigate('selectProduct', {
+      handleProductSelected
+    })
+  }
+
+  const handleRemoveIngredient = i => {
     setProducts([
       ...products.slice(0, i),
       ...products.slice(i + 1)
@@ -193,14 +188,19 @@ const AddNewRecipeScreen = ({
             product={product}
             amount={productsAmounts[i]}
             onSetAmount={amount => handleSetAmount(i, amount)}
-            onRemove={() => handleRemove(i)}
+            onRemove={() => handleRemoveIngredient(i)}
           />
         ))}
 
-        <View style={styles.addButton}>
-          <MaterialIcons name='add' size={24} color={iconColor} />
-          <Text style={styles.addButtonText}>Добавить</Text>
-        </View>
+        <TouchableNativeFeedback
+          onPress={handleAddIngredient}
+          background={TouchableNativeFeedback.Ripple(backgroundColor)}
+        >
+          <View style={styles.addButton}>
+            <MaterialIcons name='add' size={24} color={iconColor} />
+            <Text style={styles.addButtonText}>Добавить</Text>
+          </View>
+        </TouchableNativeFeedback>
       </ScrollView>
       <View style={styles.bottomDrawer}>
         <Text style={styles.totalTextLabel}>

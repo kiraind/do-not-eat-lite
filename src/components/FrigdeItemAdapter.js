@@ -17,7 +17,8 @@ import LightButton from './LightButton.js'
 const FrigdeItemAdapter = ({
   meal,
 
-  onView
+  onView,
+  onSelect
 }) => {
   return (
     <View style={styles.body}>
@@ -32,11 +33,21 @@ const FrigdeItemAdapter = ({
           </Text>
         </View>
         <View style={styles.ui}>
-          <LightButton
-            title='Перейти'
-            color={accentColor}
-            onPress={onView}
-          />
+          {onView && (
+            <LightButton
+              title='Перейти'
+              color={accentColor}
+              onPress={onView}
+            />
+          )}
+          {onSelect && (
+            <LightButton
+              title='Выбрать'
+              color={accentColor}
+              onPress={onSelect}
+            />
+          )}
+
           {/* <LightButton
             title='Выбросить'
             color={errorColor}
