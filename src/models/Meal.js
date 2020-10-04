@@ -228,5 +228,18 @@ export class MealItem extends Meal {
     return new MealItem(this, this.amount + other.amount)
   }
 
-  // todo async pushToEating (eatingId)
+  async pushToEating (eatingId) {
+    await db.execute(sql`
+      INSERT INTO EatingIncludesMeal (
+        eatingId,
+        mealId,
+        amount
+      )
+      VALUES ( 
+        ${eatingId},
+        ${this.id},
+        ${this.amount}
+      );
+    `)
+  }
 }

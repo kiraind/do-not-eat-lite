@@ -3,6 +3,7 @@ import { connection as db } from '../database/index.js'
 import toReadableNumber from '../utils/toReadableNumber.js'
 import Item from './Item.js'
 import { MeasureUnit1000String, MeasureUnitString } from './MeasureUnit.js'
+import { RAW } from './CookingMethod.js'
 
 export default class Product extends Item {
   constructor (
@@ -271,7 +272,9 @@ export class ProductItem extends Product {
         mealId,
         ${this.amount}
       FROM MealIncludesProduct
-      WHERE productId = ${this.id} AND part = 1;
+        INNER JOIN Meals
+          ON Meals.id = mealId
+      WHERE productId = ${this.id} AND part = 1 AND cookingMethod = ${RAW};
     `)
   }
 }
