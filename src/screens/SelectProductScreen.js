@@ -33,7 +33,6 @@ const SelectProductScreen = ({
         <FrigdeItemAdapter
           key={product.id}
           meal={product}
-          // todo cast to product
           onSelect={() => onSelected(product)}
         />
       ))}

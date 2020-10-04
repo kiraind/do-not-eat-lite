@@ -27,6 +27,7 @@ import toReadableNumber from '../utils/toReadableNumber.js'
 import * as EatingLabel from '../models/EatingLabel.js'
 import FeedItemAdapter from '../components/FeedItemAdapter.js'
 import toDateObj from '../utils/toDateObj.js'
+import WarningBlock from '../components/WarningBlock.js'
 
 const NONE = 0
 const GOOD = 1
@@ -106,7 +107,9 @@ const FeedScreen = ({
   }
 
   return (
-    <ScrollView style={styles.root}>
+    <ScrollView
+      style={styles.root}
+    >
       <View style={styles.hungerGraph} />
       <View style={styles.body}>
         <View style={styles.status}>
@@ -174,6 +177,9 @@ const FeedScreen = ({
           </TouchableNativeFeedback>
         </View>
         {feedItems}
+        {feedItems.length === 0 && (
+          <WarningBlock text='Еще нет данных о приемах пищи' />
+        )}
       </View>
     </ScrollView>
   )
@@ -181,16 +187,17 @@ const FeedScreen = ({
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1
+    flex: 1,
+    backgroundColor
   },
   hungerGraph: {
-    height: 250
+    height: 250,
+    backgroundColor: backgroundDepthColor
   },
   body: {
     flex: 1,
     backgroundColor,
-    padding: 16,
-    minHeight: Dimensions.get('window').height - 250 - 20
+    padding: 16
   },
   status: {
 

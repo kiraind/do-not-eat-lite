@@ -10,10 +10,17 @@ import { connect } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler'
 import { MaterialIcons } from '@expo/vector-icons'
 
-import { accentColor, backgroundColor, backgroundDepthColor, iconColor, secondaryTextColor } from '../constants.js'
+import {
+  accentColor,
+  backgroundColor,
+  backgroundDepthColor,
+  iconColor,
+  secondaryTextColor
+} from '../constants.js'
 import { loadFrigde } from '../store/actions.js'
 
 import FrigdeItemAdapter from '../components/FrigdeItemAdapter.js'
+import WarningBlock from '../components/WarningBlock.js'
 
 const FrigdeScreen = ({
   navigation,
@@ -45,6 +52,10 @@ const FrigdeScreen = ({
       console.log(item)
     }
   }
+
+  // presorted
+  const available = fridge.filter(item => item.leftAmount > 0)
+  const known = fridge.filter(item => item.leftAmount === 0)
 
   return (
     <View style={styles.root}>
@@ -85,32 +96,44 @@ const FrigdeScreen = ({
               </TouchableNativeFeedback>
             </View>
 
-            <View style={styles.separator}>
-              <Text style={styles.separatorText}>В наличии</Text>
-            </View>
+            {available.length !== 0 && (
+              <>
+                <View style={styles.separator}>
+                  <Text style={styles.separatorText}>В наличии</Text>
+                </View>
 
-            {fridge.filter(item => item.leftAmount > 0).map(
-              item => (
-                <FrigdeItemAdapter
-                  key={item.id}
-                  meal={item}
-                  onView={() => viewItem(item)}
-                />
-              )
+                {available.map(
+                  item => (
+                    <FrigdeItemAdapter
+                      key={item.id}
+                      meal={item}
+                      onView={() => viewItem(item)}
+                    />
+                  )
+                )}
+              </>
             )}
 
-            <View style={styles.separator}>
-              <Text style={styles.separatorText}>Остальное</Text>
-            </View>
+            {known.length !== 0 && (
+              <>
+                <View style={styles.separator}>
+                  <Text style={styles.separatorText}>Остальное</Text>
+                </View>
 
-            {fridge.filter(item => item.leftAmount === 0).map(
-              item => (
-                <FrigdeItemAdapter
-                  key={item.id}
-                  meal={item}
-                  onView={() => viewItem(item)}
-                />
-              )
+                {known.map(
+                  item => (
+                    <FrigdeItemAdapter
+                      key={item.id}
+                      meal={item}
+                      onView={() => viewItem(item)}
+                    />
+                  )
+                )}
+              </>
+            )}
+
+            {available.length === 0 && known.length === 0 && (
+              <WarningBlock text='Добавьте продукт' />
             )}
           </View>
         </ScrollView>

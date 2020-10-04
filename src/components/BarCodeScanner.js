@@ -15,6 +15,7 @@ import {
   errorColor,
   backgroundDepthColor
 } from '../constants.js'
+import WarningBlock from './WarningBlock.js'
 
 const MyBarCodeScanner = ({
   onScanned,
@@ -43,10 +44,14 @@ const MyBarCodeScanner = ({
       <CameraLoadingOverlay />
     )
   }
-  if (hasPermission === false) {
+  if (1 || hasPermission === false) {
     // No access to camera
     return (
-      <CameraErrorOverlay />
+      <WarningBlock
+        text='Нет доступа к камере'
+        color={errorColor}
+        background={backgroundDepthColor}
+      />
     )
   }
 
@@ -161,29 +166,6 @@ const CameraLoadingOverlay = () => (
       size='large'
       color={accentColor}
     />
-  </View>
-)
-
-const CameraErrorOverlay = () => (
-  <View
-    style={[styles.root, {
-      backgroundColor: backgroundDepthColor,
-      flexDirection: 'row'
-    }]}
-  >
-    <MaterialIcons
-      name='error-outline'
-      size={24}
-      color={errorColor}
-    />
-    <Text
-      style={{
-        color: errorColor,
-        marginLeft: 7
-      }}
-    >
-      Нет доступа к камере
-    </Text>
   </View>
 )
 
