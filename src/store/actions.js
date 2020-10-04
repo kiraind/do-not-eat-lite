@@ -19,6 +19,7 @@ export const LOAD_EATINGS = 7
 export const LOAD_FRIDGE = 8
 export const REGISTER_MEAL = 9
 export const UPDATE_MEAL = 10
+export const DEPLATE_MEAL = 11
 
 export function completeOnboarding () {
   return async dispatch => {
@@ -98,6 +99,12 @@ export function saveSettings (settings) {
 }
 
 export function enplateMeal (item, amount) {
+  if (amount <= 0) {
+    return {
+      type: -1
+    }
+  }
+
   if (item instanceof Meal) {
     return {
       type: ENPLATE_MEAL,
@@ -108,6 +115,13 @@ export function enplateMeal (item, amount) {
       type: ENPLATE_MEAL,
       payload: new ProductItem(item, amount)
     }
+  }
+}
+
+export function deplateMeal (item) {
+  return {
+    type: DEPLATE_MEAL,
+    payload: item
   }
 }
 

@@ -7,7 +7,7 @@ import {
 import { ScrollView } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 
-import { eatPlate } from '../store/actions.js'
+import { eatPlate, deplateMeal } from '../store/actions.js'
 
 import TabNavigationContext from '../tabs/TabNavigationContext.js'
 import {
@@ -22,7 +22,13 @@ import { ProductItem } from '../models/Product.js'
 import PlateItemAdapter from '../components/PlateItemAdapter.js'
 import WarningBlock from '../components/WarningBlock.js'
 
-const PlateScreen = ({ plate, eatPlate }) => {
+const PlateScreen = ({
+  navigation,
+
+  plate,
+  deplateMeal,
+  eatPlate
+}) => {
   const tabNavigation = useContext(TabNavigationContext)
 
   const [loading, setLoading] = useState(false)
@@ -42,6 +48,13 @@ const PlateScreen = ({ plate, eatPlate }) => {
     <PlateItemAdapter
       key={item instanceof ProductItem ? item.id : -item.id}
       item={item}
+
+      removeItem={() => deplateMeal(item)}
+      viewItem={
+        item instanceof ProductItem
+          ? () => navigation.navigate('viewProduct', { id: item.id, title: item.title })
+          : () => navigation.navigate('viewMeal', { id: item.id, title: item.title })
+      }
     />
   ))
 
@@ -120,7 +133,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  eatPlate
+  eatPlate,
+  deplateMeal
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlateScreen)

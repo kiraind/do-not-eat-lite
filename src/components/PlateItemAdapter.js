@@ -7,7 +7,6 @@ import {
 } from 'react-native'
 
 import {
-  accentColor,
   backgroundDepthColor,
   errorColor,
   primaryTextColor,
@@ -16,7 +15,12 @@ import {
 import toReadableNumber from '../utils/toReadableNumber.js'
 import LightButton from './LightButton.js'
 
-const PlateItemAdapter = ({ item }) => {
+const PlateItemAdapter = ({
+  item,
+
+  removeItem,
+  viewItem
+}) => {
   const [titleWidthDelta, setTitleWidthDelta] = useState(105)
 
   const adjustTitleWidth = e => {
@@ -41,16 +45,14 @@ const PlateItemAdapter = ({ item }) => {
         </View>
         <View style={styles.ui}>
           <LightButton
-            title='Доложить'
-            color={accentColor}
-          />
-          <LightButton
             title='Убрать'
             color={errorColor}
+            onPress={removeItem}
           />
           <LightButton
             title='Подробнее'
             color={secondaryTextColor}
+            onPress={viewItem}
           />
         </View>
       </View>

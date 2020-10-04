@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   Button,
 
-  YellowBox
+  LogBox
 } from 'react-native'
 import { ScrollView, TextInput, TouchableNativeFeedback } from 'react-native-gesture-handler'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -30,7 +30,7 @@ import * as MeasureUnit from '../models/MeasureUnit.js'
 import Meal from '../models/Meal.js'
 import { registerMeal } from '../store/actions.js'
 
-YellowBox.ignoreWarnings([
+LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state'
 ])
 

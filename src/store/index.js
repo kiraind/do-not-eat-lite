@@ -14,7 +14,8 @@ import {
   LOAD_EATINGS,
   LOAD_PRODUCT,
   LOAD_FRIDGE,
-  REGISTER_MEAL
+  REGISTER_MEAL,
+  DEPLATE_MEAL
 } from './actions.js'
 
 const defaultState = {
@@ -114,6 +115,16 @@ function mainReducer (state = defaultState, action) {
       fridge: [
         ...state.fridge,
         payload
+      ]
+    }
+  } else if (type === DEPLATE_MEAL) {
+    const plateIndex = state.plate.findIndex(item => item === payload)
+
+    return {
+      ...state,
+      plate: [
+        ...state.plate.slice(0, plateIndex),
+        ...state.plate.slice(plateIndex + 1)
       ]
     }
   } else {
