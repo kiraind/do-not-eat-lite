@@ -9,6 +9,7 @@ import TabNavigationContext from './TabNavigationContext.js'
 import FrigdeScreen from '../screens/FrigdeScreen.js'
 import AddNewProductScreen from '../screens/AddNewProductScreen.js'
 import ProductViewScreen from '../screens/ProductViewScreen.js'
+import MealViewScreen from '../screens/MealViewScreen.js'
 import AddNewRecipeScreen from '../screens/AddNewRecipeScreen.js'
 import SelectProductScreen from '../screens/SelectProductScreen.js'
 
@@ -37,6 +38,11 @@ const FridgeTab = ({ navigation }) => (
         name='viewProduct'
         options={({ route }) => ({ title: route.params.barcode || route.params.title })}
         component={ProductViewScreen}
+      />
+      <Stack.Screen
+        name='viewMeal'
+        options={({ route }) => ({ title: route.params.title })}
+        component={MealViewScreen}
       />
       <Stack.Screen
         name='addNewRecipe'

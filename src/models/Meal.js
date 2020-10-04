@@ -40,6 +40,24 @@ export default class Meal extends Item {
     this.products = null
   }
 
+  copy () {
+    return new Meal(
+      this.id,
+
+      this.title,
+      this.cookingMethod,
+      this.measureUnit,
+      this.density,
+
+      this.specificEnergy,
+      this.proteinsPct,
+      this.fatsPct,
+      this.carbohydratesPct,
+
+      this.leftAmount
+    )
+  }
+
   get isProduct () {
     if (this.products === null) {
       throw new Error('products are not fetched')
@@ -88,11 +106,24 @@ export default class Meal extends Item {
 
       await db.commitTransaction()
     } catch (e) {
-      console.log('catched')
-      console.log(e)
       await db.rollbackTransaction()
       throw e
     }
+  }
+
+  async cook (amount) {
+    const finalAmount = Math.max(this.leftAmount + amount, 0)
+
+    await db.execute(sql`
+      UPDATE Meals
+      SET leftAmount = ${finalAmount}
+      WHERE id = ${this.id}
+    `)
+
+    const updated = this.copy()
+    updated.leftAmount = finalAmount
+
+    return updated
   }
 
   async loadProducts () {

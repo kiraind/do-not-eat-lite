@@ -49,13 +49,16 @@ const FrigdeScreen = ({
         title: item.title
       })
     } else {
-      console.log(item)
+      navigation.navigate('viewMeal', {
+        id: item.id,
+        title: item.title
+      })
     }
   }
 
   // presorted
-  const available = fridge.filter(item => item.leftAmount > 0)
-  const known = fridge.filter(item => item.leftAmount === 0)
+  const available = fridge?.filter(item => item.leftAmount > 0)
+  const known = fridge?.filter(item => item.leftAmount === 0)
 
   return (
     <View style={styles.root}>

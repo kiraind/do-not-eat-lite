@@ -18,6 +18,7 @@ export const EAT_PLATE = 6
 export const LOAD_EATINGS = 7
 export const LOAD_FRIDGE = 8
 export const REGISTER_MEAL = 9
+export const UPDATE_MEAL = 10
 
 export function completeOnboarding () {
   return async dispatch => {
@@ -164,6 +165,16 @@ export function acquireProduct (product, amount) {
     const updated = await product.acquire(amount)
 
     dispatch({ type: LOAD_PRODUCT, payload: updated })
+
+    return updated
+  }
+}
+
+export function cookMeal (meal, amount) {
+  return async dispatch => {
+    const updated = await meal.cook(amount)
+
+    dispatch({ type: UPDATE_MEAL, payload: updated })
 
     return updated
   }
