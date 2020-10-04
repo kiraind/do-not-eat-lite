@@ -44,7 +44,7 @@ const MyBarCodeScanner = ({
       <CameraLoadingOverlay />
     )
   }
-  if (1 || hasPermission === false) {
+  if (hasPermission === false) {
     // No access to camera
     return (
       <WarningBlock

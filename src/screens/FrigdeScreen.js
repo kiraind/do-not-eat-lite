@@ -117,7 +117,11 @@ const FrigdeScreen = ({
             {known.length !== 0 && (
               <>
                 <View style={styles.separator}>
-                  <Text style={styles.separatorText}>Остальное</Text>
+                  <Text style={styles.separatorText}>
+                    {available.length !== 0
+                      ? 'Остальное'
+                      : 'Добавленные'}
+                  </Text>
                 </View>
 
                 {known.map(
