@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Text, View, TouchableWithoutFeedback, StatusBar } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
+import { MaterialIcons } from '@expo/vector-icons'
 
 import {
   accentColor,
@@ -8,20 +9,23 @@ import {
 } from '../constants.js'
 
 const Page1 = () => (
-  <View>
-    <Text>Карточка приветствия №1</Text>
+  <View style={style.page}>
+    <MaterialIcons name='crop-free' size={200} color={accentColor} />
+    <Text>Сканируйте штрихкоды</Text>
   </View>
 )
 
 const Page2 = () => (
-  <View>
-    <Text>Карточка приветствия №2</Text>
+  <View style={style.page}>
+    <MaterialIcons name='kitchen' size={200} color={accentColor} />
+    <Text>Следите за продуктами в холодильнике</Text>
   </View>
 )
 
 const Page3 = () => (
-  <View>
-    <Text>Карточка приветствия №3</Text>
+  <View style={style.page}>
+    <MaterialIcons name='receipt' size={200} color={accentColor} />
+    <Text>Сохраняйте рецепты</Text>
   </View>
 )
 
@@ -112,6 +116,10 @@ const style = {
     fontSize: 14,
     textAlign: 'right',
     color: accentColor
+  },
+
+  page: {
+    alignItems: 'center'
   }
 }
 
