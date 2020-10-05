@@ -28,6 +28,7 @@ import * as EatingLabel from '../models/EatingLabel.js'
 import FeedItemAdapter from '../components/FeedItemAdapter.js'
 import toDateObj from '../utils/toDateObj.js'
 import WarningBlock from '../components/WarningBlock.js'
+import HungerGraph from '../components/HungerGraph.js'
 
 const NONE = 0
 const GOOD = 1
@@ -110,7 +111,11 @@ const FeedScreen = ({
     <ScrollView
       style={styles.root}
     >
-      <View style={styles.hungerGraph} />
+      <HungerGraph
+        target={target}
+        eatings={eatings}
+        percentEaten={percentEaten}
+      />
       <View style={styles.body}>
         <View style={styles.status}>
           <Text style={styles.statusName}>{name},</Text>
@@ -189,10 +194,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor
-  },
-  hungerGraph: {
-    height: 250,
-    backgroundColor: backgroundDepthColor
   },
   body: {
     flex: 1,

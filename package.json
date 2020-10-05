@@ -31,7 +31,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "sql-template-strings": "^2.2.2",
-    "expo-location": "~9.0.0"
+    "expo-location": "~9.0.0",
+    "react-native-svg": "12.1.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
