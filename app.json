@@ -1,10 +1,12 @@
 {
   "expo": {
-    "name": "do-not-eat-lite",
+    "name": "Нееш",
     "slug": "do-not-eat-lite",
+    "description": "Приложение для подсчета калорий",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "primaryColor": "#42eb42",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
