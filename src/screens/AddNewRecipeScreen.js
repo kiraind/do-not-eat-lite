@@ -205,7 +205,9 @@ const AddNewRecipeScreen = ({
       <View style={styles.bottomDrawer}>
         <Text style={styles.totalTextLabel}>
           <Text style={styles.totalText}>{
-            toReadableNumber(specificEnergy)
+            products.length
+              ? toReadableNumber(specificEnergy)
+              : 0
           }&nbsp;ккал
           </Text>
           &nbsp;/&nbsp;100&nbsp;г
@@ -218,7 +220,12 @@ const AddNewRecipeScreen = ({
           <Button
             title='Добавить'
             color={accentColor}
-            disabled={loading || 1 === 0}
+            disabled={
+              loading ||
+              products.length === 0 ||
+              title === '' ||
+              (products.length === 1 && cookingMethod === CookingMethod.RAW)
+            }
             onPress={handleAdd}
           />
         </View>
