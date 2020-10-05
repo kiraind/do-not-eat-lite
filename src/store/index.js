@@ -71,7 +71,7 @@ function mainReducer (state = defaultState, action) {
         ...state,
         plate: [
           ...state.plate.slice(0, duplicateId),
-          state.plate[duplicateId].merge(payload),
+          state.plate[duplicateId].withAmount(payload.amount),
           ...state.plate.slice(duplicateId + 1)
         ]
       }

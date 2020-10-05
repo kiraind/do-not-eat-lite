@@ -228,6 +228,10 @@ export class MealItem extends Meal {
     return new MealItem(this, this.amount + other.amount)
   }
 
+  withAmount (amount) {
+    return new MealItem(this, amount)
+  }
+
   async pushToEating (eatingId) {
     await db.execute(sql`
       INSERT INTO EatingIncludesMeal (

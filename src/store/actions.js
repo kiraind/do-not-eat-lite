@@ -99,9 +99,15 @@ export function saveSettings (settings) {
 }
 
 export function enplateMeal (item, amount) {
-  if (amount <= 0) {
+  if (amount < 0) {
     return {
       type: -1
+    }
+  }
+  if (amount === 0) {
+    return {
+      type: DEPLATE_MEAL,
+      payload: item
     }
   }
 

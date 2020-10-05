@@ -260,6 +260,10 @@ export class ProductItem extends Product {
     return new ProductItem(this, this.amount + other.amount)
   }
 
+  withAmount (amount) {
+    return new ProductItem(this, amount)
+  }
+
   async pushToEating (eatingId) {
     await db.execute(sql`
       INSERT INTO EatingIncludesMeal (

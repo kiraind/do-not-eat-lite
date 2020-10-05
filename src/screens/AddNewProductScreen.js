@@ -267,7 +267,7 @@ const AddNewProductScreen = ({ navigation, route }) => {
       <View style={styles.actionDrawer}>
         {loading ? <ActivityIndicator size='large' color={accentColor} /> : (
           <Button
-            title='Продолжить'
+            title='Добавить'
             disabled={
               (barcode !== '' && !barcodeValid(barcode)) ||
             title === '' ||

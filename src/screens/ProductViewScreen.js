@@ -12,6 +12,7 @@ import ProductPage from '../components/ProductPage.js'
 import ProductActions from '../components/ProductActions.js'
 
 import { ScrollView } from 'react-native-gesture-handler'
+import { ProductItem } from '../models/Product.js'
 
 const ProductViewScreen = ({
   route,
@@ -21,7 +22,8 @@ const ProductViewScreen = ({
   acquireProduct,
   loadProduct,
 
-  products
+  products,
+  plate
 }) => {
   const {
     barcode,
@@ -67,6 +69,10 @@ const ProductViewScreen = ({
             </ScrollView>
             <ProductActions
               item={product}
+              currentAmount={
+                plate.find(item => item instanceof ProductItem && item.id === productId)?.amount
+              }
+
               onEat={amount => enplateMeal(product, amount)}
               onThrow={amount => acquireProduct(product, -amount)}
               onAcquire={amount => acquireProduct(product, amount)}
@@ -85,7 +91,7 @@ const ProductViewScreen = ({
                 <Text
                   style={styles.notFoundText}
                 >
-                Неизвестный продукт, хотите его добавить?
+                  Неизвестный продукт, хотите его добавить?
                 </Text>
               </View>
               <View style={styles.notFoundAction}>
@@ -136,7 +142,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  products: state.products
+  products: state.products,
+  plate: state.plate
 })
 
 const mapDispatchToProps = {

@@ -9,6 +9,7 @@ import { accentColor, backgroundColor, secondaryTextColor } from '../constants.j
 
 import MealPage from '../components/MealPage.js'
 import MealActions from '../components/MealActions.js'
+import { MealItem } from '../models/Meal.js'
 
 const MealViewScreen = ({
   route,
@@ -17,7 +18,8 @@ const MealViewScreen = ({
   enplateMeal,
   cookMeal,
 
-  fridge
+  fridge,
+  plate
 }) => {
   const { id } = route.params
 
@@ -51,6 +53,10 @@ const MealViewScreen = ({
           </ScrollView>
           <MealActions
             item={meal}
+            currentAmount={
+              plate.find(item => item instanceof MealItem && item.id === id)?.amount
+            }
+
             onEat={amount => enplateMeal(meal, amount)}
             onThrow={amount => cookMeal(meal, -amount)}
             onCook={amount => cookMeal(meal, amount)}
@@ -94,7 +100,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  fridge: state.fridge
+  fridge: state.fridge,
+  plate: state.plate
 })
 
 const mapDispatchToProps = {

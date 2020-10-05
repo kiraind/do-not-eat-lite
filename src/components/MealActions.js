@@ -21,14 +21,9 @@ const EAT = 0
 const THROW = 1
 const COOK = 2
 
-const ActionString = [
-  'Наложить',
-  'Выбросить',
-  'Приготовить'
-]
-
 const MealActions = ({
   item,
+  currentAmount,
 
   onEat,
   onThrow,
@@ -40,18 +35,32 @@ const MealActions = ({
     onCook
   ]
 
-  const [action, setAction] = useState(null)
-  const toggleAction = clicked => {
-    if (clicked !== action) {
-      setAction(clicked)
-    } else {
-      setAction(null)
-    }
-  }
+  const ActionString = [
+    currentAmount == null ? 'Наложить' : 'Сохранить',
+    'Выбросить',
+    'Приготовить'
+  ]
 
   const [amount, setAmount] = useState('')
   const parsedAmount = parseFloat(amount.replace(',', '.'))
   const [amountFocused, setAmountFocused] = useState(false)
+
+  const [action, setAction] = useState(null)
+  const toggleAction = clicked => {
+    if (clicked !== action) {
+      setAction(clicked)
+
+      if (clicked === EAT) {
+        setAmount(
+          currentAmount != null
+            ? toReadableNumber(currentAmount)
+            : ''
+        )
+      }
+    } else {
+      setAction(null)
+    }
+  }
 
   const handleSubmit = () => {
     if (actionHandlers[action]) {
@@ -114,7 +123,7 @@ const MealActions = ({
                 color: action === EAT ? accentColor : iconColor
               }}
             >
-              Наложить
+              {currentAmount == null ? 'Наложить' : 'В тарелке'}
             </Text>
           </View>
         </TouchableOpacity>
@@ -146,7 +155,7 @@ const MealActions = ({
           />
           <Button
             title={ActionString[action]}
-            disabled={isNaN(parsedAmount)}
+            disabled={isNaN(parsedAmount) || parsedAmount < 0}
             color={accentColor}
             onPress={handleSubmit}
           />
