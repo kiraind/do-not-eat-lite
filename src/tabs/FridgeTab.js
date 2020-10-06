@@ -12,6 +12,7 @@ import ProductViewScreen from '../screens/ProductViewScreen.js'
 import MealViewScreen from '../screens/MealViewScreen.js'
 import AddNewRecipeScreen from '../screens/AddNewRecipeScreen.js'
 import SelectProductScreen from '../screens/SelectProductScreen.js'
+import CookingScreen from '../screens/CookingScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -53,6 +54,11 @@ const FridgeTab = ({ navigation }) => (
         name='selectProduct'
         options={{ title: 'Выбор ингредиента' }}
         component={SelectProductScreen}
+      />
+      <Stack.Screen
+        name='cookMeal'
+        options={{ title: 'Готовка' }}
+        component={CookingScreen}
       />
     </Stack.Navigator>
   </TabNavigationContext.Provider>

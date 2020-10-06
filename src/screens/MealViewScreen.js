@@ -59,7 +59,12 @@ const MealViewScreen = ({
 
             onEat={amount => enplateMeal(meal, amount)}
             onThrow={amount => cookMeal(meal, -amount)}
-            onCook={amount => cookMeal(meal, amount)}
+            onCook={
+              amount => navigation.navigate('cookMeal', {
+                meal,
+                amount
+              })
+            }
           />
         </>
       )}

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@miblanchard/react-native-slider": "^1.5.0",
+    "@react-native-community/checkbox": "^0.5.5",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.9.0",
     "@react-navigation/native": "^5.7.4",
@@ -16,6 +17,7 @@
     "barcode-validator": "^1.0.2",
     "expo": "~39.0.2",
     "expo-barcode-scanner": "^9.0.0",
+    "expo-location": "~9.0.0",
     "expo-sqlite": "~8.4.0",
     "expo-status-bar": "~1.0.2",
     "react": "16.13.1",
@@ -26,13 +28,12 @@
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
+    "react-native-svg": "12.1.0",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "sql-template-strings": "^2.2.2",
-    "expo-location": "~9.0.0",
-    "react-native-svg": "12.1.0"
+    "sql-template-strings": "^2.2.2"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
