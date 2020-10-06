@@ -9,11 +9,13 @@ export async function init () {
   await connection.execute(sql`
     CREATE TABLE IF NOT EXISTS Eatings (
       id        INTEGER PRIMARY KEY AUTOINCREMENT,
-      date      TEXT NOT NULL,
+      Eatings      TEXT NOT NULL,
       latitude  REAL,
       longitude REAL,
       label     INTEGER NOT NULL
     );
+    CREATE INDEX eatings_by_date 
+    ON Eatings(Eatings);
   `)
 
   // 2 Table of of known meals
@@ -33,6 +35,10 @@ export async function init () {
 
       leftAmount       REAL NOT NULL DEFAULT 0
     );
+    CREATE INDEX meals_by_title
+    ON Meals(title);
+    CREATE INDEX meals_by_left_amount
+    ON Meals(leftAmount);
   `)
 
   // 3 n-n relation Eatings-Meals
@@ -45,6 +51,10 @@ export async function init () {
       FOREIGN KEY(eatingId) REFERENCES Eatings(id),
       FOREIGN KEY(mealId) REFERENCES Meals(id)
     );
+    CREATE INDEX eating_includes_meal_by_eating_id
+    ON EatingIncludesMeal(eatingId);
+    CREATE INDEX eating_includes_meal_by_meal_id
+    ON EatingIncludesMeal(mealId);
   `)
 
   // 4 Table of known products
@@ -65,6 +75,10 @@ export async function init () {
 
       leftAmount       REAL NOT NULL DEFAULT 0
     );
+    CREATE INDEX products_by_title
+    ON Products(title);
+    CREATE INDEX products_by_left_amount
+    ON Products(leftAmount);
   `)
 
   // 5 n-n relation Meals-Products
@@ -77,6 +91,10 @@ export async function init () {
       FOREIGN KEY(mealId) REFERENCES Meals(id),
       FOREIGN KEY(productId) REFERENCES Products(id)
     );
+    CREATE INDEX meal_includes_product_by_meal_id
+    ON MealIncludesProduct(mealId);
+    CREATE INDEX meal_includes_product_by_product_id
+    ON MealIncludesProduct(productId);
   `)
 
   // Trigger for creating meals from raw products
