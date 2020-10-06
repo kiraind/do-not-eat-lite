@@ -107,6 +107,14 @@ const FeedScreen = ({
     }
   }
 
+  const handleCookMeal = () => {
+    navigation.navigate('selectMeal', {
+      handleMealSelected: meal => {
+        navigation.navigate('cookMeal', { meal })
+      }
+    })
+  }
+
   return (
     <ScrollView
       style={styles.root}
@@ -154,7 +162,7 @@ const FeedScreen = ({
         </View>
         <View style={styles.ui}>
           <TouchableNativeFeedback
-            onPress={() => console.log('make meal')}
+            onPress={handleCookMeal}
             background={TouchableNativeFeedback.Ripple(backgroundColor)}
           >
             <View style={styles.uiButton}>

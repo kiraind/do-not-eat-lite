@@ -10,6 +10,8 @@ import FeedScreen from '../screens/FeedScreen.js'
 import ScannerScreen from '../screens/ScannerScreen.js'
 import ProductViewScreen from '../screens/ProductViewScreen.js'
 import AddNewProductScreen from '../screens/AddNewProductScreen.js'
+import SelectMealScreen from '../screens/SelectMealScreen.js'
+import CookingScreen from '../screens/CookingScreen.js'
 
 const Stack = createStackNavigator()
 
@@ -43,6 +45,16 @@ const FeedTab = ({ navigation }) => (
         name='addNewProduct'
         options={{ title: 'Добавить продукт' }}
         component={AddNewProductScreen}
+      />
+      <Stack.Screen
+        name='selectMeal'
+        options={{ title: 'Выберите блюдо' }}
+        component={SelectMealScreen}
+      />
+      <Stack.Screen
+        name='cookMeal'
+        options={{ title: 'Готовка' }}
+        component={CookingScreen}
       />
     </Stack.Navigator>
   </TabNavigationContext.Provider>
