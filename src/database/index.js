@@ -9,13 +9,15 @@ export async function init () {
   await connection.execute(sql`
     CREATE TABLE IF NOT EXISTS Eatings (
       id        INTEGER PRIMARY KEY AUTOINCREMENT,
-      Eatings      TEXT NOT NULL,
+      date      TEXT NOT NULL,
       latitude  REAL,
       longitude REAL,
       label     INTEGER NOT NULL
     );
+  `)
+  await connection.execute(sql`
     CREATE INDEX eatings_by_date 
-    ON Eatings(Eatings);
+    ON Eatings(date);
   `)
 
   // 2 Table of of known meals
@@ -35,8 +37,12 @@ export async function init () {
 
       leftAmount       REAL NOT NULL DEFAULT 0
     );
+  `)
+  await connection.execute(sql`
     CREATE INDEX meals_by_title
     ON Meals(title);
+  `)
+  await connection.execute(sql`
     CREATE INDEX meals_by_left_amount
     ON Meals(leftAmount);
   `)
@@ -51,8 +57,12 @@ export async function init () {
       FOREIGN KEY(eatingId) REFERENCES Eatings(id),
       FOREIGN KEY(mealId) REFERENCES Meals(id)
     );
+  `)
+  await connection.execute(sql`
     CREATE INDEX eating_includes_meal_by_eating_id
     ON EatingIncludesMeal(eatingId);
+  `)
+  await connection.execute(sql`
     CREATE INDEX eating_includes_meal_by_meal_id
     ON EatingIncludesMeal(mealId);
   `)
@@ -75,8 +85,12 @@ export async function init () {
 
       leftAmount       REAL NOT NULL DEFAULT 0
     );
+  `)
+  await connection.execute(sql`
     CREATE INDEX products_by_title
     ON Products(title);
+  `)
+  await connection.execute(sql`
     CREATE INDEX products_by_left_amount
     ON Products(leftAmount);
   `)
@@ -91,8 +105,12 @@ export async function init () {
       FOREIGN KEY(mealId) REFERENCES Meals(id),
       FOREIGN KEY(productId) REFERENCES Products(id)
     );
+  `)
+  await connection.execute(sql`
     CREATE INDEX meal_includes_product_by_meal_id
     ON MealIncludesProduct(mealId);
+  `)
+  await connection.execute(sql`
     CREATE INDEX meal_includes_product_by_product_id
     ON MealIncludesProduct(productId);
   `)
